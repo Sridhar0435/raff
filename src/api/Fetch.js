@@ -47,6 +47,8 @@ const {
   GET_RANGE_BY_RANGEID,
   GET_PRODUCT_SERVICE,
   GET_PRODUCT_SUPPLIER_SERVICE,
+  GET_SUPPLIER_SERVICE,
+  GET_PRODUCT_COMPOSITION_SERVICE,
 } = config;
 
 export const userV2Login = (idToken) => {
@@ -437,7 +439,21 @@ export const getProductSupplierServiceByItemnumber = (itemNumber) => {
   // return serviceRequest(url, "GET", undefined);
   return serviceRequestBasic(url, "GET", undefined);
 };
+export const getSupplierServiceBySupplierId = (supplierId) => {
+  let url = `${BASE_URL}${GET_SUPPLIER_SERVICE}`;
+  url = url.replace("{supplierId}", supplierId);
+  // let reqBody = `${JSON.stringify(req)}`
+  // return serviceRequest(url, "GET", undefined);
+  return serviceRequest(url, "GET", undefined);
+};
 
+export const getProductCompositionServiceByItemnumber = (itemNumber) => {
+  let url = `${BASE_URL}${GET_PRODUCT_COMPOSITION_SERVICE}`;
+  url = url.replace("{itemNumber}", itemNumber);
+  // let reqBody = `${JSON.stringify(req)}`
+  // return serviceRequest(url, "GET", undefined);
+  return serviceRequest(url, "GET", undefined);
+};
 // export const getItemWeekStoreViewForecastAPI = ( GET_PRODUCT_SUPPLIER_SERVICE
 //   rangeResetId,
 //   productMinCode,

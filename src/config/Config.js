@@ -37,10 +37,6 @@ const envDetails = {
     GET_RESET_TYPES: "rangereset/v2/config/Reset Type",
     GET_PLANOGRAM_CLASSES: "rangereset/v2/config/Planogram Class",
     GET_CONFIG: "rangereset/v2/config/{configType}",
-    GET_RANGE_BY_RANGEID: "rangereset/v2/rangeresets/{rangeResetId}",
-    GET_PRODUCT_SERVICE: "product/v1/items/{itemNumber}",
-    GET_PRODUCT_SUPPLIER_SERVICE:
-      "productsupplier/v1/items/{itemNumber}/suppliers",
     GET_WASTAGE_RANGES: "rangereset/v2/config/Wastage Range",
     GET_RANGERESET_EVENTS: "rangereset/v2/rangeresetevents",
     PATCH_RANGERESET_EVENTS: "rangereset/v2/rangeresetevents",
@@ -52,6 +48,17 @@ const envDetails = {
       "commercial-workflow-range/v1/events/{eventId}/process/hbtwEventRequestHandler",
     PUBLISH_CAMUNDA_EVENT:
       "commercial-workflow-range/v1/events/{eventId}/approverangeevent/process/hbtwEventRequestHandler",
+    // raf apis
+    GET_RANGE_BY_RANGEID: "rangereset/v2/rangeresets/{rangeResetId}",
+    GET_PRODUCT_SERVICE: "product/v1/items/{itemNumber}",
+    GET_PRODUCT_SUPPLIER_SERVICE:
+      "productsupplier/v1/items/{itemNumber}/suppliers",
+    GET_SUPPLIER_SERVICE: "supplier/v1/suppliers/{supplierId}",
+    GET_PRODUCT_COMPOSITION_SERVICE:
+      "productcompositionservice/v1/items/{itemNumber}",
+    GET_RANGE_SPACE_SERVICE:
+      "range/v1/locations/{locationId}/items/{itemNumber}",
+    //
     GOOGLE_CLIENT_ID:
       "171849099600-gb5qs9al4mvmk93j3nuam7mgqvv0pmct.apps.googleusercontent.com",
     USER_V2: "user/v2/token",
@@ -94,10 +101,6 @@ const envDetails = {
     GET_RESET_TYPES: "rangereset/v2/config/Reset Type",
     GET_PLANOGRAM_CLASSES: "rangereset/v2/config/Planogram Class",
     GET_CONFIG: "rangereset/v2/config/{configType}",
-    GET_RANGE_BY_RANGEID: "rangereset/v2/rangeresets/{rangeResetId}",
-    GET_PRODUCT_SERVICE: "product/v1/items/{itemNumber}",
-    GET_PRODUCT_SUPPLIER_SERVICE:
-      "productsupplier/v1/items/{itemNumber}/suppliers",
     GET_WASTAGE_RANGES: "rangereset/v2/config/Wastage Range",
     GET_RANGERESET_EVENTS: "rangereset/v2/rangeresetevents",
     PATCH_RANGERESET_EVENTS: "rangereset/v2/rangeresetevents",
@@ -109,6 +112,17 @@ const envDetails = {
       "commercial-workflow-range/v1/events/{eventId}/process/hbtwEventRequestHandler",
     PUBLISH_CAMUNDA_EVENT:
       "commercial-workflow-range/v1/events/{eventId}/approverangeevent/process/hbtwEventRequestHandler",
+    // raf apis
+    GET_RANGE_BY_RANGEID: "rangereset/v2/rangeresets/{rangeResetId}",
+    GET_PRODUCT_SERVICE: "product/v1/items/{itemNumber}",
+    GET_PRODUCT_SUPPLIER_SERVICE:
+      "productsupplier/v1/items/{itemNumber}/suppliers",
+    GET_SUPPLIER_SERVICE: "supplier/v1/suppliers/{supplierId}",
+    GET_PRODUCT_COMPOSITION_SERVICE:
+      "productcompositionservice/v1/items/{itemNumber}",
+    GET_RANGE_SPACE_SERVICE:
+      "range/v1/locations/{locationId}/items/{itemNumber}",
+    //
     GOOGLE_CLIENT_ID:
       "171849099600-gb5qs9al4mvmk93j3nuam7mgqvv0pmct.apps.googleusercontent.com",
     USER_V2: "user/v2/token",
@@ -151,10 +165,6 @@ const envDetails = {
     GET_RESET_TYPES: "rangereset/v2/config/Reset Type",
     GET_PLANOGRAM_CLASSES: "rangereset/v2/config/Planogram Class",
     GET_CONFIG: "rangereset/v2/config/{configType}",
-    GET_RANGE_BY_RANGEID: "rangereset/v2/rangeresets/{rangeResetId}",
-    GET_PRODUCT_SERVICE: "product/v1/items/{itemNumber}",
-    GET_PRODUCT_SUPPLIER_SERVICE:
-      "productsupplier/v1/items/{itemNumber}/suppliers",
     GET_WASTAGE_RANGES: "rangereset/v2/config/Wastage Range",
     GET_RANGERESET_EVENTS: "rangereset/v2/rangeresetevents",
     PATCH_RANGERESET_EVENTS: "rangereset/v2/rangeresetevents",
@@ -166,6 +176,17 @@ const envDetails = {
       "commercial-workflow-range/v1/events/{eventId}/process/hbtwEventRequestHandler",
     PUBLISH_CAMUNDA_EVENT:
       "commercial-workflow-range/v1/events/{eventId}/approverangeevent/process/hbtwEventRequestHandler",
+    // raf apis
+    GET_RANGE_BY_RANGEID: "rangereset/v2/rangeresets/{rangeResetId}",
+    GET_PRODUCT_SERVICE: "product/v1/items/{itemNumber}",
+    GET_PRODUCT_SUPPLIER_SERVICE:
+      "productsupplier/v1/items/{itemNumber}/suppliers",
+    GET_SUPPLIER_SERVICE: "supplier/v1/suppliers/{supplierId}",
+    GET_PRODUCT_COMPOSITION_SERVICE:
+      "productcompositionservice/v1/items/{itemNumber}",
+    GET_RANGE_SPACE_SERVICE:
+      "range/v1/locations/{locationId}/items/{itemNumber}",
+    //
     GOOGLE_CLIENT_ID:
       "171849099600-gb5qs9al4mvmk93j3nuam7mgqvv0pmct.apps.googleusercontent.com",
     USER_V2: "user/v2/token",
@@ -208,10 +229,6 @@ const envDetails = {
     GET_RESET_TYPES: "rangereset/v2/config/Reset Type",
     GET_PLANOGRAM_CLASSES: "rangereset/v2/config/Planogram Class",
     GET_CONFIG: "rangereset/v2/config/{configType}",
-    GET_RANGE_BY_RANGEID: "rangereset/v2/rangeresets/{rangeResetId}",
-    GET_PRODUCT_SERVICE: "product/v1/items/{itemNumber}",
-    GET_PRODUCT_SUPPLIER_SERVICE:
-      "productsupplier/v1/items/{itemNumber}/suppliers",
     GET_WASTAGE_RANGES: "rangereset/v2/config/Wastage Range",
     GET_RANGERESET_EVENTS: "rangereset/v2/rangeresetevents",
     PATCH_RANGERESET_EVENTS: "rangereset/v2/rangeresetevents",
@@ -223,6 +240,17 @@ const envDetails = {
       "commercial-workflow-range/v1/events/{eventId}/process/hbtwEventRequestHandler",
     PUBLISH_CAMUNDA_EVENT:
       "commercial-workflow-range/v1/events/{eventId}/approverangeevent/process/hbtwEventRequestHandler",
+    // raf apis
+    GET_RANGE_BY_RANGEID: "rangereset/v2/rangeresets/{rangeResetId}",
+    GET_PRODUCT_SERVICE: "product/v1/items/{itemNumber}",
+    GET_PRODUCT_SUPPLIER_SERVICE:
+      "productsupplier/v1/items/{itemNumber}/suppliers",
+    GET_SUPPLIER_SERVICE: "supplier/v1/suppliers/{supplierId}",
+    GET_PRODUCT_COMPOSITION_SERVICE:
+      "productcompositionservice/v1/items/{itemNumber}",
+    GET_RANGE_SPACE_SERVICE:
+      "range/v1/locations/{locationId}/items/{itemNumber}",
+    //
     GOOGLE_CLIENT_ID:
       "171849099600-gb5qs9al4mvmk93j3nuam7mgqvv0pmct.apps.googleusercontent.com",
     USER_V2: "user/v2/token",
@@ -265,10 +293,6 @@ const envDetails = {
     GET_RESET_TYPES: "rangereset/v2/config/Reset Type",
     GET_PLANOGRAM_CLASSES: "rangereset/v2/config/Planogram Class",
     GET_CONFIG: "rangereset/v2/config/{configType}",
-    GET_RANGE_BY_RANGEID: "rangereset/v2/rangeresets/{rangeResetId}",
-    GET_PRODUCT_SERVICE: "product/v1/items/{itemNumber}",
-    GET_PRODUCT_SUPPLIER_SERVICE:
-      "productsupplier/v1/items/{itemNumber}/suppliers",
     GET_WASTAGE_RANGES: "rangereset/v2/config/Wastage Range",
     GET_RANGERESET_EVENTS: "rangereset/v2/rangeresetevents",
     PATCH_RANGERESET_EVENTS: "rangereset/v2/rangeresetevents",
@@ -280,6 +304,17 @@ const envDetails = {
       "commercial-workflow-range/v1/events/{eventId}/process/hbtwEventRequestHandler",
     PUBLISH_CAMUNDA_EVENT:
       "commercial-workflow-range/v1/events/{eventId}/approverangeevent/process/hbtwEventRequestHandler",
+    // raf apis
+    GET_RANGE_BY_RANGEID: "rangereset/v2/rangeresets/{rangeResetId}",
+    GET_PRODUCT_SERVICE: "product/v1/items/{itemNumber}",
+    GET_PRODUCT_SUPPLIER_SERVICE:
+      "productsupplier/v1/items/{itemNumber}/suppliers",
+    GET_SUPPLIER_SERVICE: "supplier/v1/suppliers/{supplierId}",
+    GET_PRODUCT_COMPOSITION_SERVICE:
+      "productcompositionservice/v1/items/{itemNumber}",
+    GET_RANGE_SPACE_SERVICE:
+      "range/v1/locations/{locationId}/items/{itemNumber}",
+    //
     GOOGLE_CLIENT_ID:
       "171849099600-gb5qs9al4mvmk93j3nuam7mgqvv0pmct.apps.googleusercontent.com",
     USER_V2: "user/v2/token",

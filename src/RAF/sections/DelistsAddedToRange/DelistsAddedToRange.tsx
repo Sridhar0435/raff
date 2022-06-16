@@ -48,6 +48,8 @@ import {
   yesOrNo,
   supplierCodeOptions,
   replacementAssociationCols,
+  supplierSearchSiteCode_Site,
+  supplierCode_Supplier,
   // supplierCodes
 } from './DataConstants'
 // import TextFieldWithSearch from './sections/TextFieldWithSearch/TextFieldWithSearch'
@@ -56,11 +58,14 @@ import { Dropdown } from 'primereact/dropdown'
 import AutocompleteSelect from '../../components/AutoCompleteSelect/AutocompleteSelect'
 import Autocomplete from '@material-ui/lab/Autocomplete'
 import DialogHeader from '../../components/DialogHeader/DialogHeader'
+import ConfirmCheckSign from '../../components/ConfirmCheck/ConfirmCheckSign'
 import {
   getConfigType,
   getRangeByRangeResetId,
   getProductServiceByItemnumber,
   getProductSupplierServiceByItemnumber,
+  getSupplierServiceBySupplierId,
+  getProductCompositionServiceByItemnumber,
 } from '../../../api/Fetch'
 import { life } from '../../../util/Constants'
 import { allMessages } from '../../../util/Messages'
@@ -344,18 +349,23 @@ function DelistsAddedToRange() {
     }
   }
 
+  const existingSupplierProductListTemplate = (rowData: any) => {
+    return <span>{rowData.existingSupplier}</span>
+  }
+
   const ingredientMinTemplate = (rowData: any) => {
+    console.log('ingredientMinTemplate', rowData)
     if (
-      actionTypeSelected !== 'Delist Product (MIN)' ||
-      actionTypeSelected !== 'New Product (MIN)'
+      rowData.actionType === 'Delist MIN' ||
+      rowData.actionType === 'Derange'
     ) {
-      return <span>{rowData.ingredientMin}</span>
-    } else {
       return (
         <a href="#" style={{ color: '#0074cc' }}>
           <span>{rowData.ingredientMin}</span>
         </a>
       )
+    } else {
+      return <span>{rowData.ingredientMin}</span>
     }
   }
 
@@ -495,6 +505,31 @@ function DelistsAddedToRange() {
               //   existingSupplierSite: 'Tetbury-9866',
               // }
             }
+            // else if (
+            //   d.Action_Type &&
+            //   d.Action_Type === 'Delist Ingredient MIN'
+            // ) {
+            //   getAndCheckItemNumber(
+            //     d.MIN,
+            //     'Delist Ingredient MIN',
+            //     index + 1,
+            //     d.Comments,
+            //     'NA',
+            //     'NA'
+            //   )
+            // } else if (
+            //   d.Action_Type &&
+            //   d.Action_Type === 'New Ingredient MIN'
+            // ) {
+            //   getAndCheckItemNumber(
+            //     d.MIN,
+            //     'New Ingredient MIN',
+            //     index + 1,
+            //     d.Comments,
+            //     'NA',
+            //     'NA'
+            //   )
+            // }
           })
 
           // console.log(newData)
@@ -684,13 +719,92 @@ function DelistsAddedToRange() {
   //     .catch((err: any) => {
   //       console.log('Item err 100001498', err)
   //     })
+
+  const renderApiCall = (
+    values: any,
+    supplierV1: any,
+    minValue: any,
+    type: any,
+    comment: any,
+    newnoofrangestoreNewMin: any,
+    storecodeNewMin: any
+  ) => {
+    const formData: any = {
+      min: min !== '' ? min : minValue,
+      pin: '',
+      packquantity: '',
+      description: '',
+      actionType: type,
+      legacyItemNumbers: '',
+      supplierId: '',
+      comments: comments,
+      storeCode: 'NA',
+      numberOfRangeStores: 'NA',
+      lineStatus:
+        actionTypeSelected === 'Delist Product (MIN)'
+          ? 'Request For Stock Count'
+          : 'Draft',
+      ingredientMin: 'NA',
+      man: '',
+    }
+    console.log('values-promise.allSettled', values)
+    values.map((val: any) => {
+      if (val.status === 'rejected') {
+        setIsProgressLoader(false)
+        return
+      } else {
+        console.log('FULLFILLED', val.statu)
+      }
+    })
+    formData.pin = values[0].value.data.packs[0].packNumber //pin
+    formData.man = values[0].value.data.parentItemNumber // parentItemNumber
+    formData.packquantity = parseInt(values[0].value.data.packs[0].packQuantity) // Packquantity
+    formData.description = values[0].value.data.itemDescription // itemDescription
+    formData.legacyItemNumbers = values[0].value.data.legacyItemNumbers //legacyItemNumbers
+    formData.supplierId = supplierV1
+
+    if (type === 'Delist MIN') {
+      formData.comments = comments === '' ? comment : comments
+      formData.ingredientMin = parseInt(values[0].value.data.ingredients.length)
+    }
+    if (type === 'New MIN') {
+      formData.storeCode = storecodeNewMin
+      formData.numberOfRangeStores = newnoofrangestoreNewMin
+      formData.comments = comments === '' ? comment : comments
+    }
+    if (type === 'Delist Ingredient MIN') {
+      formData.comments = comments === '' ? comment : comments
+    }
+    if (type === 'New Ingredient MIN') {
+      formData.comments = comments === '' ? comment : comments
+    }
+
+    if (importedData && importedData.length > 0) {
+      setImportedData((prevState: any) => {
+        return [...prevState, formData]
+      })
+    } else {
+      setImportedData([formData])
+    }
+    console.log('formData', formData)
+    toast.current.show({
+      severity: 'success',
+      summary: 'Success',
+      detail: `${minValue} ${allMessages.success.itemIdSuccess}`,
+      life: life,
+      className: 'login-toast',
+    })
+    setIsProgressLoader(false)
+    setActionType('')
+  }
+
   const getAndCheckItemNumber = (
     minValue: any,
     type: any,
     index: any,
-    commentXl: any,
-    newnoofrangestoreXl: any,
-    storecodeXl: any
+    comment: any,
+    newnoofrangestoreNewMin: any,
+    storecodeNewMin: any
   ) => {
     setIsProgressLoader(true)
     const formData: any = {
@@ -708,7 +822,7 @@ function DelistsAddedToRange() {
         actionTypeSelected === 'Delist Product (MIN)'
           ? 'Request For Stock Count'
           : 'Draft',
-      ingredientMin: '',
+      ingredientMin: 'NA',
       man: '',
     }
 
@@ -718,87 +832,60 @@ function DelistsAddedToRange() {
       getRangeByRangeResetId('2220'),
       getProductSupplierServiceByItemnumber(minValue),
     ])
-      .then(function (values: any) {
+      .then((values: any) => {
         console.log('promise1, promise2', values)
+
         const [rREventId, productV1, ProductSupp] = values
-        const getEventApi = rREventId.value.data
-        const productV1Api = productV1.value.data
-        const ProductSuppApi = ProductSupp.value.data
-        if (values[0].status === 'rejected') {
-          setIsProgressLoader(false)
-          toast.current.show({
-            severity: 'error',
-            summary: 'Error',
-            detail: `${minValue} ${allMessages.error.itemIdError}`,
-            life: life,
-            className: 'login-toast',
-          })
-          return
-        }
-        //Only for placeHolder
-        // if (
-        //   getEventApi.department !==
-        //   productV1Api.commercialHierarchy.departmentName
-        // ) {
-        //   setIsProgressLoader(false)
-        //   toast.current.show({
-        //     severity: 'error',
-        //     summary: 'Error',
-        //     detail: `${minValue} ${"Department did'nt match."}`,
-        //     life: life,
-        //     className: 'login-toast',
-        //   })
-        //   return
-        // }
-        //Only for placeHolder
-
-        formData.pin = values[0].value.data.packs[0].packNumber //pin
-        formData.man = values[0].value.data.parentItemNumber // parentItemNumber
-        formData.packquantity = parseInt(
-          values[0].value.data.packs[0].packQuantity
-        ) // Packquantity
-        formData.description = values[0].value.data.itemDescription // itemDescription
-        formData.legacyItemNumbers = values[0].value.data.legacyItemNumbers //legacyItemNumbers
-        formData.supplierId = values[2].value.data.itemSuppliers[0].supplierId
-
-        formData.ingredientMin = parseInt(
-          values[0].value.data.ingredients.length
+        let values3Supplier = values[2].value.data
+        getSupplierServiceBySupplierId(
+          values3Supplier.itemSuppliers[0].supplierId
         )
-
-        if (type === 'Delist MIN') {
-          formData.comments = comments === '' ? commentXl : comments
-        }
-        if (type === 'New MIN') {
-          formData.storeCode = storecodeXl
-          formData.numberOfRangeStores = newnoofrangestoreXl
-          formData.comments = comments === '' ? commentXl : comments
-        }
-
-        if (importedData && importedData.length > 0) {
-          setImportedData((prevState: any) => {
-            return [...prevState, formData]
+          .then((res: any) => {
+            console.log('Nested APi Success ', res)
+            let supplierV1 = res.data.supplierName
+            renderApiCall(
+              values,
+              supplierV1,
+              minValue,
+              type,
+              comment,
+              newnoofrangestoreNewMin,
+              storecodeNewMin
+            )
           })
-        } else {
-          setImportedData([formData])
-        }
-        console.log('formData', formData)
-        toast.current.show({
-          severity: 'success',
-          summary: 'Success',
-          detail: `${minValue} ${allMessages.success.itemIdSuccess}`,
-          life: life,
-          className: 'login-toast',
-        })
-        setIsProgressLoader(false)
-        setActionType('')
+          .catch((err: any) => {
+            setIsProgressLoader(false)
+            renderApiCall(
+              values,
+              'No data found',
+              minValue,
+              type,
+              comment,
+              newnoofrangestoreNewMin,
+              storecodeNewMin
+            )
+            console.log('Nested APi Error', err)
+          })
       })
       .catch((err: any) => {
         setIsProgressLoader(false)
+        toast.current.show({
+          severity: 'error',
+          summary: 'Error',
+          detail: `${minValue} ${allMessages.error.itemIdError}`,
+          life: life,
+          className: 'login-toast',
+        })
+
         console.log('promise1, ERRor', err)
       })
   }
 
   const handleManualRAF = () => {
+    if (min === '') {
+      handleActionTypeDialogOpen()
+      return
+    }
     console.log('clicked')
 
     handleActionTypeDialogClose()
@@ -859,6 +946,10 @@ function DelistsAddedToRange() {
         //   setImportedData([formData])
         // }
       }
+    } else if (actionType.value === 'Delist Ingredient (MIN)') {
+      getAndCheckItemNumber(min, 'Delist Ingredient MIN', '', '', 'NA', 'NA')
+    } else if (actionType.value === 'New Ingredient (MIN)') {
+      getAndCheckItemNumber(min, 'New Ingredient MIN', '', '', 'NA', 'NA')
     }
   }
 
@@ -1218,6 +1309,128 @@ function DelistsAddedToRange() {
                   </Box>
                 </Box>
                 <Box sx={{ p: 1, display: 'flex', flexDirection: 'column' }}>
+                  <Box>
+                    <Typography variant="subtitle2" color="primary">
+                      Comments
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography variant="subtitle2" color="primary">
+                      {/* <input
+                        type="text"
+                        value={comments}
+                        onChange={(e: any) => setComments(e.target.value)}
+                      /> */}
+                      <OutlinedInput
+                        value={comments}
+                        onChange={(e: any) => setComments(e.target.value)}
+                        className={classes.inputFields}
+                      />
+                    </Typography>
+                  </Box>
+                </Box>
+              </>
+            )}
+            {actionType && actionType.value === 'Delist Ingredient (MIN)' && (
+              <>
+                <Box
+                  sx={{
+                    p: 1,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    // flexGrow: '1',
+                  }}
+                >
+                  <Box>
+                    <Typography variant="subtitle2" color="primary">
+                      Delist Ingredient (MIN)
+                      <span style={{ color: 'red' }}>*</span>
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography variant="subtitle2" color="primary">
+                      {/* <input
+                        type="text"
+                        value={min}
+                        onChange={(e: any) => setMin(e.target.value)}
+                      /> */}
+                      <OutlinedInput
+                        value={min}
+                        onChange={(e: any) => setMin(e.target.value)}
+                        className={classes.inputFields}
+                      />
+                    </Typography>
+                  </Box>
+                </Box>
+                <Box
+                  sx={{
+                    p: 1,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    // flexGrow: '1',
+                  }}
+                >
+                  <Box>
+                    <Typography variant="subtitle2" color="primary">
+                      Comments
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography variant="subtitle2" color="primary">
+                      {/* <input
+                        type="text"
+                        value={comments}
+                        onChange={(e: any) => setComments(e.target.value)}
+                      /> */}
+                      <OutlinedInput
+                        value={comments}
+                        onChange={(e: any) => setComments(e.target.value)}
+                        className={classes.inputFields}
+                      />
+                    </Typography>
+                  </Box>
+                </Box>
+              </>
+            )}
+            {actionType && actionType.value === 'New Ingredient (MIN)' && (
+              <>
+                <Box
+                  sx={{
+                    p: 1,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    // flexGrow: '1',
+                  }}
+                >
+                  <Box>
+                    <Typography variant="subtitle2" color="primary">
+                      New Ingredient (MIN)
+                      <span style={{ color: 'red' }}>*</span>
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography variant="subtitle2" color="primary">
+                      {/* <input
+                        type="text"
+                        value={min}
+                        onChange={(e: any) => setMin(e.target.value)}
+                      /> */}
+                      <OutlinedInput
+                        value={min}
+                        onChange={(e: any) => setMin(e.target.value)}
+                        className={classes.inputFields}
+                      />
+                    </Typography>
+                  </Box>
+                </Box>
+                <Box
+                  sx={{
+                    p: 1,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    // flexGrow: '1',
+                  }}
+                >
                   <Box>
                     <Typography variant="subtitle2" color="primary">
                       Comments
@@ -1697,7 +1910,9 @@ function DelistsAddedToRange() {
                   (col.field === 'clearancePricing' &&
                     clearancePricingTemplate) ||
                   (col.field === 'ingredientMin' && ingredientMinTemplate) ||
-                  (col.field === 'clearDepotBy' && clearDepotByTemplate)
+                  (col.field === 'clearDepotBy' && clearDepotByTemplate) ||
+                  (col.field === 'existingSupplier' &&
+                    existingSupplierProductListTemplate)
                 }
                 // style={{
                 //   width: col.width,
@@ -1777,7 +1992,7 @@ function DelistsAddedToRange() {
           storeCode: '',
           ownBrand: 'Y',
           barcode: i === 0 ? '5010228012933' : '501022801293' + i,
-          casePack: '',
+          packquantity: '',
           local: 'Y',
           onlineCFC: 'Y',
           onlineStorePick: 'Y',
@@ -1827,14 +2042,18 @@ function DelistsAddedToRange() {
     }
   }
 
-  const removeReplaceAssociate = () => {
-    let _tasks = replacementAssociationProduct.filter(
-      (value: any) => !selectedReplaceAssData.includes(value)
-    )
-    console.log(_tasks)
-    setReplacementAssociationProduct(_tasks)
-    setSelectedReplaceAssData(null)
-  }
+  // const removeReplaceAssociate = () => {
+  //   let _tasks = replacementAssociationProduct.filter(
+  //     (value: any) => !selectedReplaceAssData.includes(value)
+  //   )
+  //   console.log(_tasks)
+  //   setReplacementAssociationProduct(_tasks)
+  //   setSelectedReplaceAssData(null)
+  // }
+
+  useEffect(() => {
+    console.log('selectedReplaceAssData', selectedReplaceAssData)
+  }, [selectedReplaceAssData])
 
   const removePlaceholder = () => {
     if (
@@ -1965,7 +2184,11 @@ function DelistsAddedToRange() {
           const cols: any = data1[0]
 
           let newData = data.map((d: any, index: any) => {
+            var min = 1000000000000
+            var max = 9999999999999
+            var rand = Math.floor(min + Math.random() * (max - min))
             return {
+              _idCheck: rand,
               actionType: 'Placeholder MIN',
               min: `0${index}00${index}`,
               comments: d[cols[12]] ? d[cols[12]] : '',
@@ -1982,7 +2205,7 @@ function DelistsAddedToRange() {
               storeCode: d[cols[7]] ? d[cols[7]] : '',
               ownBrand: d[cols[1]] ? d[cols[1]] : '',
               barcode: d[cols[2]] ? d[cols[2]] : '',
-              casePack: d[cols[5]] ? d[cols[5]] : '',
+              packquantity: d[cols[5]] ? d[cols[5]] : '',
               local: d[cols[8]] ? d[cols[8]] : '',
               onlineCFC: d[cols[9]] ? d[cols[9]] : '',
               onlineStorePick: d[cols[10]] ? d[cols[10]] : '',
@@ -2129,11 +2352,11 @@ function DelistsAddedToRange() {
     prevState: any,
     field: any,
     rowDataSelected: any,
-    event: any
+    eventValue: any
   ) => {
     return prevState.map((obj: any) =>
-      obj.barcode === rowDataSelected.barcode
-        ? Object.assign(obj, { [field]: event.target.value })
+      obj._idCheck === rowDataSelected._idCheck
+        ? Object.assign(obj, { [field]: eventValue })
         : obj
     )
   }
@@ -2146,7 +2369,12 @@ function DelistsAddedToRange() {
         // onChange={(e) => eventHandleDetailsSOT(e)}
         onChange={(e: any) => {
           setPlaceholderProducts((prevState: any) => {
-            return onChangePlaceHolderFields(prevState, 'ownBrand', rowData, e)
+            return onChangePlaceHolderFields(
+              prevState,
+              'ownBrand',
+              rowData,
+              e.target.value
+            )
           })
           // setPlaceholderProducts((prevState: any) => {
           //   return prevState.map((obj: any) =>
@@ -2181,7 +2409,12 @@ function DelistsAddedToRange() {
         onChange={(e) => {
           if (e.target.value !== null) {
             setPlaceholderProducts((prevState: any) => {
-              return onChangePlaceHolderFields(prevState, 'barcode', rowData, e)
+              return onChangePlaceHolderFields(
+                prevState,
+                'barcode',
+                rowData,
+                e.target.value
+              )
             })
           }
         }}
@@ -2202,7 +2435,7 @@ function DelistsAddedToRange() {
                 prevState,
                 'description',
                 rowData,
-                e
+                e.target.value
               )
             })
           }
@@ -2224,7 +2457,7 @@ function DelistsAddedToRange() {
       //           prevState,
       //           'existingSupplier',
       //           rowData,
-      //           e
+      //           e.target.value
       //         )
       //       })
       //     }
@@ -2239,12 +2472,43 @@ function DelistsAddedToRange() {
         options={supplierCodeOptions}
         getOptionLabel={(option: any) => option.label}
         renderInput={(params: any) => (
-          <TextField {...params} variant="outlined" />
+          <TextField {...params} variant="outlined" size="small" />
         )}
         popupIcon={<SearchOutlined />}
+        onChange={(e: any, value: any) => {
+          if (e.target.value !== null) {
+            setPlaceholderProducts((prevState: any) => {
+              return onChangePlaceHolderFields(
+                prevState,
+                'existingSupplier',
+                rowData,
+                value ? value.label : ''
+              )
+            })
+          }
+        }}
       />
     )
   }
+
+  // const [siteSuccess, SetSiteSuccess] = useState<boolean>(false)
+  // const supplierSiteCode = (e: any) => {
+  //   const value = e
+  //   console.log('e.target.value', value)
+  //   const filterData = supplierSearchSiteCode_Site.SiteInfo.filter(
+  //     (val: any) => {
+  //       return value === val.ebsSiteId
+  //     }
+  //   )
+  //   console.log('click supplierSiteCode', filterData)
+  //   if(filterData.length > 0){
+  //     SetSiteSuccess(true)
+  //   } else if(filterData.length ===0){
+  //     SetSiteSuccess(false)
+  //   }
+  // }
+
+  const [supplierSiteValue, setSupplierSiteValue] = useState<any>('')
 
   const supplierSiteCodePlaceholderTemplate = (rowData: any) => {
     return (
@@ -2259,12 +2523,13 @@ function DelistsAddedToRange() {
                 prevState,
                 'existingSupplierSite',
                 rowData,
-                e
+                e.target.value
               )
             })
+            setSupplierSiteValue(e.target.value)
           }
         }}
-        // onClick={() =>supplierCode()}
+        // onClick={() => supplierSiteCode(supplierSiteValue)}
         styles={{
           fontSize: '12px',
         }}
@@ -2277,15 +2542,15 @@ function DelistsAddedToRange() {
       <OutlinedInput
         margin="dense"
         className={classes.muiSelect}
-        value={rowData.casePack}
+        value={rowData.packquantity}
         onChange={(e) => {
           if (e.target.value !== null) {
             setPlaceholderProducts((prevState: any) => {
               return onChangePlaceHolderFields(
                 prevState,
-                'casePack',
+                'packquantity',
                 rowData,
-                e
+                e.target.value
               )
             })
           }
@@ -2306,7 +2571,7 @@ function DelistsAddedToRange() {
                 prevState,
                 'numberOfRangeStores',
                 rowData,
-                e
+                e.target.value
               )
             })
           }
@@ -2323,7 +2588,12 @@ function DelistsAddedToRange() {
         onChange={(e: any) => {
           if (e.target.value !== null) {
             setPlaceholderProducts((prevState: any) => {
-              return onChangePlaceHolderFields(prevState, 'local', rowData, e)
+              return onChangePlaceHolderFields(
+                prevState,
+                'local',
+                rowData,
+                e.target.value
+              )
             })
           }
         }}
@@ -2355,7 +2625,7 @@ function DelistsAddedToRange() {
                 prevState,
                 'onlineCFC',
                 rowData,
-                e
+                e.target.value
               )
             })
           }
@@ -2388,7 +2658,7 @@ function DelistsAddedToRange() {
                 prevState,
                 'onlineStorePick',
                 rowData,
-                e
+                e.target.value
               )
             })
           }
@@ -2421,7 +2691,7 @@ function DelistsAddedToRange() {
                 prevState,
                 'wholesale',
                 rowData,
-                e
+                e.target.value
               )
             })
           }
@@ -2456,7 +2726,7 @@ function DelistsAddedToRange() {
                 prevState,
                 'comments',
                 rowData,
-                e
+                e.target.value
               )
             })
           }
@@ -2645,7 +2915,7 @@ function DelistsAddedToRange() {
                             descriptionPlaceholderTemplate) ||
                           (col.field === 'existingSupplier' &&
                             supplierCodePlaceholderTemplate) ||
-                          (col.field === 'casePack' &&
+                          (col.field === 'packquantity' &&
                             casePackPlaceholderTemplate) ||
                           (col.field === 'numberOfRangeStores' &&
                             newNoOfRangeStorePlaceholderTemplate) ||
@@ -2710,144 +2980,268 @@ function DelistsAddedToRange() {
 
   // Uncomment for Replacement Association
 
-  // const replacementAssociationDialog = (
-  //   <Dialog
-  //     open={openReplacementAssDialog}
-  //     onClose={handleReplacemantAssociationDialogClose}
-  //     fullWidth
-  //     classes={{
-  //       paperFullWidth:
-  //         placeholderProducts && placeholderProducts.length > 0
-  //           ? classes.placeholderDialogFull
-  //           : classes.placeholderDialog,
-  //     }}
-  //   >
-  //     <Box
-  //       sx={{
-  //         display: 'flex',
-  //         flexDirection: 'column',
-  //         border: '3px solid green',
-  //         borderRadius: 5,
-  //         padding: '10px',
-  //       }}
-  //     >
-  //       <DialogHeader
-  //         title="Add Replacement Association"
-  //         onClose={handleReplacemantAssociationDialogClose}
-  //       />
-  //       <Grid
-  //         item
-  //         container
-  //         xl={12}
-  //         lg={12}
-  //         md={12}
-  //         sm={12}
-  //         xs={12}
-  //         style={{
-  //           textAlign: 'center',
-  //           padding: '10px',
-  //         }}
-  //         spacing={2}
-  //       >
-  //         <Grid
-  //           item
-  //           container
-  //           xs={12}
-  //           style={{
-  //             paddingLeft: '10px',
-  //             paddingRight: '10px',
-  //             paddingTop: '20px',
-  //           }}
-  //         >
-  //           <Grid
-  //             item
-  //             xs={10}
-  //             style={{ textAlign: 'left', paddingBottom: '5px' }}
-  //           >
-  //             <Typography variant="body1" color="primary">
-  //               Add Replacement Association
-  //             </Typography>
-  //           </Grid>
-  //           <Grid item xs={2} style={{ paddingBottom: '5px' }}>
-  //             <Button
-  //               variant="contained"
-  //               color="primary"
-  //               onClick={() => handleReplacementAssAdd(1)}
-  //             >
-  //               Add Row
-  //             </Button>
-  //           </Grid>
-  //           <Grid item xs={12}>
-  //             <DataTable
-  //               value={
-  //                 replacementAssociationProduct && replacementAssociationProduct
-  //               }
-  //               selectionMode={
-  //                 replacementAssociationProduct > 0 ? 'single' : 'checkbox'
-  //               }
-  //               selection={selectedReplaceAssData}
-  //               onSelectionChange={(e) => setSelectedReplaceAssData(e.value)}
-  //               className="p-datatable-sm"
+  const [replacePopupData, setReplacePopupData] = useState<any>({
+    replaceMin: '',
+    effectiveDateFrom: '',
+    effectiveDateTo: '',
+  })
 
-  //               showGridlines
-  //               scrollable
-  //               scrollHeight="300px"
-  //             >
-  //               <Column
-  //                 selectionMode="multiple"
-  //                 headerStyle={{
-  //                   width: '50px',
-  //                   color: 'white',
+  useEffect(() => {
+    console.log('replacePopupData', replacePopupData)
+  }, [replacePopupData])
 
-  //                   backgroundColor: theme.palette.primary.main,
-  //                 }}
-  //               ></Column>
-  //               {replacementAssociationCols.map((col: any, index: any) => {
-  //                 return (
-  //                   <Column
-  //                     key={index}
-  //                     field={col.field}
-  //                     header={col.header}
-  //                     body={
-  //                       (col.field === 'delist_min_pin' &&
-  //                         delistminpinTemplate) ||
-  //                       (col.field === 'replace_min_pin' &&
-  //                         replaceminpinTemplate)
-  //                     }
-  //                     bodyStyle={tableBodyStyle(col.width)}
-  //                     headerStyle={tableHeaderStyle(
-  //                       col.width,
-  //                       theme.palette.primary.main
-  //                     )}
-  //                   />
-  //                 )
-  //               })}
-  //             </DataTable>
-  //           </Grid>
-  //           <Grid item xs={8}></Grid>
-  //           <Grid item xs={2} style={{ paddingTop: '5px' }}>
-  //             <Button
-  //               variant="contained"
-  //               color="primary"
-  //               onClick={removeReplaceAssociate}
-  //             >
-  //               Delete
-  //             </Button>
-  //           </Grid>
-  //           <Grid item xs={2} style={{ paddingTop: '5px' }}>
-  //             <Button
-  //               variant="contained"
-  //               color="primary"
-  //               onClick={handlePlaceholderSave}
-  //             >
-  //               Save
-  //             </Button>
-  //           </Grid>
-  //         </Grid>
-  //       </Grid>
-  //     </Box>
-  //   </Dialog>
-  // )
+  const [replaceError, setReplaceError] = useState<any>(false)
+
+  const checkReplaceMinClick = () => {
+    console.log('checkReplaceMinClick', checkReplaceMinClick)
+    getProductServiceByItemnumber(replacePopupData.replaceMin)
+      .then((res: any) => {
+        console.log('Success')
+        setReplaceError(true)
+      })
+      .catch((err: any) => {
+        setReplaceError(false)
+        console.log('Error')
+      })
+  }
+  const replaceMin_Pin_Association_Template = (rowData: any) => {
+    return (
+      <div style={{ display: 'flex' }}>
+        <SearchSelect
+          value={rowData.existingSupplierSite}
+          // onChange={handleBuyer}
+          className={classes.muiSelect}
+          onChange={(e: any) => {
+            if (e.target.value !== null) {
+              setReplacePopupData((prevState: any) => {
+                return {
+                  ...prevState,
+                  replaceMin: e.target.value,
+                }
+              })
+            }
+            setReplaceError(false)
+          }}
+          onClick={() => checkReplaceMinClick()}
+          styles={{
+            fontSize: '12px',
+          }}
+        />
+        <span style={{ marginLeft: '5px', marginTop: '5px' }}>
+          <ConfirmCheckSign confirmValue={replaceError} />
+        </span>
+      </div>
+    )
+  }
+
+  const replaceEffectiveDateToTemplate = () => {
+    return <span>Sridhar</span>
+  }
+  const [selectedDate, setSelectedDate] = React.useState(
+    new Date('2022-05-18T21:11:54')
+  )
+  const handleDateChange = (date: any) => {
+    setSelectedDate(date)
+  }
+  const replaceEffectiveDateFromTemplate = () => {
+    return (
+      // <DatePicker
+      //   format="dd/MM/yy"
+      //   value={selectedDate}
+      //   onChange={handleDateChange}
+      // />
+      <span>Date</span>
+    )
+  }
+
+  const handleReplacementSave = () => {
+    console.log('handleReplacementSave', importedData)
+    if (replaceError) {
+      const data = importedData.map((singleTask: any) => {
+        // replacementAssociationProduct.filter((check: any) => {
+        //   if (val.min === check.min) {
+        //     setImportedData((prevState: any) => {
+        //       return [
+        //         {
+        //           ...prevState,
+        //           replaceMin: replacePopupData.replaceMin,
+        //         }
+        //       ]
+        //     })
+        //   }
+        // })
+        let a = replacementAssociationProduct.filter(
+          (t: any) => t.min !== singleTask.min
+        )
+        let b = singleTask
+        b.replaceMin = replacePopupData.replaceMin
+        a.push(b)
+        a.sort((x: any, y: any) => (x.min > y.min ? 1 : y.min > x.min ? -1 : 0))
+        setImportedData(a)
+      })
+    }
+    setReplaceError(false)
+    setOpenReplacementAssDialog(false)
+  }
+  // let a = taskDetails.filter((t: any) => t.taskId !== singleTask.taskId)
+  //   let b = singleTask
+  //   b.assignedUserGroup = userGroup
+  //   b.manager = userGroupValue
+  //   a.push(b)
+  //   a.sort((x: any, y: any) =>
+  //     x.taskId > y.taskId ? 1 : y.taskId > x.taskId ? -1 : 0
+  //   )
+  //   setTaskDetails(a)
+
+  useEffect(() => {
+    console.log('handleReplacementSave', importedData)
+  }, [importedData])
+
+  const replacementAssociationDialog = (
+    <Dialog
+      open={openReplacementAssDialog}
+      onClose={handleReplacemantAssociationDialogClose}
+      fullWidth
+      classes={{
+        paperFullWidth:
+          placeholderProducts && placeholderProducts.length > 0
+            ? classes.placeholderDialogFull
+            : classes.placeholderDialog,
+      }}
+    >
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          border: '3px solid green',
+          borderRadius: 5,
+          padding: '10px',
+        }}
+      >
+        <DialogHeader
+          title="Add Replacement Association"
+          onClose={handleReplacemantAssociationDialogClose}
+        />
+        <Grid
+          item
+          container
+          xl={12}
+          lg={12}
+          md={12}
+          sm={12}
+          xs={12}
+          style={{
+            textAlign: 'center',
+            padding: '10px',
+          }}
+          spacing={2}
+        >
+          <Grid
+            item
+            container
+            xs={12}
+            style={{
+              paddingLeft: '10px',
+              paddingRight: '10px',
+              paddingTop: '20px',
+            }}
+          >
+            <Grid
+              item
+              xs={10}
+              style={{ textAlign: 'left', paddingBottom: '5px' }}
+            >
+              <Typography variant="body1" color="primary">
+                Add Replacement Association
+              </Typography>
+            </Grid>
+            <Grid item xs={2} style={{ paddingBottom: '5px' }}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => handleReplacementAssAdd(1)}
+              >
+                Add Row
+              </Button>
+            </Grid>
+            <Grid item xs={12}>
+              <DataTable
+                value={
+                  replacementAssociationProduct && replacementAssociationProduct
+                }
+                selectionMode={
+                  replacementAssociationProduct > 0 ? 'single' : 'checkbox'
+                }
+                selection={{ selectedReplaceAssData }}
+                onSelectionChange={(e) => setSelectedReplaceAssData(e.value)}
+                // globalFilter={globalFilter}
+                className="p-datatable-sm"
+                //   stateStorage="session"
+                //   stateKey="dt-state-demo-session-eventmanage"
+                showGridlines
+                scrollable
+                scrollHeight="300px"
+                // editMode="cell"
+              >
+                <Column
+                  selectionMode="multiple"
+                  headerStyle={{
+                    width: '50px',
+                    color: 'white',
+
+                    backgroundColor: theme.palette.primary.main,
+                  }}
+                ></Column>
+                {replacementAssociationCols.map((col: any, index: any) => {
+                  return (
+                    <Column
+                      key={index}
+                      field={col.field}
+                      header={col.header}
+                      body={
+                        (col.field === 'delist_min_pin' &&
+                          delistminpinTemplate) ||
+                        (col.field === 'replace_min_pin' &&
+                          replaceMin_Pin_Association_Template) ||
+                        (col.field === 'effectivedateto' &&
+                          replaceEffectiveDateToTemplate) ||
+                        (col.field === 'effectivedatefrom' &&
+                          replaceEffectiveDateFromTemplate)
+                      }
+                      bodyStyle={tableBodyStyle(col.width)}
+                      headerStyle={tableHeaderStyle(
+                        col.width,
+                        theme.palette.primary.main
+                      )}
+                    />
+                  )
+                })}
+              </DataTable>
+            </Grid>
+            <Grid item xs={8}></Grid>
+            <Grid item xs={2} style={{ paddingTop: '5px' }}>
+              <Button
+                variant="contained"
+                color="primary"
+                // onClick={removeReplaceAssociate}
+              >
+                Delete
+              </Button>
+            </Grid>
+            <Grid item xs={2} style={{ paddingTop: '5px' }}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleReplacementSave}
+              >
+                Save
+              </Button>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Box>
+    </Dialog>
+  )
 
   return (
     <>
@@ -2981,7 +3375,7 @@ function DelistsAddedToRange() {
                     ''
                   ) : (
                     <Typography variant="caption">
-                      {"Select the 'Action Type'."}
+                      {"Please select the 'Action Type'."}
                     </Typography>
                   )
                 }
@@ -3005,7 +3399,7 @@ function DelistsAddedToRange() {
                     ''
                   ) : (
                     <Typography variant="caption">
-                      {"Select the 'Action Type'."}
+                      {"Please select the 'Action Type'."}
                     </Typography>
                   )
                 }
@@ -3148,7 +3542,7 @@ function DelistsAddedToRange() {
       {uploadDialog}
       {actionTypeDialog}
       {placeholderDialog}
-      {/* {replacementAssociationDialog}  */}
+      {replacementAssociationDialog}
       {/* Uncomment for Replacement Association  */}
       {uploadPlaceholderDialog}
     </>
