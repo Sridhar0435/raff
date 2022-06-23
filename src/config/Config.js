@@ -55,9 +55,12 @@ const envDetails = {
       "productsupplier/v1/items/{itemNumber}/suppliers",
     GET_SUPPLIER_SERVICE: "supplier/v1/suppliers/{supplierId}",
     GET_PRODUCT_COMPOSITION_SERVICE:
-      "productcompositionservice/v1/items/{itemNumber}",
+      "productcompositionservice/v1/compositionItems/{itemNumber}",
     GET_RANGE_SPACE_SERVICE:
       "range/v1/locations/{locationId}/items/{itemNumber}",
+    GET_RANGE_SUMMARY_BY_ID_MIN:
+      "rangereset/v2/rangeresets/{rangeResetId}/items/{MIN}/summary",
+    GET_SUPPLIER_BY_SUPPLIER_AND_SITE: "supplier/v1/search",
     //
     GOOGLE_CLIENT_ID:
       "171849099600-gb5qs9al4mvmk93j3nuam7mgqvv0pmct.apps.googleusercontent.com",
@@ -119,9 +122,12 @@ const envDetails = {
       "productsupplier/v1/items/{itemNumber}/suppliers",
     GET_SUPPLIER_SERVICE: "supplier/v1/suppliers/{supplierId}",
     GET_PRODUCT_COMPOSITION_SERVICE:
-      "productcompositionservice/v1/items/{itemNumber}",
+      "productcompositionservice/v1/compositionItems/{itemNumber}",
     GET_RANGE_SPACE_SERVICE:
       "range/v1/locations/{locationId}/items/{itemNumber}",
+    GET_RANGE_SUMMARY_BY_ID_MIN:
+      "rangereset/v2/rangeresets/{rangeResetId}/items/{MIN}/summary",
+    GET_SUPPLIER_BY_SUPPLIER_AND_SITE: "supplier/v1/search",
     //
     GOOGLE_CLIENT_ID:
       "171849099600-gb5qs9al4mvmk93j3nuam7mgqvv0pmct.apps.googleusercontent.com",
@@ -183,9 +189,12 @@ const envDetails = {
       "productsupplier/v1/items/{itemNumber}/suppliers",
     GET_SUPPLIER_SERVICE: "supplier/v1/suppliers/{supplierId}",
     GET_PRODUCT_COMPOSITION_SERVICE:
-      "productcompositionservice/v1/items/{itemNumber}",
+      "productcompositionservice/v1/compositionItems/{itemNumber}",
     GET_RANGE_SPACE_SERVICE:
       "range/v1/locations/{locationId}/items/{itemNumber}",
+    GET_RANGE_SUMMARY_BY_ID_MIN:
+      "rangereset/v2/rangeresets/{rangeResetId}/items/{MIN}/summary",
+    GET_SUPPLIER_BY_SUPPLIER_AND_SITE: "supplier/v1/search",
     //
     GOOGLE_CLIENT_ID:
       "171849099600-gb5qs9al4mvmk93j3nuam7mgqvv0pmct.apps.googleusercontent.com",
@@ -247,9 +256,12 @@ const envDetails = {
       "productsupplier/v1/items/{itemNumber}/suppliers",
     GET_SUPPLIER_SERVICE: "supplier/v1/suppliers/{supplierId}",
     GET_PRODUCT_COMPOSITION_SERVICE:
-      "productcompositionservice/v1/items/{itemNumber}",
+      "productcompositionservice/v1/compositionItems/{itemNumber}",
     GET_RANGE_SPACE_SERVICE:
       "range/v1/locations/{locationId}/items/{itemNumber}",
+    GET_RANGE_SUMMARY_BY_ID_MIN:
+      "rangereset/v2/rangeresets/{rangeResetId}/items/{MIN}/summary",
+    GET_SUPPLIER_BY_SUPPLIER_AND_SITE: "supplier/v1/search",
     //
     GOOGLE_CLIENT_ID:
       "171849099600-gb5qs9al4mvmk93j3nuam7mgqvv0pmct.apps.googleusercontent.com",
@@ -311,9 +323,12 @@ const envDetails = {
       "productsupplier/v1/items/{itemNumber}/suppliers",
     GET_SUPPLIER_SERVICE: "supplier/v1/suppliers/{supplierId}",
     GET_PRODUCT_COMPOSITION_SERVICE:
-      "productcompositionservice/v1/items/{itemNumber}",
+      "productcompositionservice/v1/compositionItems/{itemNumber}",
     GET_RANGE_SPACE_SERVICE:
       "range/v1/locations/{locationId}/items/{itemNumber}",
+    GET_RANGE_SUMMARY_BY_ID_MIN:
+      "rangereset/v2/rangeresets/{rangeResetId}/items/{MIN}/summary",
+    GET_SUPPLIER_BY_SUPPLIER_AND_SITE: "supplier/v1/search",
     //
     GOOGLE_CLIENT_ID:
       "171849099600-gb5qs9al4mvmk93j3nuam7mgqvv0pmct.apps.googleusercontent.com",

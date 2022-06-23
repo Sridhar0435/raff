@@ -49,6 +49,9 @@ const {
   GET_PRODUCT_SUPPLIER_SERVICE,
   GET_SUPPLIER_SERVICE,
   GET_PRODUCT_COMPOSITION_SERVICE,
+  GET_RANGE_SUMMARY_BY_ID_MIN,
+  GET_SUPPLIER_BY_SUPPLIER_AND_SITE,
+  GET_LOCATIONS,
 } = config;
 
 export const userV2Login = (idToken) => {
@@ -452,6 +455,29 @@ export const getProductCompositionServiceByItemnumber = (itemNumber) => {
   url = url.replace("{itemNumber}", itemNumber);
   // let reqBody = `${JSON.stringify(req)}`
   // return serviceRequest(url, "GET", undefined);
+  return serviceRequest(url, "GET", undefined);
+};
+export const getRangeByIdAndMinNumber = (rangeResetId, minNumber) => {
+  let url = `${BASE_URL}${GET_RANGE_SUMMARY_BY_ID_MIN}`;
+  url = url.replace("{rangeResetId}", rangeResetId);
+  url = url.replace("{MIN}", minNumber);
+  // let reqBody = `${JSON.stringify(req)}`
+  // return serviceRequest(url, "GET", undefined);
+  return serviceRequest(url, "GET", undefined);
+};
+export const getSupplierSearchByIdNameSupplierAndSite = (
+  searchQuery,
+  supplierType
+) => {
+  let url = `${BASE_URL}${GET_SUPPLIER_BY_SUPPLIER_AND_SITE}`;
+  // url = url.replace("{userId}", userId);
+  // const params = "limit=1000&statusIn=A,I,D";
+  const params = `searchCriteria=${searchQuery}&searchType=${supplierType}`;
+  return serviceRequest(url, "GET", undefined, params);
+};
+export const getLocationsStoreCodeAPI = () => {
+  const url = `${BASE_URL}${GET_LOCATIONS}`;
+  // const params = "limit=1000";
   return serviceRequest(url, "GET", undefined);
 };
 // export const getItemWeekStoreViewForecastAPI = ( GET_PRODUCT_SUPPLIER_SERVICE

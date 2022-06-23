@@ -69,8 +69,13 @@ export const delistAddedToRangeCols = [
     header: "Buyer",
     width: "250px",
   },
+  // {
+  //   field: "buyerAssistant",
+  //   header: "Buying Assistant",
+  //   width: "250px",
+  // },
   {
-    field: "buyerAssistant",
+    field: "buyingAssistant",
     header: "Buying Assistant",
     width: "250px",
   },
@@ -252,17 +257,17 @@ export const productListCols = [
   },
   {
     field: "lineStatus",
-    header: "Line Status",
+    header: "Status",
     width: "200px",
   },
   {
-    field: "man",
-    header: "MAN",
+    field: "min",
+    header: "MIN Number",
     width: "100px",
   },
   {
-    field: "min",
-    header: "MIN",
+    field: "pin",
+    header: "PIN",
     width: "100px",
   },
   {
@@ -270,21 +275,27 @@ export const productListCols = [
     header: "No. of Unique Ingredient MIN",
     width: "100px",
   },
+  {
+    field: "legacyItemNumbers",
+    header: "Legacy Code",
+    width: "200px",
+  },
+  {
+    field: "man",
+    header: "MAN Number",
+    width: "100px",
+  },
+  {
+    field: "description",
+    header: "Product Description",
+    width: "200px",
+  },
+
   // {
   //   field: 'noOfUniqueIngredientMin',
   //   header: 'No. of Unique Ingredient MIN',
   //   width: '100px',
   // },
-  {
-    field: "pin",
-    header: "PIN",
-    width: "100px",
-  },
-  {
-    field: "description",
-    header: "Description",
-    width: "200px",
-  },
   {
     field: "replaceMin",
     header: "Replace MIN/ PIN",
@@ -292,29 +303,32 @@ export const productListCols = [
   },
   {
     field: "replaceMinDescription",
-    header: "Description (Replacing MIN)",
+    header: "Description (Product description of the replacing MIN)",
     width: "200px",
   },
-
   {
-    field: "existingSupplier",
-    header: "Existing Supplier",
-    width: "150px",
+    field: "unitretail",
+    header: "Unit Retail (Inc VAT)",
+    width: "100px",
   },
   {
-    field: "existingSupplierSite",
-    header: "Existing Supplier Site",
-    width: "150px",
+    field: "unitretail",
+    header: "Unit Retail (Ex VAT)",
+    width: "100px",
   },
   {
-    field: "barcode",
-    header: "Barcode",
+    field: "unitcost",
+    header: "Unit Cost",
     width: "200px",
   },
-
   {
-    field: "legacyItemNumbers",
-    header: "Legacy Code",
+    field: "casecost",
+    header: "Case Cost",
+    width: "200px",
+  },
+  {
+    field: "packquantity",
+    header: "Case Size",
     width: "200px",
   },
   {
@@ -328,6 +342,31 @@ export const productListCols = [
     width: "200px",
   },
   {
+    field: "local",
+    header: "Local",
+    width: "200px",
+  },
+  {
+    field: "perStorepPerWeek",
+    header: "Per Store Per Week",
+    width: "200px",
+  },
+  {
+    field: "onlineCFC",
+    header: "Online (CFC)",
+    width: "200px",
+  },
+  {
+    field: "onlineStorePick",
+    header: "Online Store Pick",
+    width: "200px",
+  },
+  {
+    field: "wholesale",
+    header: "Wholesale",
+    width: "200px",
+  },
+  {
     field: "currentnoofrangedstores",
     header: "Current No. of Ranged Stores",
     width: "200px",
@@ -337,6 +376,7 @@ export const productListCols = [
     header: "New No. of Range Stores",
     width: "200px",
   },
+
   {
     field: "current_versus_news_tores",
     header: "Current Versus New Stores",
@@ -368,85 +408,68 @@ export const productListCols = [
     width: "200px",
   },
   {
-    field: "unitcost",
-    header: "Unit Cost",
-    width: "200px",
-  },
-  {
-    field: "casecost",
-    header: "Case Cost",
-    width: "200px",
-  },
-  {
-    field: "packquantity",
-    header: "Case Size",
-    width: "200px",
-  },
-  {
-    field: "noofrecipeMin",
-    header: "No. of Recipe MIN",
-    width: "200px",
-  },
-  {
-    field: "local",
-    header: "Local",
-    width: "200px",
-  },
-  {
-    field: "onlineCFC",
-    header: "Online (CFC)",
-    width: "200px",
-  },
-  {
-    field: "onlineStorePick",
-    header: "Online Store Pick",
-    width: "200px",
-  },
-  {
-    field: "wholesale",
-    header: "Wholesale",
-    width: "200px",
-  },
-  {
     field: "ownBrand",
     header: "Own Brand",
     width: "200px",
   },
   {
-    field: "includein_clearance_pricing",
+    field: "includeInClearancePricing",
     header: "Include In Clearance Pricing",
     width: "200px",
   },
   {
-    field: "includein_store_wastage",
+    field: "includeInStoreWastage",
     header: "Include In Store Wastage",
     width: "200px",
   },
   {
-    field: "clear_depot_by",
+    field: "clearDepotBy",
     header: "Clear Depot By",
     width: "200px",
   },
+
   {
-    field: "supplier_commitment_includingfixedbuys_seasonal",
+    field: "supplierCommitment",
     header: "Supplier Commitment Including Fixed Buys/Seasonal",
     width: "200px",
   },
+
   {
-    field: "Final_stop_order_date",
+    field: "finalStopOrderDate",
     header: "Final Stop Order Date",
     width: "200px",
   },
   {
-    field: "system_suggested_stop_orderdate",
+    field: "systemSuggestedStopOrderDate",
     header: "System Suggested Stop Order date",
     width: "200px",
   },
   {
-    field: "lastpo_date",
+    field: "lastPoDate",
     header: "Last PO Date",
     width: "200px",
   },
+  {
+    field: "depotShelfLifeMinimum",
+    header: "Depot Shelf Life (Minimum guaranteed for self life delivery)",
+    width: "200px",
+  },
+  {
+    field: "productShelfLifeInstore",
+    header: "Product Shelf Life (Instore self life)",
+    width: "200px",
+  },
+  {
+    field: "shelfLifeatManufacture",
+    header: "Shelf Life at Manufacture",
+    width: "200px",
+  },
+  {
+    field: "numberOfRangeStores",
+    header: "New Number of Range Stores",
+    width: "150px",
+  },
+
   {
     field: "totalstock",
     header: "Total Stock",
@@ -458,12 +481,12 @@ export const productListCols = [
     width: "200px",
   },
   {
-    field: "depot_stock_unit",
+    field: "depotStockUnit",
     header: "Depot Stock Unit",
     width: "200px",
   },
   {
-    field: "open_pos",
+    field: "openPos",
     header: "Open POs",
     width: "200px",
   },
@@ -473,25 +496,102 @@ export const productListCols = [
     width: "200px",
   },
   {
+    field: "averageWeeklyVolume",
+    header: "Average Weekly Volume (units)",
+    width: "200px",
+  },
+  {
+    field: "weeksCoveronTotalStockonHandtoResetDate",
+    header: "Weeks Cover on Total Stock on Hand to Reset Date",
+    width: "200px",
+  },
+  {
+    field: "forcastedWeeksCovertoResetDate",
+    header: "Forcasted Weeks Cover to Reset Date",
+    width: "200px",
+  },
+  {
     field: "excessstock",
     header: "Excess stock",
     width: "200px",
   },
   {
-    field: "numberOfRangeStores",
-    header: "New Number of Range Stores",
-    width: "150px",
+    field: "safewaybrandedequivalent",
+    header: "Safeway Branded Equivalent",
+    width: "200px",
   },
   {
-    field: "storeCode",
-    header: "Store Number",
-    width: "150px",
+    field: "effectiveDateFrom",
+    header: "Effective Date (From)",
+    width: "200px",
+  },
+  {
+    field: "effectiveDateTo",
+    header: "Effective Date (To)",
+    width: "200px",
+  },
+  {
+    field: "noofrecipeMin",
+    header: "No. of Recipe MIN",
+    width: "200px",
+  },
+  {
+    field: "depotClearbyReservedQtyRetail",
+    header: "Depot Clear by, Reserved Qty (Retail)",
+    width: "200px",
+  },
+  {
+    field: "depotClearbyReservedQtyWholesale",
+    header: "Depot Clear by, Reserved Qty (Wholesale)",
+    width: "200px",
+  },
+  {
+    field: "depotClearbyReservedQtyOnline",
+    header: "Depot Clear by, Reserved Qty (Online)",
+    width: "200px",
+  },
+  {
+    field: "depotClearbyReservedQtyTotal",
+    header: "Depot Clear by, Reserved Qty (Total)",
+    width: "200px",
+  },
+  {
+    field: "depotClearbyReservedQtyTotal",
+    header: "Depot Clear by, Reserved Qty (Total)",
+    width: "200px",
   },
   {
     field: "comments",
     header: "Comments",
     width: "200px",
   },
+  // {
+  //   field: "barcode",
+  //   header: "Barcode",
+  //   width: "200px",
+  // },
+  {
+    field: "existingSupplier",
+    header: "Existing Supplier",
+    width: "150px",
+  },
+  {
+    field: "existingSupplierSite",
+    header: "Existing Supplier Site",
+    width: "150px",
+  },
+
+  // {
+  //   field: "excessstock",
+  //   header: "Excess stock",
+  //   width: "200px",
+  // },
+
+  // {
+  //   field: "storeCode",
+  //   header: "Store Number",
+  //   width: "150px",
+  // },
 ];
 
 export const massActions = [
@@ -647,17 +747,17 @@ export const replacementAssociationCols = [
     width: "150px",
   },
   {
-    field: "replace_min_pin",
+    field: "replaceMin",
     header: "Replace MIN/PIN",
     width: "200px",
   },
   {
-    field: "effectivedatefrom",
+    field: "effectiveDateFrom",
     header: "Effective Date(From)",
     width: "200px",
   },
   {
-    field: "effectivedateto",
+    field: "effectiveDateTo",
     header: "Effective Date(To)",
     width: "200px",
   },
@@ -765,3 +865,212 @@ export const supplierSearchSiteCode_Site = {
     },
   ],
 };
+export const ingredientTableCols = [
+  {
+    field: "itemNumber",
+    header: "Ingredient MIN",
+    width: "100px",
+  },
+  {
+    field: "productName",
+    header: "Description",
+    width: "200px",
+  },
+];
+
+export const ingredientList = [
+  {
+    itemNumber: "111043100",
+    productName: "ALTOS DE IBERIA BONELESS JAMON SERRANO (2X5KG)",
+    productType: "RECIPE",
+    counterTicketProductTitle: "Altos De Iberia Boneless Jamon Serrano (2X5KG)",
+  },
+  {
+    itemNumber: "111043140",
+    productName: "ALTOS DE IBERIA BONELESS JAMON SERRANO (3X5KG)",
+    productType: "RECIPE",
+    counterTicketProductTitle: "Altos De Iberia Boneless Jamon Serrano (3X5KG)",
+  },
+];
+export const rangedStoresTableCols = [
+  {
+    field: "storeNo",
+    header: "Store No.",
+    width: "80px",
+  },
+  {
+    field: "storeName",
+    header: "Store Name",
+    width: "120px",
+  },
+  {
+    field: "currentShelfFill",
+    header: "Current Shelf Fill",
+    width: "80px",
+  },
+  {
+    field: "storeStockUnit",
+    header: "Store Stock Unit",
+    width: "80px",
+  },
+  {
+    field: "LRFToLaunchDate",
+    header: "LRF To Launch Date",
+    width: "80px",
+  },
+  {
+    field: "excessStock",
+    header: "Excess Stock",
+    width: "80px",
+  },
+];
+export const rangedStoresTableData = [
+  {
+    storeNo: "1",
+    storeName: "Chingford",
+    currentShelfFill: "25",
+    storeStockUnit: "15",
+    LRFToLaunchDate: "5",
+    excessStock: "2",
+  },
+  {
+    storeNo: "2",
+    storeName: "Bradford",
+    currentShelfFill: "24",
+    storeStockUnit: "16",
+    LRFToLaunchDate: "11",
+    excessStock: null,
+  },
+  {
+    storeNo: "3",
+    storeName: "Keighley",
+    currentShelfFill: "23",
+    storeStockUnit: "13",
+    LRFToLaunchDate: "10",
+    excessStock: "5",
+  },
+];
+
+export const clearancePricingOptions = [
+  {
+    label: "Include In All Price Actions",
+    value: "Include In All Price Actions",
+  },
+];
+
+export const depotStockUnitTableCols = [
+  {
+    field: "depot",
+    header: "Depot",
+    width: "80px",
+  },
+  {
+    field: "aggregatedStoreStockUnit",
+    header: "Aggregated Store Stock Unit",
+    width: "80px",
+  },
+  {
+    field: "depotStockUnit",
+    header: "Depot Stock Unit",
+    width: "80px",
+  },
+  {
+    field: "openPurchaseOrders",
+    header: "Open Purchase Orders",
+    width: "80px",
+  },
+  {
+    field: "poForcast",
+    header: "PO Forcast",
+    width: "80px",
+  },
+  {
+    field: "poHistory",
+    header: "PO History 3 Months",
+    width: "80px",
+  },
+  {
+    field: "salesForcastToTargetDate",
+    header: "Sales Forcast To Target Date",
+    width: "80px",
+  },
+  {
+    field: "systemAdvisedStopOrderDate",
+    header: "System Advised Stop Order Date",
+    width: "80px",
+  },
+  {
+    field: "depotClearDate",
+    header: "Depot Clear Date",
+    width: "80px",
+  },
+  {
+    field: "reserveQuantityRetail",
+    header: "Reserve Quantity (Retail)",
+    width: "80px",
+  },
+  {
+    field: "reserveQuantityWholesale",
+    header: "Reserve Quantity (Wholesale)",
+    width: "80px",
+  },
+  {
+    field: "reserveQuantityOnline",
+    header: "Reserve Quantity (Online)",
+    width: "80px",
+  },
+  {
+    field: "reserveQuantityTotal",
+    header: "Reserve Quantity (Total)",
+    width: "80px",
+  },
+  {
+    field: "lastPoDate",
+    header: "Last PO Date",
+    width: "80px",
+  },
+  {
+    field: "weeksCover",
+    header: "Weeks Cover",
+    width: "80px",
+  },
+  {
+    field: "forcastedWeeksCover",
+    header: "Forcasted Weeks Cover",
+    width: "80px",
+  },
+];
+
+export const depotStockTableData = [
+  {
+    depot: "76",
+    aggregatedStoreStockUnit: "126",
+    depotStockUnit: "95",
+    openPurchaseOrders: "0",
+    poForcast: "0",
+    poHistory: "0",
+    salesForcastToTargetDate: "",
+    systemAdvisedStopOrderDate: "",
+    depotClearDate: "02/07/2022",
+    reserveQuantityRetail: "0",
+    reserveQuantityWholesale: "100",
+    reserveQuantityOnline: "50",
+    reserveQuantityTotal: "150",
+    lastPoDate: "",
+    weeksCover: "No forcast sales",
+    forcastedWeeksCover: "No forcast sales",
+  },
+];
+
+export const depotStockButtons = [
+  "East England",
+  "East Midlands",
+  "Great London",
+  "North East",
+  "North West",
+  "Scotland",
+  "South East",
+  "South West",
+  "West Midlands",
+  "Yorkshire",
+];

@@ -19,6 +19,22 @@ export const useStyles = makeStyles((theme) => {
       backgroundColor: teal[900],
       color: "white",
     },
+    formControl: {
+      // margin: theme.spacing(1),
+      // width: 300,
+    },
+    indeterminateColor: {
+      color: "#f50057",
+    },
+    selectAllText: {
+      fontWeight: 500,
+    },
+    selectedAll: {
+      backgroundColor: "rgba(0, 0, 0, 0.08)",
+      "&:hover": {
+        backgroundColor: "rgba(0, 0, 0, 0.08)",
+      },
+    },
     greenButtons: {
       height: 35,
       [theme.breakpoints.up("sm")]: {
@@ -34,6 +50,15 @@ export const useStyles = makeStyles((theme) => {
       },
       width: "100%",
     },
+    tableTextField: {
+      height: "40px",
+    },
+    multiselectDemo: {
+      pMultiselect: {
+        minWidth: "15rem",
+      },
+    },
+
     // redButtons: {
     //     width: "auto",
     //     backgroundColor: theme.palette.error.main,
@@ -44,6 +69,7 @@ export const useStyles = makeStyles((theme) => {
     //         color: "white",
     //     },
     // },
+
     whiteButton: {
       borderColor: theme.palette.primary.main,
       border: "1px solid",
@@ -56,6 +82,14 @@ export const useStyles = makeStyles((theme) => {
       // marginBottom: '10px',
       // marginRight: '10px',
     },
+    tableLinks: {
+      border: 0,
+      color: "blue",
+      backgroundColor: "inherit",
+      cursor: "pointer",
+      // fontSize: '18px',
+    },
+
     placeholderDialog: {
       [theme.breakpoints.up("xs")]: {
         "max-width": "45%",
