@@ -26,3 +26,27 @@
 .selectdrop.MuiCheckbox-colorSecondary.Mui-checked{
     color: #004e37!important;
 }
+.MuiListItem-root.Mui-selected{
+    background-color: #fff!important
+}
+.p-autocomplete-panel.p-component.p-connected-overlay-enter-done{
+    z-index: 999999999999!important;
+}
+.autoCompletePrimeInput .p-inputtext:enabled:focus{
+    box-shadow: none !important;
+    border-color: #004e37!important;
+}
+/* .autoCompletePrimeInput .p-inputtext:enabled:hover{
+    background: #e9ecef!important;
+} */
+/* #e9ecef */
+.p-datatable-scrollable-body-table .p-datatable-tbody tr:hover .autoCompletePrimeInput .p-inputtext:enabled{
+    background: #e9ecef!important;
+} 
+.autoCompletePrimeInput .p-inputtext:enabled:hover{
+    border-color: #004e37!important;
+}
+.autoCompletePrimeInput .p-inputtext.p-component.p-autocomplete-input{
+    padding: 5px!important;
+    border-color: #c4c4c4!important;
+}

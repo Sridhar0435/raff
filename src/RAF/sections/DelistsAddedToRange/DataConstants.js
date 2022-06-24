@@ -307,12 +307,12 @@ export const productListCols = [
     width: "200px",
   },
   {
-    field: "unitretail",
+    field: "unitretailInc",
     header: "Unit Retail (Inc VAT)",
     width: "100px",
   },
   {
-    field: "unitretail",
+    field: "unitretailEx",
     header: "Unit Retail (Ex VAT)",
     width: "100px",
   },
@@ -378,22 +378,22 @@ export const productListCols = [
   },
 
   {
-    field: "current_versus_news_tores",
+    field: "currentVersusNewStores",
     header: "Current Versus New Stores",
     width: "200px",
   },
   {
-    field: "stores_ranged_current_vs_proposed",
+    field: "storesRangedCurrentVsProposed",
     header: "% stores ranged (current vs proposed)",
     width: "200px",
   },
   {
-    field: "current_shelf_fill",
+    field: "currentShelfFill",
     header: "Current Shelf Fill (Units)",
     width: "200px",
   },
   {
-    field: "new_shelf_fill",
+    field: "newShelfFill",
     header: "New Shelf Fill (Units)",
     width: "200px",
   },
@@ -403,7 +403,7 @@ export const productListCols = [
     width: "200px",
   },
   {
-    field: "currentshelffill_vs_newfill_%",
+    field: "currentshelffill_vs_newfill_percant",
     header: "Current Shelf Fill Vs New Fill %",
     width: "200px",
   },
@@ -531,6 +531,16 @@ export const productListCols = [
     width: "200px",
   },
   {
+    field: "existingSupplier",
+    header: "Existing Supplier",
+    width: "150px",
+  },
+  {
+    field: "existingSupplierSite",
+    header: "Existing Supplier Site",
+    width: "150px",
+  },
+  {
     field: "noofrecipeMin",
     header: "No. of Recipe MIN",
     width: "200px",
@@ -555,11 +565,7 @@ export const productListCols = [
     header: "Depot Clear by, Reserved Qty (Total)",
     width: "200px",
   },
-  {
-    field: "depotClearbyReservedQtyTotal",
-    header: "Depot Clear by, Reserved Qty (Total)",
-    width: "200px",
-  },
+
   {
     field: "comments",
     header: "Comments",
@@ -570,16 +576,6 @@ export const productListCols = [
   //   header: "Barcode",
   //   width: "200px",
   // },
-  {
-    field: "existingSupplier",
-    header: "Existing Supplier",
-    width: "150px",
-  },
-  {
-    field: "existingSupplierSite",
-    header: "Existing Supplier Site",
-    width: "150px",
-  },
 
   // {
   //   field: "excessstock",
@@ -867,12 +863,12 @@ export const supplierSearchSiteCode_Site = {
 };
 export const ingredientTableCols = [
   {
-    field: "itemNumber",
+    field: "ingredientMin",
     header: "Ingredient MIN",
     width: "100px",
   },
   {
-    field: "productName",
+    field: "ingredientDescription",
     header: "Description",
     width: "200px",
   },
@@ -1073,4 +1069,16 @@ export const depotStockButtons = [
   "South West",
   "West Midlands",
   "Yorkshire",
+];
+export const recipeTableCols = [
+  {
+    field: "itemNumber",
+    header: "Recipe MIN",
+    width: "100px",
+  },
+  {
+    field: "productName",
+    header: "Description",
+    width: "200px",
+  },
 ];

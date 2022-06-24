@@ -63,6 +63,7 @@ import {
   depotStockTableData,
   depotStockUnitTableCols,
   depotStockButtons,
+  recipeTableCols,
   // supplierCodes
 } from './DataConstants'
 // import TextFieldWithSearch from './sections/TextFieldWithSearch/TextFieldWithSearch'
@@ -70,6 +71,7 @@ import { MultiSelect } from 'primereact/multiselect'
 import { Dropdown } from 'primereact/dropdown'
 import AutocompleteSelect from '../../components/AutoCompleteSelect/AutocompleteSelect'
 import Autocomplete from '@material-ui/lab/Autocomplete'
+import { AutoComplete as AutoCompletePrime } from 'primereact/autocomplete'
 import DialogHeader from '../../components/DialogHeader/DialogHeader'
 import ConfirmCheckSign from '../../components/ConfirmCheck/ConfirmCheckSign'
 import {
@@ -251,6 +253,9 @@ function DelistsAddedToRange() {
 
   const [depotStockDialogOpen, setDepotStockDialogOpen] = useState<any>(false)
   const [depotStockData, setDepotStockData] = useState<any>([])
+  const [recipeDialogOpen, setRecipeDialogOpen] = useState<any>(false)
+  const [recipeData, setRecipeData] = useState<any>([])
+
   // const stylesInp = {
   //   container: {
   //     width: '1000px',
@@ -262,10 +267,10 @@ function DelistsAddedToRange() {
   //setEventDetails
 
   useEffect(() => {
-    getRangeByRangeResetId('3400')
+    getRangeByRangeResetId('1304')
       .then((res: any) => {
         console.log('3400', res.data.items)
-        console.log(JSON.stringify(res.data))
+        // console.log(JSON.stringify(res.data))
         const data = res.data
         const eventDataApi = {
           eventName: data.name,
@@ -291,37 +296,36 @@ function DelistsAddedToRange() {
         }
         setEventDetails([eventDataApi])
         console.log('setEventDetails', eventDataApi)
-        if (res.data.items.length > 0) {
-          const data = res.data.items.map((item: any) => {
-            var minVal = 1000000000000
-            var max = 9999999999999
-            var rand = Math.floor(minVal + Math.random() * (max - minVal))
-            return {
-              _idCheck: rand,
-              actionType: item.type,
-              itemNumber: item.itemNumber,
-              description: item.description,
-              lineStatus: 'Draft',
-              comments: comments,
-              // min: '500000033',
-              min: item.itemNumber,
-              Local: item.local,
-              onlineCFC: item.onlineCfc,
-              onlineStorePick: item.onlineStorePick,
-              ownBrand: item.ownBrand,
-              wholesale: item.wholesale,
-              supplierCommitment: item.supplierCommitment,
-              existingSupplier: item.existingSupplier,
-              existingSupplierSite: item.existingSupplierSite,
-              forward_forecast_to_launch: item.frwdForecastToLaunch,
-              clearDepotBy: item.depoClearWeek,
-              effectiveDateFrom: item.effectiveFromDate,
-              effectiveDateTo: item.effectiveToDate,
-              includeInClearancePricing: eventDataApi.clearancePriceCheck,
-            }
-          })
-          setImportedData(data)
-        }
+        // if (res.data.items.length > 0) {
+        //   const data = res.data.items.map((item: any) => {
+        //     var minVal = 1000000000000
+        //     var max = 9999999999999
+        //     var rand = Math.floor(minVal + Math.random() * (max - minVal))
+        //     return {
+        //       _idCheck: rand,
+        //       actionType: item.type,
+        //       itemNumber: item.itemNumber,
+        //       description: item.description,
+        //       lineStatus: 'Draft',
+        //       comments: comments,
+        //       min: item.itemNumber,
+        //       Local: item.local,
+        //       onlineCFC: item.onlineCfc,
+        //       onlineStorePick: item.onlineStorePick,
+        //       ownBrand: item.ownBrand,
+        //       wholesale: item.wholesale,
+        //       supplierCommitment: item.supplierCommitment,
+        //       existingSupplier: item.existingSupplier,
+        //       existingSupplierSite: item.existingSupplierSite,
+        //       forward_forecast_to_launch: item.frwdForecastToLaunch,
+        //       clearDepotBy: item.depoClearWeek,
+        //       effectiveDateFrom: item.effectiveFromDate,
+        //       effectiveDateTo: item.effectiveToDate,
+        //       includeInClearancePricing: eventDataApi.clearancePriceCheck,
+        //     }
+        //   })
+        //   setImportedData(data)
+        // }
       })
       .catch((err: any) => {
         console.log(err)
@@ -329,6 +333,101 @@ function DelistsAddedToRange() {
   }, [])
 
   useEffect(() => {
+    // getRangeByIdAndMinNumber('3400', '@all')
+    // getRangeByIdAndMinNumber('1304', '@all')
+    getRangeByIdAndMinNumber('1304', '@all')
+      .then((res: any) => {
+        console.log('1304', res.data)
+        console.log('1304', JSON.stringify(res.data))
+        const data = res.data
+        if (data.length > 0) {
+          const data = res.data.map((item: any) => {
+            var minVal = 1000000000000
+            var max = 9999999999999
+            var rand = Math.floor(minVal + Math.random() * (max - minVal))
+            return {
+              _idCheck: rand,
+              actionType: item.type,
+              lineStatus: 'Draft',
+              // itemNumber: item.itemNumber, //userinput
+              min: item.itemNumber, //userinput
+              pin: item.pin,
+              ingredientMin: item.ingredientMin,
+              legacyItemNumbers: item.hasOwnProperty('legacyItemNumbers')
+                ? item.legacyItemNumbers
+                : null,
+              man: item.man,
+              description: item.description,
+              replaceMin: item.replaceMin,
+              replaceMinDescription: item.replaceMinDescription,
+              unitretailInc: 'Nokey', //drop2
+              unitcost: item.unitCost, //drop2
+              unitretail: 'Nokey', //drop2
+              casecost: item.caseCost, //drop2
+              packquantity: item.caseSize, //drop2
+              supplierId: item.newSupplier,
+              supplierSiteNameCode: item.newSupplierSite,
+              local: item.local,
+              perStorepPerWeek: item.hasOwnProperty('perStorepPerWeek')
+                ? item.perStorepPerWeek
+                : null,
+              onlineCFC: item.rangestatus.online[0],
+              onlineStorePick: item.rangestatus.retail.join(','),
+              wholesale: item.rangestatus.wholesale,
+              currentnoofrangedstores: item.rangedStoresCurrent,
+              newnoofrangestores: item.rangedStoresNew,
+              currentVersusNewStores: item.currentVsNewStores,
+              storesRangedCurrentVsProposed: null,
+              currentShelfFill: item.shelfFillCurrent,
+              newShelfFill: item.shelfFillNew,
+              currentshelffill_vs_newfill_percant: item.currentVsNewShelfFill,
+              ownBrand: item.ownBrand,
+              includeInClearancePricing: item.clearancePricing,
+              includeInStoreWastage: item.wastage,
+              clearDepotBy: item.depotClearWeek,
+              supplierCommitment: item.suppCommFixedBuysSeasonal,
+              finalStopOrderDate: null ? '' : null,
+              systemSuggestedStopOrderDate: null ? '' : null,
+              lastPoDate: item.lastPODate,
+              depotShelfLifeMinimum: item.depotShelfLife,
+              productShelfLifeInstore: item.productShelfLife,
+              shelfLifeatManufacture: item.mfgShelfLife,
+              numberOfRangeStores: null,
+              totalstock: item.totalStoreStock,
+              store_stock_unit: null,
+              depotStockUnit: item.totalDepotStock,
+              openPos: item.totalOpenPurchaseOrders,
+              forward_forecast_to_launch: item.frwdForecastToLaunch,
+              averageWeeklyVolume: null,
+              weeksCoveronTotalStockonHandtoResetDate: item.weeksCover,
+              forcastedWeeksCovertoResetDate: item.forecastWeekCover,
+              excessstock: item.excessStock,
+              safewaybrandedequivalent: item.safewayBrandedEq,
+              effectiveDateFrom: item.effectiveFromDate,
+              effectiveDateTo: item.effectiveToDate,
+              existingSupplier: item.existingSupplier,
+              existingSupplierSite: item.existingSupplierSite,
+              noofrecipeMin: null,
+              depotClearbyReservedQtyRetail: null,
+              depotClearbyReservedQtyWholesale: null,
+              depotClearbyReservedQtyOnline: null,
+              depotClearbyReservedQtyTotal: null,
+              comments: comments,
+              // min: '500000033',
+            }
+          })
+
+          setImportedData(data)
+          console.log('setImportedData1304@all', data)
+          console.log('ImportedData1304@all', data)
+        }
+      })
+      .catch((err: any) => {
+        console.log(err)
+      })
+  }, [])
+
+  const onPageLoadStoreCode = () => {
     getLocationsStoreCodeAPI()
       .then((res: any) => {
         console.log('getLocationsStoreCodeAPI', res)
@@ -347,6 +446,10 @@ function DelistsAddedToRange() {
       .catch((err: any) => {
         console.log('getLocationsStoreCodeAPIError', err)
       })
+  }
+
+  useEffect(() => {
+    onPageLoadStoreCode()
   }, [])
 
   useEffect(() => {
@@ -409,36 +512,43 @@ function DelistsAddedToRange() {
 
   const localTemplate = (rowData: any) => {
     if (rowData && rowData.hasOwnProperty('local') && rowData.local !== '') {
+      let data
+      if (rowData.local === 'true' || rowData.local === 'Y') {
+        data = 'Y'
+      } else if (rowData.local === 'false' || rowData.local === 'N') {
+        data = 'N'
+      }
       return (
-        <Select
-          value={rowData && (rowData.local ? rowData.local : null)}
-          // onChange={(e) => eventHandleDetailsSOT(e)}
-          onChange={(e: any) => {
-            if (e.target.value !== null) {
-              setImportedData((prevState: any) => {
-                return onChangeProductTableFields(
-                  prevState,
-                  'local',
-                  rowData,
-                  e.target.value
-                )
-              })
-            }
-          }}
-          input={<OutlinedInput margin="dense" className={classes.muiSelect} />}
-        >
-          {yesOrNo.map((type: any) => {
-            return (
-              <MenuItem
-                value={type.name}
-                key={type.name}
-                className={classes.muiSelect}
-              >
-                {type.text}
-              </MenuItem>
-            )
-          })}
-        </Select>
+        // <Select
+        //   value={rowData && (rowData.local ? rowData.local : null)}
+        //   // onChange={(e) => eventHandleDetailsSOT(e)}
+        //   onChange={(e: any) => {
+        //     if (e.target.value !== null) {
+        //       setImportedData((prevState: any) => {
+        //         return onChangeProductTableFields(
+        //           prevState,
+        //           'local',
+        //           rowData,
+        //           e.target.value
+        //         )
+        //       })
+        //     }
+        //   }}
+        //   input={<OutlinedInput margin="dense" className={classes.muiSelect} />}
+        // >
+        //   {yesOrNo.map((type: any) => {
+        //     return (
+        //       <MenuItem
+        //         value={type.name}
+        //         key={type.name}
+        //         className={classes.muiSelect}
+        //       >
+        //         {type.text}
+        //       </MenuItem>
+        //     )
+        //   })}
+        // </Select>
+        <>{data}</>
       )
     } else {
       return <>NA</>
@@ -450,36 +560,43 @@ function DelistsAddedToRange() {
       rowData.hasOwnProperty('onlineCFC') &&
       rowData.onlineCFC !== ''
     ) {
+      let data
+      if (rowData.onlineCFC === 'true' || rowData.onlineCFC === 'Y') {
+        data = 'Y'
+      } else if (rowData.onlineCFC === 'false' || rowData.onlineCFC === 'N') {
+        data = 'N'
+      }
       return (
-        <Select
-          value={rowData && (rowData.onlineCFC ? rowData.onlineCFC : null)}
-          // onChange={(e) => eventHandleDetailsSOT(e)}
-          onChange={(e: any) => {
-            if (e.target.value !== null) {
-              setImportedData((prevState: any) => {
-                return onChangeProductTableFields(
-                  prevState,
-                  'onlineCFC',
-                  rowData,
-                  e.target.value
-                )
-              })
-            }
-          }}
-          input={<OutlinedInput margin="dense" className={classes.muiSelect} />}
-        >
-          {yesOrNo.map((type: any) => {
-            return (
-              <MenuItem
-                value={type.name}
-                key={type.name}
-                className={classes.muiSelect}
-              >
-                {type.text}
-              </MenuItem>
-            )
-          })}
-        </Select>
+        // <Select
+        //   value={rowData && (rowData.onlineCFC ? rowData.onlineCFC : null)}
+        //   // onChange={(e) => eventHandleDetailsSOT(e)}
+        //   onChange={(e: any) => {
+        //     if (e.target.value !== null) {
+        //       setImportedData((prevState: any) => {
+        //         return onChangeProductTableFields(
+        //           prevState,
+        //           'onlineCFC',
+        //           rowData,
+        //           e.target.value
+        //         )
+        //       })
+        //     }
+        //   }}
+        //   input={<OutlinedInput margin="dense" className={classes.muiSelect} />}
+        // >
+        //   {yesOrNo.map((type: any) => {
+        //     return (
+        //       <MenuItem
+        //         value={type.name}
+        //         key={type.name}
+        //         className={classes.muiSelect}
+        //       >
+        //         {type.text}
+        //       </MenuItem>
+        //     )
+        //   })}
+        // </Select>
+        <>{data}</>
       )
     } else {
       return <>NA</>
@@ -491,39 +608,52 @@ function DelistsAddedToRange() {
       rowData.hasOwnProperty('onlineStorePick') &&
       rowData.onlineStorePick !== ''
     ) {
+      let data
+      if (
+        rowData.onlineStorePick === 'true' ||
+        rowData.onlineStorePick === 'Y'
+      ) {
+        data = 'Y'
+      } else if (
+        rowData.onlineStorePick === 'false' ||
+        rowData.onlineStorePick === 'N'
+      ) {
+        data = 'N'
+      }
       return (
-        <Select
-          value={
-            rowData &&
-            (rowData.onlineStorePick ? rowData.onlineStorePick : null)
-          }
-          // onChange={(e) => eventHandleDetailsSOT(e)}
-          onChange={(e: any) => {
-            if (e.target.value !== null) {
-              setImportedData((prevState: any) => {
-                return onChangeProductTableFields(
-                  prevState,
-                  'onlineStorePick',
-                  rowData,
-                  e.target.value
-                )
-              })
-            }
-          }}
-          input={<OutlinedInput margin="dense" className={classes.muiSelect} />}
-        >
-          {yesOrNo.map((type: any) => {
-            return (
-              <MenuItem
-                value={type.name}
-                key={type.name}
-                className={classes.muiSelect}
-              >
-                {type.text}
-              </MenuItem>
-            )
-          })}
-        </Select>
+        // <Select
+        //   value={
+        //     rowData &&
+        //     (rowData.onlineStorePick ? rowData.onlineStorePick : null)
+        //   }
+        //   // onChange={(e) => eventHandleDetailsSOT(e)}
+        //   onChange={(e: any) => {
+        //     if (e.target.value !== null) {
+        //       setImportedData((prevState: any) => {
+        //         return onChangeProductTableFields(
+        //           prevState,
+        //           'onlineStorePick',
+        //           rowData,
+        //           e.target.value
+        //         )
+        //       })
+        //     }
+        //   }}
+        //   input={<OutlinedInput margin="dense" className={classes.muiSelect} />}
+        // >
+        //   {yesOrNo.map((type: any) => {
+        //     return (
+        //       <MenuItem
+        //         value={type.name}
+        //         key={type.name}
+        //         className={classes.muiSelect}
+        //       >
+        //         {type.text}
+        //       </MenuItem>
+        //     )
+        //   })}
+        // </Select>
+        <>{data}</>
       )
     } else {
       return <>NA</>
@@ -535,8 +665,14 @@ function DelistsAddedToRange() {
       rowData.hasOwnProperty('wholesale') &&
       rowData.wholesale !== ''
     ) {
+      let data
+      if (rowData.wholesale === 'true' || rowData.wholesale === 'Y') {
+        data = 'Y'
+      } else if (rowData.wholesale === 'false' || rowData.wholesale === 'N') {
+        data = 'N'
+      }
       return (
-        <span>{rowData && (rowData.wholesale ? rowData.wholesale : null)}</span>
+        // <span>{rowData && (rowData.wholesale ? rowData.wholesale : null)}</span>
         //   <Select
         //     value={rowData && (rowData.wholesale ? rowData.wholesale : null)}
         //     // onChange={(e) => eventHandleDetailsSOT(e)}
@@ -566,6 +702,7 @@ function DelistsAddedToRange() {
         //       )
         //     })}
         //   </Select>
+        <>{data}</>
       )
     } else {
       return <>NA</>
@@ -609,34 +746,39 @@ function DelistsAddedToRange() {
   const includeInClearancePricingTemplate = (rowData: any) => {
     if (
       rowData &&
-      rowData.actionType === 'Delist MIN' &&
       rowData.hasOwnProperty('includeInClearancePricing') &&
       rowData.includeInClearancePricing
     ) {
-      return (
-        <Select
-          value={rowData.includeInClearancePricing}
-          onChange={(e: any) =>
-            setImportedData((prevState: any) =>
-              onChangeProductTableFields(
-                prevState,
-                'includeInClearancePricing',
-                rowData,
-                e.target.value
+      if (rowData.actionType === 'Delist MIN') {
+        return (
+          <Select
+            value={rowData.includeInClearancePricing}
+            onChange={(e: any) =>
+              setImportedData((prevState: any) =>
+                onChangeProductTableFields(
+                  prevState,
+                  'includeInClearancePricing',
+                  rowData,
+                  e.target.value
+                )
               )
-            )
-          }
-          input={<OutlinedInput margin="dense" className={classes.muiSelect} />}
-        >
-          {clearancePricingOptions.map((type) => {
-            return (
-              <MenuItem value={type.value} key={type.value}>
-                {type.label}
-              </MenuItem>
-            )
-          })}
-        </Select>
-      )
+            }
+            input={
+              <OutlinedInput margin="dense" className={classes.muiSelect} />
+            }
+          >
+            {clearancePricingOptions.map((type) => {
+              return (
+                <MenuItem value={type.value} key={type.value}>
+                  {type.label}
+                </MenuItem>
+              )
+            })}
+          </Select>
+        )
+      } else {
+        return <>{rowData.includeInClearancePricing}</>
+      }
     } else {
       return <>NA</>
     }
@@ -843,38 +985,41 @@ function DelistsAddedToRange() {
   const lastPoDateTemplate = (rowData: any) => {
     if (
       rowData &&
-      rowData.actionType === 'Delist MIN' &&
       rowData.hasOwnProperty('lastPoDate') &&
       rowData.lastPoDate !== ''
     ) {
-      return (
-        <DatePicker
-          format="dd/MM/yy"
-          value={
-            rowData && (rowData['lastPoDate'] ? rowData['lastPoDate'] : null)
-          }
-          onChange={(date: any) => {
-            let newDate = date.toISOString().split('T')[0]
-            setImportedData((prevState: any) => {
-              return onChangeProductTableFields(
-                prevState,
-                'lastPoDate',
-                rowData,
-                newDate
-              )
-            })
-          }}
-          TextFieldComponent={(props: any) => (
-            <OutlinedInput
-              margin="dense"
-              onClick={props.onClick}
-              value={props.value}
-              onChange={props.onChange}
-              // className={classes.dateFields}
-            />
-          )}
-        />
-      )
+      if (rowData.actionType === 'Delist MIN') {
+        return (
+          <DatePicker
+            format="dd/MM/yy"
+            value={
+              rowData && (rowData['lastPoDate'] ? rowData['lastPoDate'] : null)
+            }
+            onChange={(date: any) => {
+              let newDate = date.toISOString().split('T')[0]
+              setImportedData((prevState: any) => {
+                return onChangeProductTableFields(
+                  prevState,
+                  'lastPoDate',
+                  rowData,
+                  newDate
+                )
+              })
+            }}
+            TextFieldComponent={(props: any) => (
+              <OutlinedInput
+                margin="dense"
+                onClick={props.onClick}
+                value={props.value}
+                onChange={props.onChange}
+                // className={classes.dateFields}
+              />
+            )}
+          />
+        )
+      } else {
+        return <>{rowData.lastPoDate}</>
+      }
     } else {
       return <>NA</>
     }
@@ -882,27 +1027,30 @@ function DelistsAddedToRange() {
   const includeInStoreWastageTemplate = (rowData: any) => {
     if (
       rowData &&
-      rowData.actionType === 'Delist MIN' &&
       rowData.hasOwnProperty('includeInStoreWastage') &&
       rowData.includeInStoreWastage
     ) {
-      return (
-        <Checkbox
-          checked={rowData.includeInStoreWastage}
-          color="primary"
-          onChange={(e: any) => {
-            setImportedData((prevState: any) =>
-              onChangeProductTableFields(
-                prevState,
-                'includeInStoreWastage',
-                rowData,
-                e.target.checked
+      if (rowData.actionType === 'Delist MIN') {
+        return (
+          <Checkbox
+            checked={rowData.includeInStoreWastage}
+            color="primary"
+            onChange={(e: any) => {
+              setImportedData((prevState: any) =>
+                onChangeProductTableFields(
+                  prevState,
+                  'includeInStoreWastage',
+                  rowData,
+                  e.target.checked
+                )
               )
-            )
-          }}
-          inputProps={{ 'aria-label': 'primary checkbox' }}
-        />
-      )
+            }}
+            inputProps={{ 'aria-label': 'primary checkbox' }}
+          />
+        )
+      } else {
+        return <>{rowData.includeInStoreWastage}</>
+      }
     } else {
       return <>NA</>
     }
@@ -910,26 +1058,29 @@ function DelistsAddedToRange() {
   const supplierCommitmentTemplate = (rowData: any) => {
     if (
       rowData &&
-      rowData.actionType === 'Delist MIN' &&
       rowData.hasOwnProperty('supplierCommitment') &&
       rowData.supplierCommitment
     ) {
-      return (
-        <OutlinedInput
-          value={rowData && rowData.supplierCommitment}
-          onChange={(e: any) => {
-            setImportedData((prevState: any) => {
-              return onChangeProductTableFields(
-                prevState,
-                'supplierCommitment',
-                rowData,
-                e.target.value
-              )
-            })
-          }}
-          className={classes.tableTextField}
-        />
-      )
+      if (rowData.actionType === 'Delist MIN') {
+        return (
+          <OutlinedInput
+            value={rowData && rowData.supplierCommitment}
+            onChange={(e: any) => {
+              setImportedData((prevState: any) => {
+                return onChangeProductTableFields(
+                  prevState,
+                  'supplierCommitment',
+                  rowData,
+                  e.target.value
+                )
+              })
+            }}
+            className={classes.tableTextField}
+          />
+        )
+      } else {
+        return <>{rowData.supplierCommitment}</>
+      }
     } else {
       return <>NA</>
     }
@@ -1040,10 +1191,30 @@ function DelistsAddedToRange() {
   const handleIngredientDialogOpen = (rowData: any) => {
     setIngredientDialog(true)
     setIngredientData(rowData)
+    setIngredientData(rowData.ingredientDetails)
+    console.log('details', rowData.ingredientDetails)
   }
 
-  const handleIngredientDialogClose = (rowData: any) => {
+  const handleIngredientDialogClose = () => {
     setIngredientDialog(false)
+    setIngredientData([])
+    setSelectedIngredientData([])
+  }
+  const handleDelistIngredientMin = () => {
+    if (selectedIngredientData && selectedIngredientData.length > 0) {
+      selectedIngredientData.map((ingredient: any) => {
+        getAndCheckItemNumber(
+          ingredient.ingredientMin,
+          // '100001499',
+          'Delist Ingredient MIN',
+          '',
+          '',
+          'NA',
+          'NA'
+        )
+      })
+    }
+    handleIngredientDialogClose()
   }
   const ingredientsDialog = (
     <Dialog
@@ -1071,8 +1242,8 @@ function DelistsAddedToRange() {
           }}
         >
           <DataTable
-            value={ingredientList}
-            // value={ingredientData}
+            // value={ingredientList}
+            value={ingredientData}
             showGridlines
             className="p-datatable-sm"
             selectionMode="checkbox"
@@ -1112,7 +1283,11 @@ function DelistsAddedToRange() {
             justifyContent: 'right',
           }}
         >
-          <Button color="primary" variant="contained">
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={handleDelistIngredientMin}
+          >
             Add To Delist Ingredient MIN
           </Button>
         </Box>
@@ -1126,15 +1301,105 @@ function DelistsAddedToRange() {
       (rowData.actionType === 'Delist MIN' || rowData.actionType === 'Derange')
     ) {
       return (
-        <div
-          onClick={() => handleIngredientDialogOpen(rowData)}
-          className={classes.tableLinks}
-        >
-          {rowData.ingredientMin}
-        </div>
+        <>
+          {rowData.ingredientMin ? (
+            <div
+              onClick={() => handleIngredientDialogOpen(rowData)}
+              className={classes.tableLinks}
+            >
+              {rowData.ingredientMin}
+            </div>
+          ) : (
+            'NA'
+          )}
+        </>
       )
     } else {
-      return <>{rowData && rowData.ingredientMin}</>
+      return (
+        <>{rowData && rowData.ingredientMin ? rowData.ingredientMin : 'NA'}</>
+      )
+    }
+  }
+  const handleRecipeDialogOpen = (rowData: any) => {
+    setRecipeDialogOpen(true)
+    setRecipeData(rowData.recipeDetails)
+    console.log('details', rowData.recipeDetails)
+  }
+
+  const handleRecipeDialogClose = (rowData: any) => {
+    setRecipeDialogOpen(false)
+    setRecipeData([])
+  }
+  const recipeDialog = (
+    <Dialog open={recipeDialogOpen} onClose={handleRecipeDialogClose} fullWidth>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          // width: small ? '400px' : '260px',
+          // height: "250px",
+          // border: '3px solid green',
+          borderRadius: 5,
+        }}
+      >
+        <DialogHeader
+          title={`No. of Recipe MIN View`}
+          onClose={handleRecipeDialogClose}
+        />
+        <Box
+          sx={{
+            p: 3,
+          }}
+        >
+          <DataTable
+            // value={ingredientList}
+            value={recipeData}
+            showGridlines
+            className="p-datatable-sm"
+          >
+            {recipeTableCols.map((col: any) => {
+              return (
+                <Column
+                  key={col.field}
+                  field={col.field}
+                  header={col.header}
+                  bodyStyle={tableBodyStyle(col.width)}
+                  headerStyle={tableHeaderStyle(
+                    col.width,
+                    theme.palette.primary.main
+                  )}
+                />
+              )
+            })}
+          </DataTable>
+        </Box>
+      </Box>
+    </Dialog>
+  )
+  const recipeMinTemplate = (rowData: any) => {
+    // console.log('ingredientMinTemplate', rowData)
+    if (
+      rowData &&
+      (rowData.actionType === 'Delist MIN' || rowData.actionType === 'Derange')
+    ) {
+      return (
+        <>
+          {rowData.noOfRecipeMin ? (
+            <div
+              onClick={() => handleRecipeDialogOpen(rowData)}
+              className={classes.tableLinks}
+            >
+              {rowData.noOfRecipeMin}
+            </div>
+          ) : (
+            'NA'
+          )}
+        </>
+      )
+    } else {
+      return (
+        <>{rowData && rowData.noOfRecipeMin ? rowData.noOfRecipeMin : 'NA'}</>
+      )
     }
   }
   const handleDepotStockDialogOpen = (rowData: any) => {
@@ -1232,25 +1497,27 @@ function DelistsAddedToRange() {
     </Dialog>
   )
   const depotStockTemplate = (rowData: any) => {
-    // if (
-    //   rowData &&
-    //   rowData.actionType === 'Delist MIN' &&
-    //   rowData.hasOwnProperty('depotStockUnit') &&
-    //   rowData.depotStockUnit
-    // ) {
-    return (
-      <div
-        onClick={() => handleDepotStockDialogOpen(rowData)}
-        className={classes.tableLinks}
-      >
-        {/* {rowData.depotStockUnit} */}
-        click
-      </div>
-    )
-    // }
-    // else{
-    //   return <>NA</>
-    // }
+    if (
+      rowData &&
+      rowData.hasOwnProperty('depotStockUnit') &&
+      rowData.depotStockUnit
+    ) {
+      if (rowData.actionType === 'Delist MIN') {
+        return (
+          <div
+            onClick={() => handleDepotStockDialogOpen(rowData)}
+            className={classes.tableLinks}
+          >
+            {rowData.depotStockUnit}
+            {/* click */}
+          </div>
+        )
+      } else {
+        return <> {rowData.depotStockUnit}</>
+      }
+    } else {
+      return <>NA</>
+    }
   }
   useEffect(() => {
     getConfigType('Action Type').then((res: any) => {
@@ -1520,6 +1787,10 @@ function DelistsAddedToRange() {
 
   const handleActionTypeDialogOpen = () => {
     actionType && setOpenActionTypeDialog(true)
+    // if (actionType === 'New MIN') {
+    //   onPageLoadStoreCode()
+    // }
+    onPageLoadStoreCode()
   }
 
   const handleActionTypeDialogClose = () => {
@@ -1655,12 +1926,19 @@ function DelistsAddedToRange() {
       }
     })
     // console.log('JSON_VALUE1', JSON.stringify(values[1].value.data))
+    const productServieResponse1 = values[0]
     const rangeIdMinV1 = values[1].value.data //
-    formData.pin = values[0].value.data.packs[0].packNumber //pin
-    formData.man = values[0].value.data.parentItemNumber // parentItemNumber
-    formData.packquantity = parseInt(values[0].value.data.packs[0].packQuantity) // Packquantity
-    formData.description = values[0].value.data.itemDescription // itemDescription
-    formData.legacyItemNumbers = values[0].value.data.legacyItemNumbers //legacyItemNumbers
+
+    if (productServieResponse1.status !== 'rejected') {
+      formData.pin = productServieResponse1.value.data.packs[0].packNumber //pin
+      formData.man = productServieResponse1.value.data.parentItemNumber // parentItemNumber
+      formData.packquantity = parseInt(
+        productServieResponse1.value.data.packs[0].packQuantity
+      ) // Packquantity
+      formData.description = productServieResponse1.value.data.itemDescription // itemDescription
+      formData.legacyItemNumbers =
+        productServieResponse1.value.data.legacyItemNumbers //legacyItemNumbers
+    }
     formData.supplierId = supplierV1
     formData.lastPoDate = rangeIdMinV1.lastPODate //rangeresetIdMinService
     formData.openPos = rangeIdMinV1.totalOpenPurchaseOrders //rangeresetIdMinService
@@ -1668,7 +1946,29 @@ function DelistsAddedToRange() {
 
     if (type === 'Delist MIN') {
       formData.comments = comments === '' ? comment : comments
-      formData.ingredientMin = parseInt(values[0].value.data.ingredients.length)
+      if (productServieResponse1.status !== 'rejected') {
+        // formData.ingredientMin = parseInt(
+        //   productServieResponse1.value.data.ingredients.length
+        // )
+      }
+      if (values[3].value) {
+        if (
+          values[3].value.data.ItemDetails[0].hasOwnProperty(
+            'ingredientDetails'
+          )
+        ) {
+          formData.ingredientDetails =
+            values[3].value.data.ItemDetails[0].ingredientDetails
+          formData.ingredientMin =
+            values[3] &&
+            values[3].value.data.ItemDetails[0].ingredientDetails.length
+        }
+        if (values[3].value.data.ItemDetails) {
+          formData.noOfRecipeMin = values[3].value.data.ItemDetails.length
+          formData.recipeDetails = values[3].value.data.ItemDetails
+        }
+      }
+
       formData.includeInClearancePricing = rangeIdMinV1.clearancePriceCheck //rangeresetId
       formData.includeInStoreWastage = rangeIdMinV1.clearancePriceCheck //rangeresetId
     }
@@ -1742,13 +2042,26 @@ function DelistsAddedToRange() {
       //Dont change sequence order below api calls
       getProductServiceByItemnumber(minValue),
       // getRangeByRangeResetId('3400'),
+      // getRangeByIdAndMinNumber('3400', '500000033'),
       getRangeByIdAndMinNumber('3400', '500000033'),
       getProductSupplierServiceByItemnumber(minValue),
       // getProductCompositionServiceByItemnumber()
+      getProductCompositionServiceByItemnumber('112056236'),
     ])
       .then((values: any) => {
         console.log('promise1, promise2', 'promise3', values)
-
+        if (values[0].status === 'rejected') {
+          console.log('getProductServiceByItemnumber', 'Item not found')
+          setIsProgressLoader(false)
+          toast.current.show({
+            severity: 'error',
+            summary: 'Error',
+            detail: `${minValue} ${values[0].reason.response.data.errorMessage}`,
+            life: life,
+            className: 'login-toast',
+          })
+          return
+        }
         const [rREventId, productV1, ProductSupp] = values
         let values3Supplier = values[2].value.data
         getSupplierServiceBySupplierId(
@@ -1796,6 +2109,7 @@ function DelistsAddedToRange() {
   }
 
   const handleManualRAF = () => {
+    // onPageLoadStoreCode()
     if (min === '') {
       handleActionTypeDialogOpen()
       return
@@ -2882,6 +3196,7 @@ function DelistsAddedToRange() {
                     (col.field === 'includeInClearancePricing' &&
                       includeInClearancePricingTemplate) ||
                     (col.field === 'ingredientMin' && ingredientMinTemplate) ||
+                    (col.field === 'noOfRecipeMin' && recipeMinTemplate) ||
                     (col.field === 'clearDepotBy' && clearDepotByTemplate) ||
                     (col.field === 'existingSupplier' &&
                       existingSupplierProductListTemplate) ||
@@ -3442,186 +3757,113 @@ function DelistsAddedToRange() {
   }
 
   const [supplierOption, setSupplierOption] = useState<any>([])
+  const [siteOption, setSiteOption] = useState<any>([])
 
-  const searchUserInput = async (searchQuery: any, searchType: any) => {
-    console.log('getSupplierSearchByIdNameSupplierAndSite', searchQuery)
+  // const [filteredCountries, setFilteredCountries] = useState<any>(null)
+  // const [filteredCountries2, setFilteredCountries2] = useState<any>(null)
 
-    if (searchQuery === undefined) {
-      return
-    } else if (searchQuery === 0 || searchQuery.length <= 2) {
-      return
-    }
-
-    const upper = searchQuery.toUpperCase()
-    const response = await getSupplierSearchByIdNameSupplierAndSite(
-      upper,
-      searchType
-    )
-    const data = await response.data.SupplierInfo
-    console.log('SupplierInfo', data)
-    const name = data.map((val: any) => {
-      return {
-        label: val.supplierName,
-        text: val.supplierName,
-      }
-    })
-    setSupplierOption(name)
-  }
-
-  const supplierCodePlaceholderTemplate = (rowData: any) => {
-    console.log('existingSupplier', rowData)
-    return (
-      // <SearchSelect
-      //   value={rowData.existingSupplier}
-      //   // onChange={handleBuyer}
-      //   className={classes.muiSelect}
-      //   onChange={(e: any) => {
-      //     if (e.target.value !== null) {
-      //       setPlaceholderProducts((prevState: any) => {
-      //         return onChangePlaceHolderFields(
-      //           prevState,
-      //           'existingSupplier',
-      //           rowData,
-      //           e.target.value
-      //         )
-      //       })
-      //     }
-      //   }}
-      //   styles={{
-      //     fontSize: '12px',
-      //   }}
-      // />
-      <Autocomplete
-        id="combo-box-demo3"
-        options={supplierOption}
-        getOptionLabel={(option: any) => option.label}
-        defaultValue={'Sridhar'}
-        // renderInput={(params: any) => (
-        //   <TextField
-        //     {...params}
-        //     placeholder="Search"
-        //     variant="outlined"
-        //     size="small"
-        //     onChange={(ev: any, value: any) => {
-        //       if (ev.target.value !== '' || ev.target.value !== null) {
-        //         setPlaceholderProducts((prevState: any) => {
-        //           return onChangeProductTableFields(
-        //             prevState,
-        //             'existingSupplier',
-        //             rowData,
-        //             value ? value.label : ''
-        //           )
-        //         })
-        //         if (ev.target.value.length > 2) {
-        //           searchUserInput(ev.target.value, 'Supplier')
-        //         }
-        //       } else {
-        //         setSupplierOption([])
-        //       }
-        //     }}
-        //     // InputProps={{
-        //     //   ...params.InputProps,
-        //     //   endAdornment: (
-        //     //     <React.Fragment>
-        //     //       {supplierOption.length === 0 ? (
-        //     //         <CircularProgress color="inherit" size={20} />
-        //     //       ) : null}
-        //     //       {params.InputProps.endAdornment}
-        //     //     </React.Fragment>
-        //     //   ),
-        //     // }}
-        //   />
-        // )}
-        // popupIcon={<SearchOutlined />}
-        renderInput={(params: any) => (
-          <TextField {...params} variant="outlined" size="small" />
-        )}
-        popupIcon={<SearchOutlined />}
-        onChange={(e: any, value: any) => {
-          setPlaceholderProducts((prevState: any) => {
-            return onChangeProductTableFields(
-              prevState,
-              'existingSupplier',
-              rowData,
-              value ? value.label : ''
-            )
+  const searchCountry = (e: any, type: any) => {
+    let event = e
+    setTimeout(() => {
+      if (type === 'Site') {
+        getSupplierSearchByIdNameSupplierAndSite(event.query, type)
+          .then((res: any) => {
+            if (res.data.SiteInfo.length !== 0) {
+              let supplierData = res.data.SiteInfo.map((val: any) => {
+                return val.siteName
+              })
+              setSiteOption(supplierData)
+            } else {
+              let siteNoData = () => {
+                return [
+                  {
+                    siteName: 'No result found',
+                  },
+                ]
+              }
+              setSiteOption(siteNoData)
+            }
           })
-        }}
-        onInputChange={(e: any, value: any) => {
-          console.log('onInputChangeonInputChange', e)
-          setPlaceholderProducts((prevState: any) => {
-            return onChangeProductTableFields(
-              prevState,
-              'existingSupplier',
-              rowData,
-              value ? value.label : ''
-            )
+          .catch((err: any) => {
+            console.log('Err')
+            setSiteOption([])
           })
-          if (
-            e === undefined ||
-            e === null ||
-            e.target === undefined ||
-            e.target === null ||
-            e.target.value === undefined ||
-            e.target.value === null
-          ) {
+      } else {
+        getSupplierSearchByIdNameSupplierAndSite(event.query, type)
+          .then((res: any) => {
+            if (res.data.SupplierInfo.length !== 0) {
+              let supplierData = res.data.SupplierInfo.map((val: any) => {
+                return val.supplierName
+              })
+              setSupplierOption(supplierData)
+            } else {
+              let supplierNoData = () => {
+                return [
+                  {
+                    supplierName: 'No result found',
+                  },
+                ]
+              }
+              setSupplierOption(supplierNoData)
+            }
+          })
+          .catch((err: any) => {
+            console.log('Err')
             setSupplierOption([])
-            return
-          } else {
-            console.log('searchUserInputE', e)
-            console.log('searchUserInputTarget', e.target)
-            console.log('searchUserInputValue', e.target.value)
-            searchUserInput(e.target.value, 'Supplier')
+          })
+      }
+    }, 250)
+  }
+  const supplierCodePlaceholderTemplate = (rowData: any) => {
+    return (
+      <div className="card">
+        <AutoCompletePrime
+          value={rowData.existingSupplier}
+          suggestions={supplierOption}
+          className="p-inputtext-sm p-d-block p-mb-2 autoCompletePrimeInput"
+          completeMethod={(e: any) => searchCountry(e, 'Supplier')}
+          field=""
+          placeholder="Search"
+          onChange={(e: any) =>
+            setPlaceholderProducts((prevState: any) => {
+              return onChangeProductTableFields(
+                prevState,
+                'existingSupplier',
+                rowData,
+                // value ? value.label : ''
+                e.target.value
+              )
+            })
           }
-        }}
-      />
+        />
+      </div>
     )
   }
 
-  // const [siteSuccess, SetSiteSuccess] = useState<boolean>(false)
-  // const supplierSiteCode = (e: any) => {
-  //   const value = e
-  //   console.log('e.target.value', value)
-  //   const filterData = supplierSearchSiteCode_Site.SiteInfo.filter(
-  //     (val: any) => {
-  //       return value === val.ebsSiteId
-  //     }
-  //   )
-  //   console.log('click supplierSiteCode', filterData)
-  //   if(filterData.length > 0){
-  //     SetSiteSuccess(true)
-  //   } else if(filterData.length ===0){
-  //     SetSiteSuccess(false)
-  //   }
-  // }
-
-  const [supplierSiteValue, setSupplierSiteValue] = useState<any>('')
-
+  //supplierSiteCodePlaceholderTemplate
   const supplierSiteCodePlaceholderTemplate = (rowData: any) => {
     return (
-      <SearchSelect
-        value={rowData && rowData.existingSupplierSite}
-        // onChange={handleBuyer}
-        className={classes.muiSelect}
-        onChange={(e: any) => {
-          if (e.target.value !== null) {
+      <div className="card">
+        <AutoCompletePrime
+          value={rowData.existingSupplierSite}
+          suggestions={siteOption}
+          completeMethod={(e: any) => searchCountry(e, 'Site')}
+          className="p-inputtext-sm p-d-block p-mb-2 autoCompletePrimeInput"
+          field=""
+          placeholder="Search"
+          onChange={(e: any) =>
             setPlaceholderProducts((prevState: any) => {
               return onChangeProductTableFields(
                 prevState,
                 'existingSupplierSite',
                 rowData,
+                // value ? value.label : ''
                 e.target.value
               )
             })
-            setSupplierSiteValue(e.target.value)
           }
-          // searchUserInput(e.target.value, 'Site')
-        }}
-        // onClick={() => supplierSiteCode(supplierSiteValue)}
-        styles={{
-          fontSize: '12px',
-        }}
-      />
+        />
+      </div>
     )
   }
 
@@ -4847,6 +5089,7 @@ function DelistsAddedToRange() {
       {ingredientsDialog}
       {rangeStoresDialog}
       {depotStockDialog}
+      {recipeDialog}
     </>
   )
 }
