@@ -265,6 +265,9 @@ function DelistsAddedToRange() {
   const [delistPinDateTo, setDelistPinDateTo] = useState<any>('')
   const [newPinDateFrom, setNewPinDateFrom] = useState<any>('')
   const [newPinDateTo, setNewPinDateTo] = useState<any>('')
+  const [newIngredientError, setNewIngredientError] = useState<any>(false)
+
+  const [newIngredient, setNewIngredient] = useState<any>(false)
 
   // const stylesInp = {
   //   container: {
@@ -2370,6 +2373,20 @@ function DelistsAddedToRange() {
     setIsProgressLoader(false)
     setActionType('')
   }
+  const checkProductCompositionService = (minVal: any) => {
+    setIsProgressLoader(true)
+    getProductCompositionServiceByItemnumber(minVal)
+      .then((res: any) => {
+        setNewIngredientError(false)
+        setNewIngredient(true)
+        setIsProgressLoader(false)
+      })
+      .catch((err: any) => {
+        setNewIngredientError(true)
+        setNewIngredient(false)
+        setIsProgressLoader(false)
+      })
+  }
 
   const getAndCheckItemNumber = (
     minValue: any,
@@ -2490,16 +2507,18 @@ function DelistsAddedToRange() {
         ''
       )
     } else if (actionType.value === 'New Ingredient (MIN)') {
-      getAndCheckItemNumber(
-        min,
-        'New Ingredient MIN',
-        '',
-        '',
-        'NA',
-        'NA',
-        '',
-        ''
-      )
+      checkProductCompositionService(min)
+      newIngredient &&
+        getAndCheckItemNumber(
+          min,
+          'New Ingredient MIN',
+          '',
+          '',
+          'NA',
+          'NA',
+          '',
+          ''
+        )
     } else if (actionType.value === 'Delist Outercase Code (PIN)') {
       getAndCheckItemNumber(
         min,
@@ -3125,29 +3144,30 @@ function DelistsAddedToRange() {
                 </Box>
               </>
             )}
-            {actionType && actionType.value === 'New Ingredient (MIN)' && (
+            {actionType && actionType.value === "New Ingredient (MIN)" && (
               <>
-                <Box
-                  sx={{
-                    p: 1,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    // flexGrow: '1',
-                  }}
-                >
+                {newIngredientError && (
+                  <Box sx={{ p: 1, display: "flex", flexDirection: "column" }}>
+                    <Box>
+                      <Typography variant="body2" color="error">
+                        {min} is not an Ingredient MIN.
+                      </Typography>
+                    </Box>
+                  </Box>
+                )}
+                <Box sx={{ p: 1, display: "flex", flexDirection: "column" }}>
                   <Box>
                     <Typography variant="subtitle2" color="primary">
                       New Ingredient (MIN)
-                      <span style={{ color: 'red' }}>*</span>
                     </Typography>
                   </Box>
                   <Box>
                     <Typography variant="subtitle2" color="primary">
                       {/* <input
-                        type="text"
-                        value={min}
-                        onChange={(e: any) => setMin(e.target.value)}
-                      /> */}
+                       type="text"
+                       value={min}
+                       onChange={(e: any) => setMin(e.target.value)}
+                     /> */}
                       <OutlinedInput
                         value={min}
                         onChange={(e: any) => setMin(e.target.value)}
@@ -3156,14 +3176,48 @@ function DelistsAddedToRange() {
                     </Typography>
                   </Box>
                 </Box>
-                <Box
-                  sx={{
-                    p: 1,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    // flexGrow: '1',
-                  }}
-                >
+                <Box sx={{ p: 1, display: "flex", flexDirection: "column" }}>
+                  <Box>
+                    <Typography variant="subtitle2" color="primary">
+                      New no. of Range Stores
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography variant="subtitle2" color="primary">
+                      {/* <input
+                       type="text"
+                       value={noOfStores}
+                       onChange={(e: any) => setNoOfStores(e.target.value)}
+                     /> */}
+                      <OutlinedInput
+                        value={noOfStores}
+                        onChange={(e: any) => setNoOfStores(e.target.value)}
+                        className={classes.inputFields}
+                      />
+                    </Typography>
+                  </Box>
+                </Box>
+                <Box sx={{ p: 1, display: "flex", flexDirection: "column" }}>
+                  <Box>
+                    <Typography variant="subtitle2" color="primary">
+                      Store Code
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography variant="subtitle2" color="primary">
+                      {/* <select
+                       placeholder="--Select--"
+                       value={storeCode}
+                       onChange={(e: any) => setStoreCode(e.target.value)}
+                       style={{ width: '160px' }}
+                     >
+                       <option value="001">Store-001</option>
+                     </select> */}
+                      {storeCodePopup()}
+                    </Typography>
+                  </Box>
+                </Box>
+                <Box sx={{ p: 1, display: "flex", flexDirection: "column" }}>
                   <Box>
                     <Typography variant="subtitle2" color="primary">
                       Comments
@@ -3172,10 +3226,10 @@ function DelistsAddedToRange() {
                   <Box>
                     <Typography variant="subtitle2" color="primary">
                       {/* <input
-                        type="text"
-                        value={comments}
-                        onChange={(e: any) => setComments(e.target.value)}
-                      /> */}
+                       type="text"
+                       value={comments}
+                       onChange={(e: any) => setComments(e.target.value)}
+                     /> */}
                       <OutlinedInput
                         value={comments}
                         onChange={(e: any) => setComments(e.target.value)}
