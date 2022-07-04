@@ -50,3 +50,51 @@
     padding: 5px!important;
     border-color: #c4c4c4!important;
 }
+.rangedStoresFirstList, .storesSelectedFirstList{
+    background: #004e37;
+    color: #fff;
+}
+.gridBorderGreen{
+    border: 1px solid #4f81bd;
+    margin: 0 15px;
+}
+.headBgGreen{
+    background: #4f81bd;
+    color: #fff;
+    padding: 7px;
+    margin-bottom: 8px;
+    font-size: 17px;
+    letter-spacing: 0.5px;
+    font-weight: 400;
+}
+.childRange{
+    padding: 7px;
+    margin-bottom: 8px;
+}
+.childRange li{
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+.primeCardPlacholder{
+    display: flex;
+    
+
+}
+.primeCardPlacholder .p-inputtext.p-component.p-autocomplete-input{
+    border-right: 0!important;
+    border-top-right-radius: 0!important;
+    border-bottom-right-radius: 0!important;
+ }
+.primeCardPlacholder .p-inputtext.p-component.p-autocomplete-input:hover, .searcIcon:hover{
+    border-color: #004e37 !important;
+ }
+
+.searcIcon{
+    padding: 0px 10px;
+    border: 1px solid #c4c4c4;
+    border-left: 0;
+    line-height: 34px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    background: lightgray;
+}

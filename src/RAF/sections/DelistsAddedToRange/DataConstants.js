@@ -371,10 +371,15 @@ export const productListCols = [
     header: "Current No. of Ranged Stores",
     width: "200px",
   },
+  // {
+  //   field: "newnoofrangestores",
+  //   header: "New No. of Range Stores",
+  //   width: "200px",
+  // },
   {
-    field: "newnoofrangestores",
-    header: "New No. of Range Stores",
-    width: "200px",
+    field: "numberOfRangeStores",
+    header: "New Number of Range Stores",
+    width: "150px",
   },
 
   {
@@ -463,11 +468,6 @@ export const productListCols = [
     field: "shelfLifeatManufacture",
     header: "Shelf Life at Manufacture",
     width: "200px",
-  },
-  {
-    field: "numberOfRangeStores",
-    header: "New Number of Range Stores",
-    width: "150px",
   },
 
   {
@@ -685,12 +685,12 @@ export const placeholderCols = [
   {
     field: "existingSupplier",
     header: "Supplier Code",
-    width: "200px",
+    width: "240px",
   },
   {
     field: "existingSupplierSite",
     header: "Supplier Site Code",
-    width: "200px",
+    width: "240px",
   },
   {
     field: "packquantity",
@@ -873,6 +873,32 @@ export const ingredientTableCols = [
     width: "200px",
   },
 ];
+export const pinTableCols = [
+  {
+    field: "packNumber",
+    header: "Pin Number",
+    width: "100px",
+  },
+  {
+    field: "packQuantity",
+    header: "Case Size",
+    width: "100px",
+  },
+];
+export const pinTableDummyData = [
+  {
+    packNumber: "100003047",
+    packQuantity: 12,
+  },
+  {
+    packNumber: "100003048",
+    packQuantity: 24,
+  },
+  {
+    packNumber: "100005000",
+    packQuantity: 36,
+  },
+];
 
 export const ingredientList = [
   {
@@ -888,38 +914,38 @@ export const ingredientList = [
     counterTicketProductTitle: "Altos De Iberia Boneless Jamon Serrano (3X5KG)",
   },
 ];
-export const rangedStoresTableCols = [
-  {
-    field: "storeNo",
-    header: "Store No.",
-    width: "80px",
-  },
-  {
-    field: "storeName",
-    header: "Store Name",
-    width: "120px",
-  },
-  {
-    field: "currentShelfFill",
-    header: "Current Shelf Fill",
-    width: "80px",
-  },
-  {
-    field: "storeStockUnit",
-    header: "Store Stock Unit",
-    width: "80px",
-  },
-  {
-    field: "LRFToLaunchDate",
-    header: "LRF To Launch Date",
-    width: "80px",
-  },
-  {
-    field: "excessStock",
-    header: "Excess Stock",
-    width: "80px",
-  },
-];
+// export const rangedStoresTableCols = [
+//   {
+//     field: "storeNo",
+//     header: "Store No.",
+//     width: "80px",
+//   },
+//   {
+//     field: "storeName",
+//     header: "Store Name",
+//     width: "120px",
+//   },
+//   {
+//     field: "currentShelfFill",
+//     header: "Current Shelf Fill",
+//     width: "80px",
+//   },
+//   {
+//     field: "storeStockUnit",
+//     header: "Store Stock Unit",
+//     width: "80px",
+//   },
+//   {
+//     field: "LRFToLaunchDate",
+//     header: "LRF To Launch Date",
+//     width: "80px",
+//   },
+//   {
+//     field: "excessStock",
+//     header: "Excess Stock",
+//     width: "80px",
+//   },
+// ];
 export const rangedStoresTableData = [
   {
     storeNo: "1",
@@ -954,105 +980,105 @@ export const clearancePricingOptions = [
   },
 ];
 
-export const depotStockUnitTableCols = [
-  {
-    field: "depot",
-    header: "Depot",
-    width: "80px",
-  },
-  {
-    field: "aggregatedStoreStockUnit",
-    header: "Aggregated Store Stock Unit",
-    width: "80px",
-  },
-  {
-    field: "depotStockUnit",
-    header: "Depot Stock Unit",
-    width: "80px",
-  },
-  {
-    field: "openPurchaseOrders",
-    header: "Open Purchase Orders",
-    width: "80px",
-  },
-  {
-    field: "poForcast",
-    header: "PO Forcast",
-    width: "80px",
-  },
-  {
-    field: "poHistory",
-    header: "PO History 3 Months",
-    width: "80px",
-  },
-  {
-    field: "salesForcastToTargetDate",
-    header: "Sales Forcast To Target Date",
-    width: "80px",
-  },
-  {
-    field: "systemAdvisedStopOrderDate",
-    header: "System Advised Stop Order Date",
-    width: "80px",
-  },
-  {
-    field: "depotClearDate",
-    header: "Depot Clear Date",
-    width: "80px",
-  },
-  {
-    field: "reserveQuantityRetail",
-    header: "Reserve Quantity (Retail)",
-    width: "80px",
-  },
-  {
-    field: "reserveQuantityWholesale",
-    header: "Reserve Quantity (Wholesale)",
-    width: "80px",
-  },
-  {
-    field: "reserveQuantityOnline",
-    header: "Reserve Quantity (Online)",
-    width: "80px",
-  },
-  {
-    field: "reserveQuantityTotal",
-    header: "Reserve Quantity (Total)",
-    width: "80px",
-  },
-  {
-    field: "lastPoDate",
-    header: "Last PO Date",
-    width: "80px",
-  },
-  {
-    field: "weeksCover",
-    header: "Weeks Cover",
-    width: "80px",
-  },
-  {
-    field: "forcastedWeeksCover",
-    header: "Forcasted Weeks Cover",
-    width: "80px",
-  },
-];
+// export const depotStockUnitTableCols = [
+//   {
+//     field: "depot",
+//     header: "Depot",
+//     width: "80px",
+//   },
+//   {
+//     field: "aggregatedStoreStockUnit",
+//     header: "Aggregated Store Stock Unit",
+//     width: "80px",
+//   },
+//   {
+//     field: "depotStockUnit",
+//     header: "Depot Stock Unit",
+//     width: "80px",
+//   },
+//   {
+//     field: "openPos",
+//     header: "Open Purchase Orders",
+//     width: "80px",
+//   },
+//   {
+//     field: "totalPurchaseOrdersForecast",
+//     header: "PO Forcast",
+//     width: "80px",
+//   },
+//   {
+//     field: "total3MonthsPOHistory",
+//     header: "PO History 3 Months",
+//     width: "80px",
+//   },
+//   {
+//     field: "salesForcastToTargetDate",
+//     header: "Sales Forcast To Target Date",
+//     width: "80px",
+//   },
+//   {
+//     field: "systemAdvisedStopOrderDate",
+//     header: "System Advised Stop Order Date",
+//     width: "80px",
+//   },
+//   {
+//     field: "depotClearDate",
+//     header: "Depot Clear Date",
+//     width: "80px",
+//   },
+//   {
+//     field: "reserveQuantityRetail",
+//     header: "Reserve Quantity (Retail)",
+//     width: "80px",
+//   },
+//   {
+//     field: "reserveQuantityWholesale",
+//     header: "Reserve Quantity (Wholesale)",
+//     width: "80px",
+//   },
+//   {
+//     field: "reserveQuantityOnline",
+//     header: "Reserve Quantity (Online)",
+//     width: "80px",
+//   },
+//   {
+//     field: "reserveQuantityTotal",
+//     header: "Reserve Quantity (Total)",
+//     width: "80px",
+//   },
+//   {
+//     field: "lastPoDate",
+//     header: "Last PO Date",
+//     width: "80px",
+//   },
+//   {
+//     field: "weeksCoveronTotalStockonHandtoResetDate",
+//     header: "Weeks Cover",
+//     width: "80px",
+//   },
+//   {
+//     field: "forcastedWeeksCovertoResetDate",
+//     header: "Forcasted Weeks Cover",
+//     width: "80px",
+//   },
+// ];
 
 export const depotStockTableData = [
   {
     depot: "76",
     aggregatedStoreStockUnit: "126",
     depotStockUnit: "95",
-    openPurchaseOrders: "0",
-    poForcast: "0",
-    poHistory: "0",
-    salesForcastToTargetDate: "",
-    systemAdvisedStopOrderDate: "",
+    openPos: "0",
+    totalPurchaseOrdersForecast: "0",
+    total3MonthsPOHistory: "0",
+    salesForcastToTargetDate: "NA",
+    systemAdvisedStopOrderDate: "NA",
     depotClearDate: "02/07/2022",
     reserveQuantityRetail: "0",
     reserveQuantityWholesale: "100",
     reserveQuantityOnline: "50",
     reserveQuantityTotal: "150",
-    lastPoDate: "",
+    lastPoDate: "NA",
     weeksCover: "No forcast sales",
     forcastedWeeksCover: "No forcast sales",
   },
@@ -1082,3 +1108,285 @@ export const recipeTableCols = [
     width: "200px",
   },
 ];
+export const rangedStoresTableCols = [
+  {
+    field: "locationId",
+    header: "Store No.",
+    width: "80px",
+  },
+  {
+    field: "locationName",
+    header: "Store Name",
+    width: "120px",
+  },
+  {
+    field: "currentShelfFill",
+    header: "Current Shelf Fill",
+    width: "80px",
+  },
+  {
+    field: "quantity",
+    header: "Store Stock Unit",
+    width: "80px",
+  },
+  {
+    field: "lrfQuantity",
+    header: "LRF To Launch Date",
+    width: "100px",
+  },
+  {
+    field: "excessStock",
+    header: "Excess Stock",
+    width: "80px",
+  },
+];
+export const storeViewDummyRes = {
+  storeView: [
+    {
+      locationId: "96",
+      locationName: "Port Talbot - Baglan",
+      quantity: "0.0",
+      currentShelfFill: "240",
+      lrfQuantity: "1.2578799020474882",
+      excessStock: "1.2578799020474882",
+    },
+    {
+      locationId: "73",
+      locationName: "Tamworth",
+      quantity: "0.0",
+      currentShelfFill: "240",
+      lrfQuantity: "10726.0",
+      excessStock: "10726.0",
+    },
+    {
+      locationId: "214",
+      locationName: "Penrith",
+      quantity: "0.0",
+      currentShelfFill: "132",
+      lrfQuantity: "0.0",
+      excessStock: "0.0",
+    },
+    {
+      locationId: "576",
+      locationName: "Croydon",
+      quantity: "0.0",
+      currentShelfFill: "240",
+      lrfQuantity: "0.0",
+      excessStock: "0.0",
+    },
+  ],
+};
+
+export const depotStockUnitTableCols = [
+  {
+    field: "locationId",
+    header: "Depot",
+    width: "80px",
+  },
+  {
+    field: "aggDptQty",
+    header: "Aggregated Store Stock Unit",
+    width: "80px",
+  },
+  {
+    field: "qty",
+    header: "Depot Stock Unit",
+    width: "80px",
+  },
+  {
+    field: "openPOqty",
+    header: "Open Purchase Orders",
+    width: "80px",
+  },
+  {
+    field: "forecastPOqty",
+    header: "PO Forcast",
+    width: "80px",
+  },
+  {
+    field: "historyPOqty",
+    header: "PO History 3 Months",
+    width: "80px",
+  },
+  {
+    field: "salesForecastQuantity",
+    header: "Sales Forcast To Target Date",
+    width: "80px",
+  },
+  {
+    field: "sysSODate",
+    header: "System Advised Stop Order Date",
+    width: "80px",
+  },
+  {
+    field: "depotClearDate",
+    header: "Depot Clear Date",
+    width: "80px",
+  },
+  {
+    field: "retailReserveQuantity",
+    header: "Reserve Quantity (Retail)",
+    width: "80px",
+  },
+  {
+    field: "wholesaleReserveQuantity",
+    header: "Reserve Quantity (Wholesale)",
+    width: "80px",
+  },
+  {
+    field: "onlineReserveQuantity",
+    header: "Reserve Quantity (Online)",
+    width: "80px",
+  },
+  {
+    field: "totalReserverQuantity",
+    header: "Reserve Quantity (Total)",
+    width: "80px",
+  },
+  {
+    field: "lastPODate",
+    header: "Last PO Date",
+    width: "80px",
+  },
+  {
+    field: "weeksCover",
+    header: "Weeks Cover",
+    width: "80px",
+  },
+  {
+    field: "forecastWeeksCover",
+    header: "Forcasted Weeks Cover",
+    width: "80px",
+  },
+];
+
+export const depotViewResDummy = {
+  depotView: [
+    {
+      locationId: "781",
+      aggDptQty: "0.0",
+      qty: "8046.0",
+      openPOqty: "1260.0",
+      forecastPOqty: "90720.0",
+      historyPOqty: "64638.0",
+      salesForecastQuantity: "100000.0",
+      sysSODate: "2022-10-20",
+      depotClearDate: "2023-01-07",
+      retailReserveQuantity: "0.0",
+      onlineReserveQuantity: "0.0",
+      wholesaleReserveQuantity: "0.0",
+      totalReserverQuantity: "0.0",
+      lastPODate: "2023-01-05",
+      weeksCover: null,
+      forecastWeeksCover: null,
+    },
+    {
+      locationId: "991",
+      aggDptQty: "0.0",
+      qty: "3582.0",
+      openPOqty: "630.0",
+      forecastPOqty: "95760.0",
+      historyPOqty: "28206.0",
+      salesForecastQuantity: "100000.0",
+      sysSODate: "2022-10-20",
+      depotClearDate: "2023-01-07",
+      retailReserveQuantity: "0.0",
+      onlineReserveQuantity: "0.0",
+      wholesaleReserveQuantity: "0.0",
+      totalReserverQuantity: "0.0",
+      lastPODate: "2023-01-04",
+      weeksCover: null,
+      forecastWeeksCover: null,
+    },
+    // {
+    //     "locationId": "983",
+    //     "aggDptQty": "0.0",
+    //     "qty": "11754.0",
+    //     "openPOqty": "1260.0",
+    //     "forecastPOqty": "0.0",
+    //     "historyPOqty": "71136.0",
+    //     "salesForecastQuantity": "0.0",
+    //     "sysSODate": "2022-06-20",
+    //     "depotClearDate": "2023-01-07",
+    //     "retailReserveQuantity": "0.0",
+    //     "onlineReserveQuantity": "0.0",
+    //     "wholesaleReserveQuantity": "0.0",
+    //     "totalReserverQuantity": "0.0",
+    //     "lastPODate": "2023-01-04",
+    //     "weeksCover": null,
+    //     "forecastWeeksCover": null
+    // },
+    // {
+    //     "locationId": "720",
+    //     "aggDptQty": "0.0",
+    //     "qty": "8802.0",
+    //     "openPOqty": "630.0",
+    //     "forecastPOqty": "0.0",
+    //     "historyPOqty": "64890.0",
+    //     "salesForecastQuantity": "0.0",
+    //     "sysSODate": "2022-06-20",
+    //     "depotClearDate": "2023-01-07",
+    //     "retailReserveQuantity": "0.0",
+    //     "onlineReserveQuantity": "0.0",
+    //     "wholesaleReserveQuantity": "0.0",
+    //     "totalReserverQuantity": "0.0",
+    //     "lastPODate": "2023-01-04",
+    //     "weeksCover": null,
+    //     "forecastWeeksCover": null
+    // },
+    // {
+    //     "locationId": "953",
+    //     "aggDptQty": "0.0",
+    //     "qty": "9828.0",
+    //     "openPOqty": "684.0",
+    //     "forecastPOqty": "0.0",
+    //     "historyPOqty": "104580.0",
+    //     "salesForecastQuantity": "0.0",
+    //     "sysSODate": "2022-06-20",
+    //     "depotClearDate": "2023-01-07",
+    //     "retailReserveQuantity": "0.0",
+    //     "onlineReserveQuantity": "0.0",
+    //     "wholesaleReserveQuantity": "0.0",
+    //     "totalReserverQuantity": "0.0",
+    //     "lastPODate": "2023-01-04",
+    //     "weeksCover": null,
+    //     "forecastWeeksCover": null
+    // },
+    // {
+    //     "locationId": "989",
+    //     "aggDptQty": "0.0",
+    //     "qty": "10980.0",
+    //     "openPOqty": "1260.0",
+    //     "forecastPOqty": "0.0",
+    //     "historyPOqty": "83160.0",
+    //     "salesForecastQuantity": "0.0",
+    //     "sysSODate": "2022-06-20",
+    //     "depotClearDate": "2023-01-07",
+    //     "retailReserveQuantity": "0.0",
+    //     "onlineReserveQuantity": "0.0",
+    //     "wholesaleReserveQuantity": "0.0",
+    //     "totalReserverQuantity": "0.0",
+    //     "lastPODate": "2023-01-04",
+    //     "weeksCover": null,
+    //     "forecastWeeksCover": null
+    // },
+    // {
+    //     "locationId": "806",
+    //     "aggDptQty": "0.0",
+    //     "qty": "3852.0",
+    //     "openPOqty": "1260.0",
+    //     "forecastPOqty": "0.0",
+    //     "historyPOqty": "44100.0",
+    //     "salesForecastQuantity": "0.0",
+    //     "sysSODate": "2022-06-20",
+    //     "depotClearDate": "2023-01-07",
+    //     "retailReserveQuantity": "0.0",
+    //     "onlineReserveQuantity": "0.0",
+    //     "wholesaleReserveQuantity": "0.0",
+    //     "totalReserverQuantity": "0.0",
+    //     "lastPODate": "2023-01-03",
+    //     "weeksCover": null,
+    //     "forecastWeeksCover": null
+    // }
+  ],
+};
