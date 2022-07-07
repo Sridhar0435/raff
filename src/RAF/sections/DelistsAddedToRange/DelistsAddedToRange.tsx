@@ -1846,8 +1846,8 @@ function DelistsAddedToRange() {
   }
 
   const handleUploadDialogOpen = () => {
-    // actionType && setOpenUploadDialog(true)
-    setOpenUploadDialog(true)
+    actionType && setOpenUploadDialog(true)
+    // setOpenUploadDialog(true)
   }
 
   const handleUploadDialogClose = () => {
@@ -1903,9 +1903,8 @@ function DelistsAddedToRange() {
           result.map((d: any, index: any) => {
             if (
               d.Action_Type &&
-              d.Action_Type === 'Delist MIN'
-              //  &&
-              // actionType.value === 'Delist Product (MIN)'
+              d.Action_Type === 'Delist MIN' &&
+              actionType.value === 'Delist Product (MIN)' //for multipe excel files upload remove actiontype.value in all types
               // || actionType === undefined
             ) {
               getAndCheckItemNumber([
@@ -1925,9 +1924,8 @@ function DelistsAddedToRange() {
               ])
             } else if (
               d.Action_Type &&
-              d.Action_Type === 'New MIN'
-              // &&
-              // actionType.value === 'New Product (MIN)' || actionType === undefined
+              d.Action_Type === 'New MIN' &&
+              actionType.value === 'New Product (MIN)'
             ) {
               getAndCheckItemNumber([
                 d.MIN ? d.MIN : d.MIN_PIN,
@@ -1946,7 +1944,8 @@ function DelistsAddedToRange() {
               ])
             } else if (
               d.Action_Type &&
-              d.Action_Type === 'Delist Ingredient MIN'
+              d.Action_Type === 'Delist Ingredient MIN' &&
+              actionType.value === 'Delist Ingredient (MIN)'
             ) {
               getAndCheckItemNumber([
                 d.MIN ? d.MIN : d.MIN_PIN,
@@ -1965,7 +1964,8 @@ function DelistsAddedToRange() {
               ])
             } else if (
               d.Action_Type &&
-              d.Action_Type === 'New Ingredient MIN'
+              d.Action_Type === 'New Ingredient MIN' &&
+              actionType.value === 'New Ingredient (MIN)'
             ) {
               getAndCheckItemNumber([
                 d.MIN ? d.MIN : d.MIN_PIN,
@@ -1982,7 +1982,11 @@ function DelistsAddedToRange() {
                 '',
                 '',
               ])
-            } else if (d.Action_Type && d.Action_Type === 'Delist PIN') {
+            } else if (
+              d.Action_Type &&
+              d.Action_Type === 'Delist PIN' &&
+              actionType.value === 'Delist Outercase Code (PIN)'
+            ) {
               getAndCheckItemNumber([
                 d.MIN_PIN,
                 'Delist PIN',
@@ -1998,7 +2002,11 @@ function DelistsAddedToRange() {
                 '',
                 '',
               ])
-            } else if (d.Action_Type && d.Action_Type === 'New PIN') {
+            } else if (
+              d.Action_Type &&
+              d.Action_Type === 'New PIN' &&
+              actionType.value === 'New Outercase Code (PIN)'
+            ) {
               getAndCheckItemNumber([
                 d.MIN_PIN,
                 'New PIN',
@@ -2016,7 +2024,8 @@ function DelistsAddedToRange() {
               ])
             } else if (
               d.Action_Type &&
-              d.Action_Type === 'Product Shelf Space Increase'
+              d.Action_Type === 'Product Shelf Space Increase' &&
+              actionType.value === 'Product Shelf Space Increase'
             ) {
               getAndCheckItemNumber([
                 d.MIN ? d.MIN : d.MIN_PIN,
@@ -2035,7 +2044,8 @@ function DelistsAddedToRange() {
               ])
             } else if (
               d.Action_Type &&
-              d.Action_Type === 'Product Shelf Space Decrease'
+              d.Action_Type === 'Product Shelf Space Decrease' &&
+              actionType.value === 'Product Shelf Space Decrease'
             ) {
               getAndCheckItemNumber([
                 d.MIN ? d.MIN : d.MIN_PIN,
@@ -2052,7 +2062,11 @@ function DelistsAddedToRange() {
                 '',
                 '',
               ])
-            } else if (d.Action_Type && d.Action_Type === 'Supplier Change') {
+            } else if (
+              d.Action_Type &&
+              d.Action_Type === 'Supplier Change' &&
+              actionType.value === 'Supplier Change'
+            ) {
               getAndCheckItemNumber([
                 d.MIN ? d.MIN : d.MIN_PIN,
                 'Supplier Change',
@@ -2267,18 +2281,23 @@ function DelistsAddedToRange() {
   //       console.log('Item err 100001498', err)
   //     })
 
-  const renderApiCall = (
-    values: any,
-    supplierV1: any,
-    minValue: any,
-    type: any,
-    comment: any,
-    newnoofrangestoreNewMin: any,
-    storecodeNewMin: any,
-    delistPin_effectiveDate_From: any,
-    delistPin_effectiveDate_To: any,
-    shelfFillNew: any
-  ) => {
+  const renderApiCall = (props: any) => {
+    const [
+      values,
+      supplierV1,
+      minValue,
+      type,
+      comment,
+      newnoofrangestoreNewMin,
+      storecodeNewMin,
+      delistPin_effectiveDate_From,
+      delistPin_effectiveDate_To,
+      shelfFillNew,
+      supplierExisting_x,
+      supplierSiteExisting_x,
+      supplierNew_x,
+      supplierSiteNew_x,
+    ] = props
     var minVal = 1000000000000
     var max = 9999999999999
     var rand = Math.floor(minVal + Math.random() * (max - minVal))
@@ -2402,6 +2421,16 @@ function DelistsAddedToRange() {
         formData.effectiveDateFrom = delistPin_effectiveDate_From
         formData.effectiveDateTo = delistPin_effectiveDate_To
         formData.comments = comments === '' ? comment : comments
+      }
+      if (type === 'Supplier Change') {
+        // supplierExisting_x,
+        // supplierSiteExisting_x,
+        // supplierNew_x,
+        // supplierSiteNew_x,
+        formData.existingSupplier = supplierExisting_x
+        formData.existingSupplierSite = supplierSiteExisting_x
+        formData.newSupplier = supplierNew_x
+        formData.newSupplierSite = supplierSiteNew_x
       }
     }
     formData.supplierId = supplierV1.supplierName
@@ -2560,15 +2589,18 @@ function DelistsAddedToRange() {
           })
           return
         }
-        const [rREventId, productV1, ProductSupp] = values
-        setValuesRes(values)
-        let values3Supplier = values[2].value.data.itemSuppliers.filter(
-          (val: any) => val.primaryInd === true
-        )
+        let values3Supplier = []
+        if (values[2].status !== 'rejected') {
+          values3Supplier = values[2].value.data.itemSuppliers.filter(
+            (val: any) => val.primaryInd === true
+          )
+        }
+        values3Supplier =
+          values3Supplier.length === 0 ? 0 : values3Supplier[0].supplierId
         // values3Supplier && values3Supplier.itemSuppliers.filter((val:any) => val.primaryInd === true)
         getSupplierServiceBySupplierId(
           // values3Supplier.itemSuppliers[0].supplierId
-          values3Supplier[0].supplierId //supplier site id
+          values3Supplier //supplier site id
         )
           .then((res: any) => {
             console.log('Nested APi Success ', res)
@@ -2577,7 +2609,7 @@ function DelistsAddedToRange() {
               supplierSiteNameCode: res.data.ebsSupplierId,
             }
 
-            renderApiCall(
+            renderApiCall([
               values,
               supplierV1,
               minValue,
@@ -2587,12 +2619,16 @@ function DelistsAddedToRange() {
               storecodeNewMin,
               delistPin_effectiveDate_From,
               delistPin_effectiveDate_To,
-              shelfFillNew
-            )
+              shelfFillNew,
+              supplierExisting_x,
+              supplierSiteExisting_x,
+              supplierNew_x,
+              supplierSiteNew_x,
+            ])
           })
           .catch((err: any) => {
             setIsProgressLoader(false)
-            renderApiCall(
+            renderApiCall([
               values,
               'No data found',
               minValue,
@@ -2602,22 +2638,26 @@ function DelistsAddedToRange() {
               storecodeNewMin,
               delistPin_effectiveDate_From,
               delistPin_effectiveDate_To,
-              shelfFillNew
-            )
+              shelfFillNew,
+              supplierExisting_x,
+              supplierSiteExisting_x,
+              supplierNew_x,
+              supplierSiteNew_x,
+            ])
             console.log('Nested APi Error', err)
           })
       })
       .catch((err: any) => {
         setIsProgressLoader(false)
-        // toast.current.show({
-        //   severity: 'error',
-        //   summary: 'Error',
-        //   // detail: `${minValue} ${allMessages.error.itemIdError}`,
-        //   detail: `${minValue} ${allMessages.error.itemIdError}`,
-        //   life: life,
-        //   className: 'login-toast',
-        // })
-        // console.error('promise1, ERRor', err)
+        toast.current.show({
+          severity: 'error',
+          summary: 'Error',
+          // detail: `${minValue} ${allMessages.error.itemIdError}`,
+          detail: `${minValue} ${allMessages.error.itemIdError}`,
+          life: life,
+          className: 'login-toast',
+        })
+        console.error('promise1, ERRor', err)
       })
   }
 
@@ -5023,14 +5063,14 @@ function DelistsAddedToRange() {
     const checkDes = placeholderProducts.filter((val: any) => {
       return val.description === ''
     })
-    if (checkDes.length > 0) {
-      console.log('Description is mandatory')
-      setPlaceDescError('For all rows description field is mandatory**')
-      setIsProgressLoader(false)
-      return
-    } else {
-      setPlaceDescError('')
-    }
+    // if (checkDes.length > 0) {
+    //   console.log('Description is mandatory')
+    //   setPlaceDescError('For all rows description field is mandatory**')
+    //   setIsProgressLoader(false)
+    //   return
+    // } else {
+    //   setPlaceDescError('')
+    // }
     setIsProgressLoader(true)
     let checkKeyPresenceInArray = (key: any) =>
       statusCheck.some((obj: any) => Object.keys(obj).includes(key))
@@ -5061,8 +5101,18 @@ function DelistsAddedToRange() {
     }
   }
 
+  const deletePlace = () => {
+    let _tasks = statusCheck.filter(
+      (value: any) => !selectedPlaceholderData.includes(value)
+    )
+
+    console.log('_tasks', _tasks)
+    setStatusCheck(_tasks)
+  }
+
   useEffect(() => {
     // hPHS()
+    console.log('statusCheckUseEffect', statusCheck)
   }, [statusCheck])
   const barCodePlaceholderTemplate = (rowData: any) => {
     return (
@@ -5650,7 +5700,8 @@ function DelistsAddedToRange() {
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={removePlaceholder}
+                  // onClick={removePlaceholder}
+                  onClick={deletePlace}
                 >
                   Delete
                 </Button>

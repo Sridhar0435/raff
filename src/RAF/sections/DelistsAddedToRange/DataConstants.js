@@ -569,6 +569,16 @@ export const productListCols = [
     width: "150px",
   },
   {
+    field: "newSupplier",
+    header: "New Supplier",
+    width: "150px",
+  },
+  {
+    field: "newSupplierSite",
+    header: "New Supplier Site",
+    width: "150px",
+  },
+  {
     field: "noofrecipeMin",
     header: "No. of Recipe MIN",
     width: "200px",
