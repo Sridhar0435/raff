@@ -213,6 +213,34 @@ export const actionTypes = [
   { label: "Delist Ingredient MIN", value: "Delist Ingredient MIN" },
   { label: "Supplier Change", value: "Supplier Change" },
 ];
+// export const actionTypes = [
+//   { label: "Delist Product (MIN)", value: "Delist Product (MIN)" },
+//   {
+//     label: "Product Distribution Increase (MIN)",
+//     value: "Product Distribution Increase (MIN)",
+//   },
+//   {
+//     label: "Product Distribution Decrease (MIN)",
+//     value: "Product Distribution Decrease (MIN)",
+//   },
+//   {
+//     label: "Product Shelf Space Increase",
+//     value: "Product Shelf Space Increase",
+//   },
+//   {
+//     label: "Product Shelf Space Decrease",
+//     value: "Product Shelf Space Decrease",
+//   },
+//   { label: "New Product (MIN)", value: "New Product (MIN)" },
+//   { label: "New Outercase Code (PIN)", value: "New Outercase Code (PIN)" },
+//   {
+//     label: "Delist Outercase Code (PIN)",
+//     value: "Delist Outercase Code (PIN)",
+//   },
+//   { label: "New Ingredient (MIN)", value: "New Ingredient (MIN)" },
+//   { label: "Delist Ingredient (MIN)", value: "Delist Ingredient (MIN)" },
+//   { label: "Supplier Change", value: "Supplier Change" },
+// ];
 
 export const supplierCodes = [
   {

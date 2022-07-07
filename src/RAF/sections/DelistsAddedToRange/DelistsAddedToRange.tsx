@@ -268,6 +268,11 @@ function DelistsAddedToRange() {
   const [newIngredientError, setNewIngredientError] = useState<any>(false)
 
   const [newIngredient, setNewIngredient] = useState<any>(false)
+  const [minCheck, setMinCheck] = useState<any>(false)
+  const [minCheckError, setMinCheckError] = useState<any>(false)
+  const [currentNoOfRangeStores, setCurrentNoOfRangeStores] = useState<any>(0)
+  const [currentShelfFill, setCurrentShelfFill] = useState<any>(0)
+  const [newShelfFill, setNewShelfFill] = useState<any>(0)
 
   // const stylesInp = {
   //   container: {
@@ -1401,7 +1406,7 @@ function DelistsAddedToRange() {
   const handleDelistIngredientMin = () => {
     if (selectedIngredientData && selectedIngredientData.length > 0) {
       selectedIngredientData.map((ingredient: any) => {
-        getAndCheckItemNumber(
+        getAndCheckItemNumber([
           ingredient.ingredientMin,
           // '100001499',
           'Delist Ingredient MIN',
@@ -1410,8 +1415,13 @@ function DelistsAddedToRange() {
           'NA',
           'NA',
           '',
-          ''
-        )
+          '',
+          '',
+          '',
+          '',
+          '',
+          '',
+        ])
       })
     }
     handleIngredientDialogClose()
@@ -1836,7 +1846,8 @@ function DelistsAddedToRange() {
   }
 
   const handleUploadDialogOpen = () => {
-    actionType && setOpenUploadDialog(true)
+    // actionType && setOpenUploadDialog(true)
+    setOpenUploadDialog(true)
   }
 
   const handleUploadDialogClose = () => {
@@ -1890,58 +1901,89 @@ function DelistsAddedToRange() {
           console.log('trimSpace', result)
 
           result.map((d: any, index: any) => {
-            if (d.Action_Type && d.Action_Type === 'Delist MIN') {
-              getAndCheckItemNumber(
-                d.MIN,
+            if (
+              d.Action_Type &&
+              d.Action_Type === 'Delist MIN'
+              //  &&
+              // actionType.value === 'Delist Product (MIN)'
+              // || actionType === undefined
+            ) {
+              getAndCheckItemNumber([
+                d.MIN ? d.MIN : d.MIN_PIN,
                 'Delist MIN',
                 index + 1,
                 d.Comments,
                 'NA',
                 'NA',
+                'NA',
+                'NA',
+                'NA',
                 '',
-                ''
-              )
-            } else if (d.Action_Type && d.Action_Type === 'New MIN') {
-              getAndCheckItemNumber(
-                d.MIN,
+                '',
+                '',
+                '',
+              ])
+            } else if (
+              d.Action_Type &&
+              d.Action_Type === 'New MIN'
+              // &&
+              // actionType.value === 'New Product (MIN)' || actionType === undefined
+            ) {
+              getAndCheckItemNumber([
+                d.MIN ? d.MIN : d.MIN_PIN,
                 'New MIN',
                 index + 1,
                 d.Comments,
                 d.New_Number_of_Range_Stores,
                 d.Store_Code,
+                'NA',
+                'NA',
+                'NA',
                 '',
-                ''
-              )
+                '',
+                '',
+                '',
+              ])
             } else if (
               d.Action_Type &&
               d.Action_Type === 'Delist Ingredient MIN'
             ) {
-              getAndCheckItemNumber(
-                d.MIN,
+              getAndCheckItemNumber([
+                d.MIN ? d.MIN : d.MIN_PIN,
                 'Delist Ingredient MIN',
                 index + 1,
                 d.Comments,
                 'NA',
                 'NA',
+                'NA',
+                'NA',
+                'NA',
                 '',
-                ''
-              )
+                '',
+                '',
+                '',
+              ])
             } else if (
               d.Action_Type &&
               d.Action_Type === 'New Ingredient MIN'
             ) {
-              getAndCheckItemNumber(
-                d.MIN,
+              getAndCheckItemNumber([
+                d.MIN ? d.MIN : d.MIN_PIN,
                 'New Ingredient MIN',
                 index + 1,
                 d.Comments,
                 'NA',
                 'NA',
+                'NA',
+                'NA',
+                'NA',
                 '',
-                ''
-              )
-            } else if (actionType.value === 'Delist Outercase Code (PIN)') {
-              getAndCheckItemNumber(
+                '',
+                '',
+                '',
+              ])
+            } else if (d.Action_Type && d.Action_Type === 'Delist PIN') {
+              getAndCheckItemNumber([
                 d.MIN_PIN,
                 'Delist PIN',
                 index + 1,
@@ -1949,10 +1991,15 @@ function DelistsAddedToRange() {
                 'NA',
                 'NA',
                 d.Effective_Date_From_,
-                d.Effective_Date_To_
-              )
-            } else if (actionType.value === 'New Outercase Code (PIN)') {
-              getAndCheckItemNumber(
+                d.Effective_Date_To_,
+                'NA',
+                '',
+                '',
+                '',
+                '',
+              ])
+            } else if (d.Action_Type && d.Action_Type === 'New PIN') {
+              getAndCheckItemNumber([
                 d.MIN_PIN,
                 'New PIN',
                 index + 1,
@@ -1960,8 +2007,68 @@ function DelistsAddedToRange() {
                 'NA',
                 'NA',
                 d.Effective_Date_From_,
-                d.Effective_Date_To_
-              )
+                d.Effective_Date_To_,
+                'NA',
+                '',
+                '',
+                '',
+                '',
+              ])
+            } else if (
+              d.Action_Type &&
+              d.Action_Type === 'Product Shelf Space Increase'
+            ) {
+              getAndCheckItemNumber([
+                d.MIN ? d.MIN : d.MIN_PIN,
+                'Product Shelf Space Increase',
+                index + 1,
+                d.Comments,
+                'NA',
+                'NA',
+                'NA',
+                'NA',
+                d.New_number_of_range_stores,
+                '',
+                '',
+                '',
+                '',
+              ])
+            } else if (
+              d.Action_Type &&
+              d.Action_Type === 'Product Shelf Space Decrease'
+            ) {
+              getAndCheckItemNumber([
+                d.MIN ? d.MIN : d.MIN_PIN,
+                'Product Shelf Space Decrease',
+                index + 1,
+                d.Comments,
+                'NA',
+                'NA',
+                'NA',
+                'NA',
+                d.New_number_of_range_stores,
+                '',
+                '',
+                '',
+                '',
+              ])
+            } else if (d.Action_Type && d.Action_Type === 'Supplier Change') {
+              getAndCheckItemNumber([
+                d.MIN ? d.MIN : d.MIN_PIN,
+                'Supplier Change',
+                index + 1,
+                d.Comments,
+                'NA',
+                'NA',
+                d.Effective_Date_From_,
+                d.Effective_Date_To_,
+                'NA',
+                d.New_number_of_range_stores,
+                d.Supplier__Existing_,
+                d.Supplier_Site__Existing_,
+                d.Supplier__New_,
+                d.Supplier_Site__New_,
+              ])
             }
           })
 
@@ -1993,6 +2100,7 @@ function DelistsAddedToRange() {
           // height: "250px",
           // border: '3px solid green',
           borderRadius: 5,
+          p: 1,
         }}
       >
         <DialogHeader
@@ -2082,6 +2190,8 @@ function DelistsAddedToRange() {
     setComments('')
     setNoOfStores('')
     setStoreCode([])
+    setNewIngredientError(false)
+    setNewShelfFill(0)
   }
 
   const handleFromDate = (date: any) => {
@@ -2166,7 +2276,8 @@ function DelistsAddedToRange() {
     newnoofrangestoreNewMin: any,
     storecodeNewMin: any,
     delistPin_effectiveDate_From: any,
-    delistPin_effectiveDate_To: any
+    delistPin_effectiveDate_To: any,
+    shelfFillNew: any
   ) => {
     var minVal = 1000000000000
     var max = 9999999999999
@@ -2176,7 +2287,9 @@ function DelistsAddedToRange() {
       _idCheck: rand,
       actionType: type,
       lineStatus:
-        actionTypeSelected === 'Delist Product (MIN)'
+        actionTypeSelected === 'Delist Product (MIN)' ||
+        actionTypeSelected === 'Delist MIN' ||
+        type === 'Delist MIN'
           ? 'Request For Stock Count'
           : 'Draft',
       min: min ? min : minValue,
@@ -2291,7 +2404,8 @@ function DelistsAddedToRange() {
         formData.comments = comments === '' ? comment : comments
       }
     }
-    formData.supplierId = supplierV1
+    formData.supplierId = supplierV1.supplierName
+    formData.supplierSiteNameCode = supplierV1.supplierSiteNameCode
     if (values[1].value) {
       const rangeIdMinV1 = values[1].value.data //
       formData.lastPoDate = rangeIdMinV1.lastPODate //rangeresetIdMinService
@@ -2344,7 +2458,13 @@ function DelistsAddedToRange() {
       }
     }
     if (type === 'New MIN') {
-      formData.storeCode = storecodeNewMin.join(',')
+      // formData.storeCode = storecodeNewMin ? storecodeNewMin.join(',') : ''
+      formData.storeCode =
+        typeof storecodeNewMin === 'string'
+          ? storecodeNewMin
+          : storecodeNewMin
+          ? storecodeNewMin.join(',')
+          : ''
       formData.numberOfRangeStores = newnoofrangestoreNewMin
       formData.comments = comments === '' ? comment : comments
     }
@@ -2352,6 +2472,14 @@ function DelistsAddedToRange() {
       formData.comments = comments === '' ? comment : comments
     }
     if (type === 'New Ingredient MIN') {
+      formData.comments = comments === '' ? comment : comments
+    }
+    if (type === 'Product Shelf Space Increase') {
+      formData.newShelfFill = shelfFillNew === '' ? 'NA' : shelfFillNew
+      formData.comments = comments === '' ? comment : comments
+    }
+    if (type === 'Product Shelf Space Decrease') {
+      formData.newShelfFill = shelfFillNew
       formData.comments = comments === '' ? comment : comments
     }
 
@@ -2388,22 +2516,30 @@ function DelistsAddedToRange() {
       })
   }
 
-  const getAndCheckItemNumber = (
-    minValue: any,
-    type: any,
-    index: any,
-    comment: any,
-    newnoofrangestoreNewMin: any,
-    storecodeNewMin: any,
-    delistPin_effectiveDate_From: any,
-    delistPin_effectiveDate_To: any
-  ) => {
-    setIsProgressLoader(true)
+  const [valuesRes, setValuesRes] = useState<any>()
 
+  const getAndCheckItemNumber = (props: any) => {
+    let [
+      minValue,
+      type,
+      index,
+      comment,
+      newnoofrangestoreNewMin,
+      storecodeNewMin,
+      delistPin_effectiveDate_From,
+      delistPin_effectiveDate_To,
+      shelfFillNew,
+      supplierExisting_x,
+      supplierSiteExisting_x,
+      supplierNew_x,
+      supplierSiteNew_x,
+    ] = props
+    setIsProgressLoader(true)
+    console.log('props', props)
     Promise.allSettled([
       //Dont change sequence order below api calls
       getProductServiceByItemnumber(minValue),
-      // getRangeByRangeResetId('3400'),
+      // getRangeByRangeResetId('3400'),`
       getRangeByIdAndMinNumber('3400', '500000033'),
       // getRangeByIdAndMinNumber('1304', '100122267'),
       getProductSupplierServiceByItemnumber(minValue),
@@ -2425,13 +2561,22 @@ function DelistsAddedToRange() {
           return
         }
         const [rREventId, productV1, ProductSupp] = values
-        let values3Supplier = values[2].value.data
+        setValuesRes(values)
+        let values3Supplier = values[2].value.data.itemSuppliers.filter(
+          (val: any) => val.primaryInd === true
+        )
+        // values3Supplier && values3Supplier.itemSuppliers.filter((val:any) => val.primaryInd === true)
         getSupplierServiceBySupplierId(
-          values3Supplier.itemSuppliers[0].supplierId
+          // values3Supplier.itemSuppliers[0].supplierId
+          values3Supplier[0].supplierId //supplier site id
         )
           .then((res: any) => {
             console.log('Nested APi Success ', res)
-            let supplierV1 = res.data.supplierName
+            let supplierV1 = {
+              supplierName: res.data.supplierName,
+              supplierSiteNameCode: res.data.ebsSupplierId,
+            }
+
             renderApiCall(
               values,
               supplierV1,
@@ -2441,7 +2586,8 @@ function DelistsAddedToRange() {
               newnoofrangestoreNewMin,
               storecodeNewMin,
               delistPin_effectiveDate_From,
-              delistPin_effectiveDate_To
+              delistPin_effectiveDate_To,
+              shelfFillNew
             )
           })
           .catch((err: any) => {
@@ -2455,23 +2601,23 @@ function DelistsAddedToRange() {
               newnoofrangestoreNewMin,
               storecodeNewMin,
               delistPin_effectiveDate_From,
-              delistPin_effectiveDate_To
+              delistPin_effectiveDate_To,
+              shelfFillNew
             )
             console.log('Nested APi Error', err)
           })
       })
       .catch((err: any) => {
         setIsProgressLoader(false)
-        toast.current.show({
-          severity: 'error',
-          summary: 'Error',
-          // detail: `${minValue} ${allMessages.error.itemIdError}`,
-          detail: `${minValue} ${allMessages.error.itemIdError}`,
-          life: life,
-          className: 'login-toast',
-        })
-
-        console.error('promise1, ERRor', err)
+        // toast.current.show({
+        //   severity: 'error',
+        //   summary: 'Error',
+        //   // detail: `${minValue} ${allMessages.error.itemIdError}`,
+        //   detail: `${minValue} ${allMessages.error.itemIdError}`,
+        //   life: life,
+        //   className: 'login-toast',
+        // })
+        // console.error('promise1, ERRor', err)
       })
   }
 
@@ -2483,20 +2629,50 @@ function DelistsAddedToRange() {
     }
     console.log('clicked')
 
-    handleActionTypeDialogClose()
     // return
     if (actionType.value === 'Delist Product (MIN)') {
+      handleActionTypeDialogClose()
       if (min !== '') {
         console.log('hello')
-        getAndCheckItemNumber(min, 'Delist MIN', '', '', 'NA', 'NA', '', '')
+        getAndCheckItemNumber([
+          min,
+          'Delist MIN',
+          '',
+          '',
+          'NA',
+          'NA',
+          '',
+          '',
+          '',
+          '',
+          '',
+          '',
+          '',
+        ])
       }
     } else if (actionType.value === 'New Product (MIN)') {
+      handleActionTypeDialogClose()
       if (min !== '') {
         console.log('hello')
-        getAndCheckItemNumber(min, 'New MIN', '', '', '', selectedStore, '', '')
+        getAndCheckItemNumber([
+          min,
+          'New MIN',
+          '',
+          '',
+          '',
+          selectedStore,
+          '',
+          '',
+          '',
+          '',
+          '',
+          '',
+          '',
+        ])
       }
     } else if (actionType.value === 'Delist Ingredient (MIN)') {
-      getAndCheckItemNumber(
+      handleActionTypeDialogClose()
+      getAndCheckItemNumber([
         min,
         'Delist Ingredient MIN',
         '',
@@ -2504,12 +2680,18 @@ function DelistsAddedToRange() {
         'NA',
         'NA',
         '',
-        ''
-      )
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+      ])
     } else if (actionType.value === 'New Ingredient (MIN)') {
       checkProductCompositionService(min)
+      newIngredient && handleActionTypeDialogClose()
       newIngredient &&
-        getAndCheckItemNumber(
+        getAndCheckItemNumber([
           min,
           'New Ingredient MIN',
           '',
@@ -2517,10 +2699,16 @@ function DelistsAddedToRange() {
           'NA',
           'NA',
           '',
-          ''
-        )
+          '',
+          '',
+          '',
+          '',
+          '',
+          '',
+        ])
     } else if (actionType.value === 'Delist Outercase Code (PIN)') {
-      getAndCheckItemNumber(
+      handleActionTypeDialogClose()
+      getAndCheckItemNumber([
         min,
         'Delist PIN',
         '',
@@ -2528,10 +2716,16 @@ function DelistsAddedToRange() {
         'NA',
         'NA',
         delistPinDateFrom,
-        delistPinDateTo
-      )
+        delistPinDateTo,
+        '',
+        '',
+        '',
+        '',
+        '',
+      ])
     } else if (actionType.value === 'New Outercase Code (PIN)') {
-      getAndCheckItemNumber(
+      handleActionTypeDialogClose()
+      getAndCheckItemNumber([
         min,
         'New PIN',
         '',
@@ -2539,8 +2733,87 @@ function DelistsAddedToRange() {
         'NA',
         'NA',
         newPinDateFrom,
-        newPinDateTo
-      )
+        newPinDateTo,
+        '',
+        '',
+        '',
+        '',
+        '',
+      ])
+    } else if (actionType.value === 'Product Shelf Space Increase') {
+      getRangeByIdAndMinNumber('1304', min)
+        .then((res: any) => {
+          setMinCheckError(false)
+          console.log('checking min', res.data)
+          let shelfFillCurrent = res.data.shelfFillCurrent
+            ? res.data.shelfFillCurrent
+            : 0
+          setCurrentShelfFill(shelfFillCurrent)
+          let rangedStoresCurrent = res.data.rangedStoresCurrent
+            ? res.data.rangedStoresCurrent
+            : 0
+          setCurrentNoOfRangeStores(rangedStoresCurrent)
+          setMinCheck(true)
+        })
+        .catch((err: any) => {
+          setMinCheck(false)
+          setMinCheckError(true)
+        })
+
+      minCheck && handleActionTypeDialogClose()
+      minCheck &&
+        getAndCheckItemNumber([
+          min,
+          'Product Shelf Space Increase',
+          '',
+          comments,
+          'NA',
+          'NA',
+          '',
+          '',
+          newShelfFill,
+          '',
+          '',
+          '',
+          '',
+        ])
+    } else if (actionType.value === 'Product Shelf Space Decrease') {
+      getRangeByIdAndMinNumber('1304', min)
+        .then((res: any) => {
+          setMinCheckError(false)
+          console.log('checking min', res.data)
+          let shelfFillCurrent = res.data.shelfFillCurrent
+            ? res.data.shelfFillCurrent
+            : 0
+          setCurrentShelfFill(shelfFillCurrent)
+          let rangedStoresCurrent = res.data.rangedStoresCurrent
+            ? res.data.rangedStoresCurrent
+            : 0
+          setCurrentNoOfRangeStores(rangedStoresCurrent)
+          setMinCheck(true)
+        })
+        .catch((err: any) => {
+          setMinCheck(false)
+          setMinCheckError(true)
+        })
+
+      minCheck && handleActionTypeDialogClose()
+      minCheck &&
+        getAndCheckItemNumber([
+          min,
+          'Product Shelf Space Decrease',
+          '',
+          comments,
+          'NA',
+          'NA',
+          '',
+          '',
+          newShelfFill,
+          '',
+          '',
+          '',
+          '',
+        ])
     }
   }
 
@@ -2588,25 +2861,55 @@ function DelistsAddedToRange() {
             <OutlinedInput margin="dense" className={classes.inputFields} />
           }
         >
-          {/* <MenuItem 202px 415px
-            value="all"
-            classes={{
-              root: isAllSelected ? classes.selectedAll : '',
-            }}
-          >
-            <ListItemIcon>
-              <Checkbox
-                classes={{ indeterminate: classes.indeterminateColor }}
-                checked={isAllSelected}
-                indeterminate={
-                  selectedStore.length > 0 && selectedStore.length < storeCode.length
-                }
-              />
-            </ListItemIcon>
-            <ListItemText
-              classes={{ primary: classes.selectAllText }}
-              primary="Select All"
-            />
+          {storeCode.map((option: string) => (
+            <MenuItem key={option} value={option}>
+              <ListItemIcon>
+                <Checkbox
+                  className="selectdrop"
+                  checked={selectedStore.indexOf(option) > -1}
+                />
+              </ListItemIcon>
+              <ListItemText primary={option} />
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+
+      // <Select
+      //   value={storeValue}
+      //   onChange={handleChangeStore}
+      //   input={<OutlinedInput margin="dense" className={classes.inputFields} />}
+      // >
+      //   {storeCode.map((type: any) => {
+      //     return (
+      //       <MenuItem
+      //         className={classes.muiSelect}
+      //         value={type.value}
+      //         key={type.value}
+      //       >
+      //         {type.label}
+      //       </MenuItem>
+      //     )
+      //   })}
+      // </Select>
+    )
+  }
+  const actionTypeSelectRender = () => {
+    return (
+      <FormControl className={classes.formControl}>
+        <Select
+          labelId="mutiple-select-label"
+          multiple
+          value={selectedStore}
+          onChange={handleChange}
+          renderValue={(selectedStore: any) => selectedStore.join(', ')}
+          MenuProps={MenuProps}
+          input={
+            <OutlinedInput margin="dense" className={classes.inputFields} />
+          }
+        >
+          {/* <MenuItem value="" disabled>
+            Placeholder
           </MenuItem> */}
 
           {storeCode.map((option: string) => (
@@ -2618,6 +2921,7 @@ function DelistsAddedToRange() {
                 />
               </ListItemIcon>
               <ListItemText primary={option} />
+              <ListItemText primary={'Sridhar'} />
             </MenuItem>
           ))}
         </Select>
@@ -2926,6 +3230,24 @@ function DelistsAddedToRange() {
               {`Add ${actionType && actionType.value}`}
             </Typography>
           </Box>
+          {newIngredientError && (
+            <Box sx={{ p: 1, display: 'flex', flexDirection: 'column' }}>
+              <Box>
+                <Typography variant="body2" color="error">
+                  {min} is not an Ingredient MIN.
+                </Typography>
+              </Box>
+            </Box>
+          )}
+          {minCheckError && (
+            <Box sx={{ p: 1, display: 'flex', flexDirection: 'row' }}>
+              <Box>
+                <Typography variant="body2" color="error">
+                  {min} is not an Invalid MIN.
+                </Typography>
+              </Box>
+            </Box>
+          )}
           <Box
             sx={{
               display: 'flex',
@@ -3144,21 +3466,13 @@ function DelistsAddedToRange() {
                 </Box>
               </>
             )}
-            {actionType && actionType.value === "New Ingredient (MIN)" && (
+            {actionType && actionType.value === 'New Ingredient (MIN)' && (
               <>
-                {newIngredientError && (
-                  <Box sx={{ p: 1, display: "flex", flexDirection: "column" }}>
-                    <Box>
-                      <Typography variant="body2" color="error">
-                        {min} is not an Ingredient MIN.
-                      </Typography>
-                    </Box>
-                  </Box>
-                )}
-                <Box sx={{ p: 1, display: "flex", flexDirection: "column" }}>
+                <Box sx={{ p: 1, display: 'flex', flexDirection: 'column' }}>
                   <Box>
                     <Typography variant="subtitle2" color="primary">
                       New Ingredient (MIN)
+                      <span style={{ color: 'red' }}>*</span>
                     </Typography>
                   </Box>
                   <Box>
@@ -3170,13 +3484,16 @@ function DelistsAddedToRange() {
                      /> */}
                       <OutlinedInput
                         value={min}
-                        onChange={(e: any) => setMin(e.target.value)}
+                        onChange={(e: any) => {
+                          setMin(e.target.value)
+                          setNewIngredientError(false)
+                        }}
                         className={classes.inputFields}
                       />
                     </Typography>
                   </Box>
                 </Box>
-                <Box sx={{ p: 1, display: "flex", flexDirection: "column" }}>
+                <Box sx={{ p: 1, display: 'flex', flexDirection: 'column' }}>
                   <Box>
                     <Typography variant="subtitle2" color="primary">
                       New no. of Range Stores
@@ -3197,7 +3514,7 @@ function DelistsAddedToRange() {
                     </Typography>
                   </Box>
                 </Box>
-                <Box sx={{ p: 1, display: "flex", flexDirection: "column" }}>
+                <Box sx={{ p: 1, display: 'flex', flexDirection: 'column' }}>
                   <Box>
                     <Typography variant="subtitle2" color="primary">
                       Store Code
@@ -3217,7 +3534,7 @@ function DelistsAddedToRange() {
                     </Typography>
                   </Box>
                 </Box>
-                <Box sx={{ p: 1, display: "flex", flexDirection: "column" }}>
+                <Box sx={{ p: 1, display: 'flex', flexDirection: 'column' }}>
                   <Box>
                     <Typography variant="subtitle2" color="primary">
                       Comments
@@ -3436,6 +3753,207 @@ function DelistsAddedToRange() {
                     </Box>
                   </Box>
                 </MuiPickersUtilsProvider>
+              </>
+            )}
+            {actionType && actionType.value === 'Product Shelf Space Increase' && (
+              <>
+                <Box sx={{ p: 1, display: 'flex', flexDirection: 'column' }}>
+                  <Box>
+                    <Typography variant="subtitle2" color="primary">
+                      MIN
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography variant="subtitle2" color="primary">
+                      <OutlinedInput
+                        value={min}
+                        onChange={(e: any) => {
+                          setMinCheckError(false)
+                          setMin(e.target.value)
+                        }}
+                        className={classes.inputFields}
+                      />
+                    </Typography>
+                  </Box>
+                </Box>
+                <Box sx={{ p: 1, display: 'flex', flexDirection: 'column' }}>
+                  <Box>
+                    <Typography variant="subtitle2" color="primary">
+                      Current no. of Range Stores
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography
+                      variant="subtitle2"
+                      className={classes.blueText}
+                    >
+                      {currentNoOfRangeStores && currentNoOfRangeStores}
+                    </Typography>
+                  </Box>
+                </Box>
+                <Box sx={{ p: 1, display: 'flex', flexDirection: 'column' }}>
+                  <Box>
+                    <Typography variant="subtitle2" color="primary">
+                      Current Shelf Fill (Units)
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography
+                      variant="subtitle2"
+                      className={classes.blueText}
+                    >
+                      {currentShelfFill && currentShelfFill}
+                    </Typography>
+                  </Box>
+                </Box>
+                <Box sx={{ p: 1, display: 'flex', flexDirection: 'column' }}>
+                  <Box>
+                    <Typography variant="subtitle2" color="primary">
+                      New Shelf Fill (Units)
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography variant="subtitle2" color="primary">
+                      {/* <input
+                       type="text"
+                       value={comments}
+                       onChange={(e: any) => setComments(e.target.value)}
+                     /> */}
+                      <OutlinedInput
+                        type="number"
+                        value={newShelfFill}
+                        onChange={(e: any) => {
+                          if (e.target.value >= 0) {
+                            setNewShelfFill(e.target.value)
+                          }
+                        }}
+                        className={classes.inputFields}
+                      />
+                    </Typography>
+                  </Box>
+                </Box>
+                <Box sx={{ p: 1, display: 'flex', flexDirection: 'column' }}>
+                  <Box>
+                    <Typography variant="subtitle2" color="primary">
+                      Comments
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography variant="subtitle2" color="primary">
+                      {/* <input
+                       type="text"
+                       value={comments}
+                       onChange={(e: any) => setComments(e.target.value)}
+                     /> */}
+                      <OutlinedInput
+                        value={comments}
+                        onChange={(e: any) => setComments(e.target.value)}
+                        className={classes.inputFields}
+                      />
+                    </Typography>
+                  </Box>
+                </Box>
+              </>
+            )}
+
+            {actionType && actionType.value === 'Product Shelf Space Decrease' && (
+              <>
+                <Box sx={{ p: 1, display: 'flex', flexDirection: 'column' }}>
+                  <Box>
+                    <Typography variant="subtitle2" color="primary">
+                      MIN
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography variant="subtitle2" color="primary">
+                      <OutlinedInput
+                        value={min}
+                        onChange={(e: any) => {
+                          setMinCheckError(false)
+                          setMin(e.target.value)
+                        }}
+                        className={classes.inputFields}
+                      />
+                    </Typography>
+                  </Box>
+                </Box>
+                <Box sx={{ p: 1, display: 'flex', flexDirection: 'column' }}>
+                  <Box>
+                    <Typography variant="subtitle2" color="primary">
+                      Current no. of Range Stores
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography
+                      variant="subtitle2"
+                      className={classes.blueText}
+                    >
+                      {currentNoOfRangeStores && currentNoOfRangeStores}
+                    </Typography>
+                  </Box>
+                </Box>
+                <Box sx={{ p: 1, display: 'flex', flexDirection: 'column' }}>
+                  <Box>
+                    <Typography variant="subtitle2" color="primary">
+                      Current Shelf Fill (Units)
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography
+                      variant="subtitle2"
+                      className={classes.blueText}
+                    >
+                      {currentShelfFill && currentShelfFill}
+                    </Typography>
+                  </Box>
+                </Box>
+                <Box sx={{ p: 1, display: 'flex', flexDirection: 'column' }}>
+                  <Box>
+                    <Typography variant="subtitle2" color="primary">
+                      New Shelf Fill (Units)
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography variant="subtitle2" color="primary">
+                      {/* <input
+                       type="text"
+                       value={comments}
+                       onChange={(e: any) => setComments(e.target.value)}
+                     /> */}
+                      <OutlinedInput
+                        type="number"
+                        value={newShelfFill}
+                        onChange={(e: any) => {
+                          if (e.target.value >= 0) {
+                            setNewShelfFill(e.target.value)
+                          }
+                        }}
+                        className={classes.inputFields}
+                      />
+                    </Typography>
+                  </Box>
+                </Box>
+                <Box sx={{ p: 1, display: 'flex', flexDirection: 'column' }}>
+                  <Box>
+                    <Typography variant="subtitle2" color="primary">
+                      Comments
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography variant="subtitle2" color="primary">
+                      {/* <input
+                       type="text"
+                       value={comments}
+                       onChange={(e: any) => setComments(e.target.value)}
+                     /> */}
+                      <OutlinedInput
+                        value={comments}
+                        onChange={(e: any) => setComments(e.target.value)}
+                        className={classes.inputFields}
+                      />
+                    </Typography>
+                  </Box>
+                </Box>
               </>
             )}
           </Box>
@@ -4098,13 +4616,45 @@ function DelistsAddedToRange() {
 
   useEffect(() => {
     console.log('countBarCountCheck', countBarCountCheck)
-  }, [countBarCountCheck])
-
-  const handlePlaceholderSave = () => {
+  }, [barCodeDoesnotExists])
+  const handlePlaceholderSave = async () => {
     setIsProgressLoader(true)
     let arrEmpty: any = []
     setBarCodeExists(arrEmpty)
     setBarCodeDoesnotExists(arrEmpty)
+    // const checkDes = placeholderProducts.filter((val: any) => {
+    //   return val.description === ''
+    // })
+
+    // if (checkDes.length > 0) {
+    //   console.log('Description is mandatory')
+    //   setPlaceDescError('For all rows description is mandatory**')
+    //   setIsProgressLoader(false)
+    //   return
+    // } else {
+    //   setPlaceDescError('')
+    // }
+
+    const dataPlc = placeholderProducts.map(async (val: any) => {
+      const res = await Promise.all([
+        getProductServiceByItemnumber(val.barcode),
+      ])
+      // console.log('placeholderAsync', res.data)
+      // return data
+    })
+
+    console.log('dataPlc', dataPlc)
+    // try {
+    //   placeholderProducts.map(async (val: any) => {
+    //     const res = await Promise.all([
+    //       getProductServiceByItemnumber(val.barcode),
+    //     ])
+    //     const data = await res
+    //     console.log('placeholderAsync', data)
+    //   })
+    // } catch {
+    //   throw Error('Promise failed')
+    // }
 
     const success: any = []
     const error: any = []
@@ -4112,6 +4662,9 @@ function DelistsAddedToRange() {
     placeholderProducts.map((val: any) => {
       getProductServiceByItemnumber(val.barcode)
         .then((res: any) => {
+          if (res.data.gtins.length === 0) {
+            return
+          }
           success.push(res)
           //5010228012933
           console.log('Success barcode', res)
@@ -4139,6 +4692,7 @@ function DelistsAddedToRange() {
             ]
           })
         })
+        .finally(() => console.log('Endendendendendendendendendendendend'))
     })
 
     console.log('dataPlaceApi', success, error)
@@ -4411,6 +4965,105 @@ function DelistsAddedToRange() {
       </Select>
     )
   }
+  const [checkBar, setCheckBar] = useState<any>([])
+  const [statusCheck, setStatusCheck] = useState<any>([])
+  const barcodetemplateCheck = async (rowdata: any, event: any) => {
+    console.log('barcodetemplateCheckrowdata', rowdata)
+    console.log('barcodetemplateCheckrowevent', event)
+    //5010228012933
+    try {
+      const main = await getProductServiceByItemnumber(event)
+      const response = await main.data
+      console.log('response', response)
+      setCheckBar((prevState: any) => [
+        ...prevState,
+        {
+          exits: response.gtins,
+          rowdata: event,
+          _idCheck: rowdata._idCheck,
+          success: true,
+        },
+      ])
+      setStatusCheck((prevState: any) => [
+        ...prevState,
+        {
+          _idCheck: rowdata._idCheck,
+          success: true,
+          barcode: event,
+          minNum: response.itemNumber,
+        },
+      ])
+    } catch (err: any) {
+      const status = statusCheck.map((val: any) => {
+        if (val._idCheck === rowdata._idCheck) {
+          val.error = false
+          val.barcode = event
+          delete val.success
+          delete val.minNum
+        }
+        return val
+      })
+      console.log(status)
+      setStatusCheck(status)
+      const check = checkBar.filter((val: any) => {
+        return val._idCheck !== rowdata._idCheck
+      })
+      setCheckBar(check)
+      console.log('err', rowdata._idCheck)
+      console.log('err', check)
+    }
+    // console.log('TRY CATCHstatusCheck', statusCheck)
+
+    // need to change save button and check tmrw mrng
+  }
+  const [placeDescError, setPlaceDescError] = useState<any>('')
+  const [placeHolderSaveError, setPlaceholderSaveError] = useState<any>(false)
+  const [errorBarcodeDisplay, setErrorBarcodeDisplay] = useState<any>([])
+  const hPHS = () => {
+    const checkDes = placeholderProducts.filter((val: any) => {
+      return val.description === ''
+    })
+    if (checkDes.length > 0) {
+      console.log('Description is mandatory')
+      setPlaceDescError('For all rows description field is mandatory**')
+      setIsProgressLoader(false)
+      return
+    } else {
+      setPlaceDescError('')
+    }
+    setIsProgressLoader(true)
+    let checkKeyPresenceInArray = (key: any) =>
+      statusCheck.some((obj: any) => Object.keys(obj).includes(key))
+    var isKeyPresent = checkKeyPresenceInArray('success')
+
+    console.log('isKeyPresent', isKeyPresent)
+    console.log('statusCheck', statusCheck)
+    if (!isKeyPresent) {
+      setIsProgressLoader(false)
+      handlePlaceholderDialogClose()
+      setPlaceholderSaveError(isKeyPresent)
+      setErrorBarcodeDisplay([])
+      setPlaceholderCount('')
+      setPlaceholderProducts([])
+      // setBarCodeExists(arrEmpty)
+      // setBarCodeDoesnotExists(arrEmpty)
+      if (importedData && importedData.length > 0) {
+        let newData = [...importedData, ...placeholderProducts]
+        console.log(newData)
+        setImportedData(newData)
+      } else {
+        setImportedData(placeholderProducts)
+      }
+    } else {
+      setPlaceholderSaveError(isKeyPresent)
+      setErrorBarcodeDisplay(statusCheck)
+      setIsProgressLoader(false)
+    }
+  }
+
+  useEffect(() => {
+    // hPHS()
+  }, [statusCheck])
   const barCodePlaceholderTemplate = (rowData: any) => {
     return (
       <OutlinedInput
@@ -4428,6 +5081,7 @@ function DelistsAddedToRange() {
               )
             })
           }
+          barcodetemplateCheck(rowData, e.target.value)
         }}
       />
     )
@@ -4790,7 +5444,7 @@ function DelistsAddedToRange() {
           onClose={handlePlaceholderDialogClose}
         />
 
-        {barCodeExists &&
+        {/* {barCodeExists &&
           barCodeExists.map((val: any) => (
             <Alert
               className={classes.alertMsg}
@@ -4800,7 +5454,21 @@ function DelistsAddedToRange() {
               <b>• {'\u00A0'}</b> BAR Code <b> '{val.barcode}' </b> is belongs
               to MIN <b> '{val.minNum}' </b>
             </Alert>
-          ))}
+          ))} */}
+        {placeHolderSaveError &&
+          errorBarcodeDisplay.map(
+            (val: any) =>
+              val.hasOwnProperty('success') === true && (
+                <Alert
+                  className={classes.alertMsg}
+                  style={{ color: '#000' }}
+                  severity="error"
+                >
+                  <b>• {'\u00A0'}</b> BAR Code <b> '{val.barcode}' </b> is
+                  belongs to MIN <b> '{val.minNum}' </b>
+                </Alert>
+              )
+          )}
 
         {/* {renderAlert()} */}
 
@@ -4971,6 +5639,11 @@ function DelistsAddedToRange() {
                     )
                   })}
                 </DataTable>
+                {placeDescError && (
+                  <h6 style={{ color: 'red', fontSize: 'large' }}>
+                    {placeDescError}
+                  </h6>
+                )}
               </Grid>
               <Grid item xs={8}></Grid>
               <Grid item xs={2} style={{ paddingTop: '5px' }}>
@@ -4986,7 +5659,8 @@ function DelistsAddedToRange() {
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={handlePlaceholderSave}
+                  // onClick={handlePlaceholderSave}
+                  onClick={hPHS}
                 >
                   Save
                 </Button>
@@ -5598,11 +6272,14 @@ function DelistsAddedToRange() {
             <Grid item xs={10} sm={5} style={{ textAlign: 'left' }}>
               <Typography color="primary">
                 <AutocompleteSelect
+                  // isMulti={true}
                   value={actionType}
-                  options={actionTypeOptions}
+                  options={actionTypeOptions} //multipesri
                   onChange={handleActionType}
                   placeholder="--- Action Type ---"
                 />
+                {/* {storeCodePopup()} */}
+                {/* {actionTypeSelectRender()} */}
               </Typography>
             </Grid>
             <Grid item xs={2} sm={2}>
@@ -5630,7 +6307,7 @@ function DelistsAddedToRange() {
               OR
             </Grid>
             <Grid item sm={4} xs={12}>
-              <Tooltip
+              {/* <Tooltip
                 title={
                   actionType ? (
                     ''
@@ -5640,15 +6317,15 @@ function DelistsAddedToRange() {
                     </Typography>
                   )
                 }
+              > */}
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleUploadDialogOpen}
               >
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleUploadDialogOpen}
-                >
-                  Upload File
-                </Button>
-              </Tooltip>
+                Upload File
+              </Button>
+              {/* </Tooltip> */}
             </Grid>
           </Grid>
           <Grid

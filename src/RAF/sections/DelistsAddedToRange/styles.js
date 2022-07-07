@@ -7,6 +7,10 @@ export const useStyles = makeStyles((theme) => {
       padding: "15px",
       width: "100%",
     },
+    blueText: {
+      color: "blue",
+      fontWeight: "bold",
+    },
     uploadTextfield: {
       width: "100%",
       height: "32px",
@@ -23,6 +27,7 @@ export const useStyles = makeStyles((theme) => {
       // margin: theme.spacing(1),
       // width: 300,
     },
+
     indeterminateColor: {
       color: "#f50057",
     },
