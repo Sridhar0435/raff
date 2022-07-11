@@ -30,7 +30,7 @@ import axios from 'axios'
 import Alert from '@material-ui/lab/Alert'
 import { teal } from '@material-ui/core/colors'
 import CircularProgress from '@material-ui/core/CircularProgress'
-import { SearchOutlined } from '@material-ui/icons'
+import { CallMerge, SearchOutlined } from '@material-ui/icons'
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
 // import { RiFileExcel2Fill } from 'react-icons/ri'
 import { Column } from 'primereact/column'
@@ -4541,8 +4541,8 @@ function DelistsAddedToRange() {
           numberOfRangeStores: '',
           storeCode: '',
           ownBrand: 'Y',
-          // barcode: i === 0 ? '5010228012933' : '501022801293' + i,
-          barcode: '',
+          barcode: i === 0 ? '5010228012933' : '501022801293' + i,
+          // barcode: '',
           packquantity: '',
           local: 'Y',
           onlineCFC: 'Y',
@@ -4657,7 +4657,24 @@ function DelistsAddedToRange() {
   useEffect(() => {
     console.log('countBarCountCheck', countBarCountCheck)
   }, [barCodeDoesnotExists])
+
+  const [booleanState, setBooleanState] = useState<any>([])
+
+  const [awaitRes, setAwaitRes] = useState<any>([])
+
+  useEffect(() => {
+    setIsProgressLoader(false)
+
+    console.log('awaitRes', awaitRes)
+    // if (awaitRes.length > 0) {
+    //   handlePlaceholderDialogOpen()
+    // } else {
+    //   handlePlaceholderDialogClose()
+    // }
+  }, [awaitRes])
+
   const handlePlaceholderSave = async () => {
+    setAwaitRes([])
     setIsProgressLoader(true)
     let arrEmpty: any = []
     setBarCodeExists(arrEmpty)
@@ -4675,15 +4692,49 @@ function DelistsAddedToRange() {
     //   setPlaceDescError('')
     // }
 
-    const dataPlc = placeholderProducts.map(async (val: any) => {
-      const res = await Promise.all([
-        getProductServiceByItemnumber(val.barcode),
-      ])
-      // console.log('placeholderAsync', res.data)
-      // return data
-    })
+    // const dataPlc = placeholderProducts.map(async (val: any) => {
+    //   // const res = await Promise.all([
+    //   //   getProductServiceByItemnumber(val.barcode),
+    //   // ])
+    //   // console.log('placeholderAsync', res.data)
+    //   // return data
+    //   try {
+    //     let response = await getProductServiceByItemnumber(val.barcode)
+    //     let success = response.data
+    //     return setAwaitRes((prevState: any) => {
+    //       // return [
+    //       //   ...prevState,
+    //       //   {
+    //       //     success,
+    //       //   },
+    //       // ]
+    //       return [
+    //         ...prevState,
+    //         {
+    //           ...val,
+    //           success: true,
+    //         },
+    //       ]
+    //     })
+    //   } catch (err: any) {
+    //     let error = val.barcode
+    //     const dataa = awaitRes.map((exits: any) => {
+    //       if (exits._idCheck === val._idCheck) {
+    //         console.log('barcode', val.barcode)
+    //         delete exits.success
+    //       }
 
-    console.log('dataPlc', dataPlc)
+    //       return exits
+    //     })
+    //     console.log(dataa)
+    //     // setAwaitRes(dataa)
+    //     console.error(err)
+    //     // Handle errors here
+    //   }
+    // })
+
+    // console.log('dataPlc', dataPlc)
+
     // try {
     //   placeholderProducts.map(async (val: any) => {
     //     const res = await Promise.all([
@@ -4698,13 +4749,13 @@ function DelistsAddedToRange() {
 
     const success: any = []
     const error: any = []
-
-    placeholderProducts.map((val: any) => {
-      getProductServiceByItemnumber(val.barcode)
+    placeholderProducts.map((rowData: any) => {
+      getProductServiceByItemnumber(rowData.barcode)
         .then((res: any) => {
-          if (res.data.gtins.length === 0) {
-            return
-          }
+          // Remove when gtins.length is empty when updated
+          // if (res.data.gtins.length === 0) {
+          //   return
+          // }
           success.push(res)
           //5010228012933
           console.log('Success barcode', res)
@@ -4713,8 +4764,14 @@ function DelistsAddedToRange() {
             return [
               ...prevState,
               {
-                barcode: res.data.gtins[0].id,
+                barcode:
+                  res.data.gtins.length !== 0
+                    ? res.data.gtins[0].id
+                    : rowData.barcode,
+                // barcode: res.data.gtins[0].id,
                 minNum: res.data.itemNumber,
+                success: true,
+                id: rowData._idCheck,
               },
             ]
           })
@@ -4727,24 +4784,100 @@ function DelistsAddedToRange() {
             return [
               ...prevState,
               {
-                barcode: val.barcode,
+                barcode: rowData.barcode,
               },
             ]
           })
+
+          // const barExits = barCodeExists.map((val: any) => {
+          //   if (val._idCheck === rowData.id) {
+          //     console.log('barExits', val)
+          //   }
+          // })
+
+          //     const status = statusCheck.map((val: any) => {
+          //   if (val._idCheck === rowdata._idCheck) {
+          //     val.barcode = event
+          //     delete val.success
+          //     delete val.minNum
+          //   }
+          //   return val
+          // })
         })
-        .finally(() => console.log('Endendendendendendendendendendendend'))
     })
 
-    console.log('dataPlaceApi', success, error)
-    setTimeout(() => {
-      setIsProgressLoader(false)
-      if (barCodeDoesnotExists.length === placeholderProducts.length) {
-        handlePlaceholderDialogClose()
+    // console.log('dataPlaceApi', success, error)
+    // if (barCodeExists.length > 0) {
+    //   let checkKeyPresenceInArray = (key: any) =>
+    //     barCodeExists.some((obj: any) => Object.keys(obj).includes(key))
+    //   var isKeyPresent = checkKeyPresenceInArray('barcode')
+    // // }
 
+    // console.log('isKeyPresent', isKeyPresent)
+    // setTimeout(() => {
+    //   setIsProgressLoader(false)
+    //   if (barCodeDoesnotExists.length === placeholderProducts.length) {
+    //     // if (!isKeyPresent) {
+    //     handlePlaceholderDialogClose()
+    //     setBooleanState([])
+    //     setPlaceholderCount('')
+    //     setPlaceholderProducts([])
+    //     // setBarCodeExists(arrEmpty)
+    //     // setBarCodeDoesnotExists(arrEmpty)
+    //     if (importedData && importedData.length > 0) {
+    //       let newData = [...importedData, ...placeholderProducts]
+    //       console.log(newData)
+    //       setImportedData(newData)
+    //     } else {
+    //       setImportedData(placeholderProducts)
+    //     }
+    //   }
+    // }, 1000)
+  }
+  const [placeholderErrorDisplay, setPlaceholderErrorDisplay] = useState<any>(
+    []
+  )
+  const checkingPlaceSave = () => {
+    setIsProgressLoader(true)
+    const checkDes = placeholderProducts.filter((val: any) => {
+      return val.description === ''
+    })
+
+    if (checkDes.length > 0) {
+      console.log('Description is mandatory')
+      setPlaceDescError('For all rows description is mandatory**')
+      setIsProgressLoader(false)
+      return
+    } else {
+      setPlaceDescError('')
+    }
+    //
+
+    let requests = placeholderProducts.map((row: any) => {
+      return getProductServiceByItemnumber(row.barcode).then((res: any) => {
+        return res
+      })
+    })
+    Promise.allSettled(requests).then((responses: any) => {
+      // responses.forEach((response: any) => {
+      //   if (response.status === 'fulfilled') {
+      //     console.log('checkingPlaceSave', response)
+      //   }
+      // })
+
+      const fullFilled = responses.filter((val: any) => {
+        return val.status === 'fulfilled'
+      })
+      setIsProgressLoader(false)
+      if (fullFilled.length > 0) {
+        setPlaceholderErrorDisplay(fullFilled)
+      }
+
+      if (fullFilled.length === 0) {
+        handlePlaceholderDialogClose()
+        setPlaceholderErrorDisplay([])
         setPlaceholderCount('')
         setPlaceholderProducts([])
-        setBarCodeExists(arrEmpty)
-        setBarCodeDoesnotExists(arrEmpty)
         if (importedData && importedData.length > 0) {
           let newData = [...importedData, ...placeholderProducts]
           console.log(newData)
@@ -4753,8 +4886,33 @@ function DelistsAddedToRange() {
           setImportedData(placeholderProducts)
         }
       }
-    }, 1000)
+
+      console.log('checkingPlaceSave', fullFilled)
+    })
+    // console.log('checkingPlaceSave', requests)
   }
+
+  const checkingPlaceDelete = () => {
+    let _tasks = placeholderProducts.filter(
+      (value: any) => !selectedPlaceholderData.includes(value)
+    )
+    setPlaceholderProducts(_tasks)
+    const check = selectedPlaceholderData.map((val: any) => {
+      const check2 = placeholderErrorDisplay.filter((fil: any) => {
+        let compare = val.barcode === fil.value.data.gtins[0].id
+        if (compare) {
+          const splice = placeholderErrorDisplay.splice(fil, 1)
+          return splice
+        }
+      })
+      return check2
+    })
+    setSelectedPlaceholderData([])
+  }
+
+  useEffect(() => {
+    console.log('placeholderErrorDisplay', placeholderErrorDisplay)
+  }, [placeholderErrorDisplay])
 
   const handlePlaceholderUploadOpen = () => {
     setOpenPlaceholderUpload(true)
@@ -4818,6 +4976,9 @@ function DelistsAddedToRange() {
             }
           })
 
+          newData.map((rowdata: any) => {
+            return barcodetemplateCheck(rowdata, rowdata.barcode)
+          })
           console.log(newData)
           if (placeholderProducts && placeholderProducts.length > 0) {
             setPlaceholderProducts((prevState: any) => {
@@ -5007,6 +5168,7 @@ function DelistsAddedToRange() {
   }
   const [checkBar, setCheckBar] = useState<any>([])
   const [statusCheck, setStatusCheck] = useState<any>([])
+
   const barcodetemplateCheck = async (rowdata: any, event: any) => {
     console.log('barcodetemplateCheckrowdata', rowdata)
     console.log('barcodetemplateCheckrowevent', event)
@@ -5015,19 +5177,19 @@ function DelistsAddedToRange() {
       const main = await getProductServiceByItemnumber(event)
       const response = await main.data
       console.log('response', response)
-      setCheckBar((prevState: any) => [
-        ...prevState,
-        {
-          exits: response.gtins,
-          rowdata: event,
-          _idCheck: rowdata._idCheck,
-          success: true,
-        },
-      ])
+      // setCheckBar((prevState: any) => [
+      //   ...prevState,
+      //   {
+      //     exits: response.gtins,
+      //     rowdata: event,
+      //     _idCheck: rowdata._idCheck,
+      //     success: true,
+      //   },
+      // ])
       setStatusCheck((prevState: any) => [
         ...prevState,
         {
-          _idCheck: rowdata._idCheck,
+          ...rowdata,
           success: true,
           barcode: event,
           minNum: response.itemNumber,
@@ -5036,7 +5198,6 @@ function DelistsAddedToRange() {
     } catch (err: any) {
       const status = statusCheck.map((val: any) => {
         if (val._idCheck === rowdata._idCheck) {
-          val.error = false
           val.barcode = event
           delete val.success
           delete val.minNum
@@ -5045,17 +5206,20 @@ function DelistsAddedToRange() {
       })
       console.log(status)
       setStatusCheck(status)
-      const check = checkBar.filter((val: any) => {
-        return val._idCheck !== rowdata._idCheck
-      })
-      setCheckBar(check)
-      console.log('err', rowdata._idCheck)
-      console.log('err', check)
+      // const check = checkBar.filter((val: any) => {
+      //   return val._idCheck !== rowdata._idCheck
+      // })
+      // setCheckBar(check)
+      // console.log('err', rowdata._idCheck)
+      // console.log('err', check)
     }
-    // console.log('TRY CATCHstatusCheck', statusCheck)
+    console.log('TryCatch', statusCheck)
+  } //
 
-    // need to change save button and check tmrw mrng
-  }
+  useEffect(() => {
+    // hPHS()
+    console.log('statusCheckUseEffect', statusCheck)
+  }, [statusCheck])
   const [placeDescError, setPlaceDescError] = useState<any>('')
   const [placeHolderSaveError, setPlaceholderSaveError] = useState<any>(false)
   const [errorBarcodeDisplay, setErrorBarcodeDisplay] = useState<any>([])
@@ -5085,8 +5249,6 @@ function DelistsAddedToRange() {
       setErrorBarcodeDisplay([])
       setPlaceholderCount('')
       setPlaceholderProducts([])
-      // setBarCodeExists(arrEmpty)
-      // setBarCodeDoesnotExists(arrEmpty)
       if (importedData && importedData.length > 0) {
         let newData = [...importedData, ...placeholderProducts]
         console.log(newData)
@@ -5096,24 +5258,33 @@ function DelistsAddedToRange() {
       }
     } else {
       setPlaceholderSaveError(isKeyPresent)
-      setErrorBarcodeDisplay(statusCheck)
+      // setErrorBarcodeDisplay(statusCheck)
+      setStatusCheck(statusCheck)
       setIsProgressLoader(false)
     }
   }
 
   const deletePlace = () => {
-    let _tasks = statusCheck.filter(
+    //5010228012933
+    let _tasks = placeholderProducts.filter(
       (value: any) => !selectedPlaceholderData.includes(value)
     )
+    setPlaceholderProducts(_tasks)
 
-    console.log('_tasks', _tasks)
-    setStatusCheck(_tasks)
+    let deletePlaceH = statusCheck.filter((array: any) => {
+      return selectedPlaceholderData.some((filter: any) => {
+        return array.barcode != filter.barcode
+      })
+    })
+    setStatusCheck(deletePlaceH)
+    console.log('deletePlaceH', _tasks)
+    setSelectedPlaceholderData([])
+
+    // setErrorBarcodeDisplay(deletePlaceH)
+    // setStatusCheck(deletePlaceH)
+    // setErrorBarcodeDisplay(deletePlaceH)
   }
 
-  useEffect(() => {
-    // hPHS()
-    console.log('statusCheckUseEffect', statusCheck)
-  }, [statusCheck])
   const barCodePlaceholderTemplate = (rowData: any) => {
     return (
       <OutlinedInput
@@ -5131,7 +5302,7 @@ function DelistsAddedToRange() {
               )
             })
           }
-          barcodetemplateCheck(rowData, e.target.value)
+          // barcodetemplateCheck(rowData, e.target.value)
         }}
       />
     )
@@ -5505,20 +5676,25 @@ function DelistsAddedToRange() {
               to MIN <b> '{val.minNum}' </b>
             </Alert>
           ))} */}
-        {placeHolderSaveError &&
-          errorBarcodeDisplay.map(
-            (val: any) =>
-              val.hasOwnProperty('success') === true && (
-                <Alert
-                  className={classes.alertMsg}
-                  style={{ color: '#000' }}
-                  severity="error"
-                >
-                  <b>• {'\u00A0'}</b> BAR Code <b> '{val.barcode}' </b> is
-                  belongs to MIN <b> '{val.minNum}' </b>
-                </Alert>
-              )
-          )}
+        {placeholderErrorDisplay &&
+          placeholderErrorDisplay.map((val: any) => (
+            <Alert
+              className={classes.alertMsg}
+              style={{ color: '#000' }}
+              severity="error"
+            >
+              <b>• {'\u00A0'}</b> BAR Code{' '}
+              <b>
+                {' '}
+                '
+                {val.value.data.gtins.length > 0
+                  ? val.value.data.gtins[0].id
+                  : ''}
+                '{' '}
+              </b>{' '}
+              is belongs to MIN <b> '{val.value.data.itemNumber}' </b>
+            </Alert>
+          ))}
 
         {/* {renderAlert()} */}
 
@@ -5701,7 +5877,8 @@ function DelistsAddedToRange() {
                   variant="contained"
                   color="primary"
                   // onClick={removePlaceholder}
-                  onClick={deletePlace}
+                  // onClick={deletePlace}
+                  onClick={checkingPlaceDelete}
                 >
                   Delete
                 </Button>
@@ -5711,7 +5888,8 @@ function DelistsAddedToRange() {
                   variant="contained"
                   color="primary"
                   // onClick={handlePlaceholderSave}
-                  onClick={hPHS}
+                  // onClick={hPHS}
+                  onClick={checkingPlaceSave}
                 >
                   Save
                 </Button>
