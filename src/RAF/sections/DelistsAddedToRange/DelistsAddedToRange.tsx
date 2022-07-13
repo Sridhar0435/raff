@@ -1338,10 +1338,10 @@ function DelistsAddedToRange() {
     console.log('depotRegions', depotRegions)
   }, [depotRegions])
 
-  const getStoreDepot = (store: any) => {
+  const getStoreDepot = (rowData: any, store: any) => {
     setIsProgressLoader(true)
     return (
-      getRangeResetEventsStoreDepot('3901', '100105854', store)
+      getRangeResetEventsStoreDepot('3901', rowData.min, store)
         // return getRangeResetEventsStoreDepot('1304', '100122267', store)
         .then((res: any) => {
           console.log('success view')
@@ -1372,7 +1372,7 @@ function DelistsAddedToRange() {
   const handleRangeStoresDialogOpen = (rowData: any) => {
     setRangedStoresDialogOpen(true)
     // setRangedStoresData(rowData)
-    getStoreDepot('store')
+    getStoreDepot(rowData, 'store')
     // setRangedStoresData(storeViewDummyRes.storeView)
     // getRangeByIdAndMinNumber("rangerestId", "Minnumber")
     // getRangeResetEventsStoreDepot('1304', '100122267', 'store')
@@ -1396,6 +1396,8 @@ function DelistsAddedToRange() {
   const handleRangeStoresDialogClose = () => {
     setRangedStoresDialogOpen(false)
     setRangedStoresData([])
+    setStoreViewApi([])
+    setStorePopupHeader('')
   }
 
   const rangeStoresDialog = (
@@ -1772,7 +1774,7 @@ function DelistsAddedToRange() {
     console.log('handleDepotStockDialogOpen', rowData)
     // setDepotStockData([rowData])
     // setDepotStockData(depotViewResDummy.depotView)
-    getStoreDepot('depot')
+    getStoreDepot(rowData, 'depot')
 
     //make an api call here
   }
@@ -1780,6 +1782,9 @@ function DelistsAddedToRange() {
   const handleDepotStockDialogClose = (rowData: any) => {
     setDepotStockDialogOpen(false)
     setDepotStockData([])
+    setDepotRegions([])
+    setStorePopupHeader('')
+    setDepotRegLoc('')
   }
 
   //NOrth popup
@@ -2024,6 +2029,8 @@ function DelistsAddedToRange() {
     setUploadedFile(event.target.files[0])
   }
 
+  const [exceelErrors, setExceelErrors] = useState<any>([])
+
   const handleUpload = (e: any) => {
     // e.preventDefault();
     handleUploadDialogClose()
@@ -2055,7 +2062,7 @@ function DelistsAddedToRange() {
             const result: any = {}
 
             Object.keys(obj).forEach(function (key: any) {
-              result[key.replace(/ /g, '_').replace(/[()|/]/g, '_')] = obj[key]
+              result[key.replace(/ /g, '').replace(/[()|/]/g, '')] = obj[key]
             })
             return result
           }
@@ -2067,16 +2074,16 @@ function DelistsAddedToRange() {
 
           result.map((d: any, index: any) => {
             if (
-              (d.Action_Type && d.Action_Type === 'Delist MIN') ||
-              (d.Action_Type === 'Delist Product (MIN)' &&
-                actionType.value === 'Delist Product (MIN)') //for multipe excel files upload remove actiontype.value in all types
+              ((d.ActionType && d.ActionType === 'Delist MIN') ||
+                d.ActionType === 'Delist Product MIN') &&
+              actionType.value === 'Delist Product (MIN)' //for multipe excel files upload remove actiontype.value in all types
               // || actionType === undefined
             ) {
               getAndCheckItemNumber([
-                d.MIN ? d.MIN : d.MIN_PIN,
+                d.MIN ? d.MIN : d.MINPIN,
                 'Delist MIN',
                 index + 1,
-                d.Comments,
+                d.Comments, //optional
                 'NA',
                 'NA',
                 'NA',
@@ -2088,17 +2095,17 @@ function DelistsAddedToRange() {
                 '',
               ])
             } else if (
-              (d.Action_Type && d.Action_Type === 'New MIN') ||
-              (d.Action_Type === 'New Product (MIN)' &&
-                actionType.value === 'New Product (MIN)')
+              ((d.ActionType && d.ActionType === 'New MIN') ||
+                d.ActionType === 'New Product MIN') &&
+              actionType.value === 'New Product (MIN)'
             ) {
               getAndCheckItemNumber([
-                d.MIN ? d.MIN : d.MIN_PIN,
+                d.MIN ? d.MIN : d.MINPIN,
                 'New MIN',
                 index + 1,
-                d.Comments,
-                d.New_Number_of_Range_Stores,
-                d.Store_Code,
+                d.Comments, //optional
+                d.NewNumberofRangeStores, //optional
+                d.StoreCode, //optional
                 'NA',
                 'NA',
                 'NA',
@@ -2108,15 +2115,15 @@ function DelistsAddedToRange() {
                 '',
               ])
             } else if (
-              d.Action_Type &&
-              d.Action_Type === 'Delist Ingredient MIN' &&
+              d.ActionType &&
+              d.ActionType === 'Delist Ingredient MIN' &&
               actionType.value === 'Delist Ingredient (MIN)'
             ) {
               getAndCheckItemNumber([
-                d.MIN ? d.MIN : d.MIN_PIN,
+                d.MIN ? d.MIN : d.MINPIN,
                 'Delist Ingredient MIN',
                 index + 1,
-                d.Comments,
+                d.Comments, //optional
                 'NA',
                 'NA',
                 'NA',
@@ -2128,15 +2135,15 @@ function DelistsAddedToRange() {
                 '',
               ])
             } else if (
-              d.Action_Type &&
-              d.Action_Type === 'New Ingredient MIN' &&
+              d.ActionType &&
+              d.ActionType === 'New Ingredient MIN' &&
               actionType.value === 'New Ingredient (MIN)'
             ) {
               getAndCheckItemNumber([
-                d.MIN ? d.MIN : d.MIN_PIN,
+                d.MIN ? d.MIN : d.MINPIN,
                 'New Ingredient MIN',
                 index + 1,
-                d.Comments,
+                d.Comments, //optional
                 'NA',
                 'NA',
                 'NA',
@@ -2148,19 +2155,19 @@ function DelistsAddedToRange() {
                 '',
               ])
             } else if (
-              (d.Action_Type && d.Action_Type === 'Delist PIN') ||
-              (actionType.d.Action_Type === 'Delist Outercase Code (PIN)' &&
-                actionType.value === 'Delist Outercase Code (PIN)')
+              ((d.ActionType && d.ActionType === 'Delist PIN') ||
+                d.ActionType === 'Delist Outercase Code PIN') &&
+              actionType.value === 'Delist Outercase Code (PIN)'
             ) {
               getAndCheckItemNumber([
-                d.MIN_PIN,
+                d.MINPIN,
                 'Delist PIN',
                 index + 1,
-                d.Comments,
+                d.Comments, //optional
                 'NA',
                 'NA',
-                d.Effective_Date_From_,
-                d.Effective_Date_To_,
+                d.EffectiveDateFrom, //optional
+                d.EffectiveDateTo, //optional
                 'NA',
                 '',
                 '',
@@ -2168,19 +2175,19 @@ function DelistsAddedToRange() {
                 '',
               ])
             } else if (
-              d.Action_Type &&
-              d.Action_Type === 'New PIN' &&
+              ((d.ActionType && d.ActionType === 'New PIN') ||
+                d.ActionType === 'New Outercase Code PIN') &&
               actionType.value === 'New Outercase Code (PIN)'
             ) {
               getAndCheckItemNumber([
-                d.MIN_PIN,
+                d.MINPIN,
                 'New PIN',
                 index + 1,
-                d.Comments,
+                d.Comments, //optional
                 'NA',
                 'NA',
-                d.Effective_Date_From_,
-                d.Effective_Date_To_,
+                d.EffectiveDateFrom, //optional
+                d.EffectiveDateTo, //optional
                 'NA',
                 '',
                 '',
@@ -2188,12 +2195,12 @@ function DelistsAddedToRange() {
                 '',
               ])
             } else if (
-              d.Action_Type &&
-              d.Action_Type === 'Product Shelf Space Increase' &&
+              d.ActionType &&
+              d.ActionType === 'Product Shelf Space Increase' &&
               actionType.value === 'Product Shelf Space Increase'
             ) {
               getAndCheckItemNumber([
-                d.MIN ? d.MIN : d.MIN_PIN,
+                d.MIN ? d.MIN : d.MINPIN, // Mandatory
                 'Product Shelf Space Increase',
                 index + 1,
                 d.Comments,
@@ -2201,19 +2208,19 @@ function DelistsAddedToRange() {
                 'NA',
                 'NA',
                 'NA',
-                d.New_number_of_range_stores,
+                d.NewShelfFillUnits, // Mandatory //replace field name
                 '',
                 '',
                 '',
                 '',
               ])
             } else if (
-              d.Action_Type &&
-              d.Action_Type === 'Product Shelf Space Decrease' &&
+              d.ActionType &&
+              d.ActionType === 'Product Shelf Space Decrease' &&
               actionType.value === 'Product Shelf Space Decrease'
             ) {
               getAndCheckItemNumber([
-                d.MIN ? d.MIN : d.MIN_PIN,
+                d.MIN ? d.MIN : d.MINPIN, // Mandatory
                 'Product Shelf Space Decrease',
                 index + 1,
                 d.Comments,
@@ -2221,33 +2228,88 @@ function DelistsAddedToRange() {
                 'NA',
                 'NA',
                 'NA',
-                d.New_number_of_range_stores,
+                d.NewShelfFillUnits, // Mandatory //replace field name
                 '',
                 '',
                 '',
                 '',
               ])
             } else if (
-              d.Action_Type &&
-              d.Action_Type === 'Supplier Change' &&
+              d.ActionType &&
+              d.ActionType === 'Supplier Change' &&
               actionType.value === 'Supplier Change'
             ) {
               getAndCheckItemNumber([
-                d.MIN ? d.MIN : d.MIN_PIN,
+                d.MIN ? d.MIN : d.MINPIN, // Mandatory
                 'Supplier Change',
                 index + 1,
-                d.Comments,
+                d.Comments, //optional
                 'NA',
                 'NA',
-                d.Effective_Date_From_,
-                d.Effective_Date_To_,
+                d.EffectiveDateFrom, // Mandatory
+                d.EffectiveDateTo, //optional
                 'NA',
-                d.New_number_of_range_stores,
-                d.Supplier__Existing_,
-                d.Supplier_Site__Existing_,
-                d.Supplier__New_,
-                d.Supplier_Site__New_,
+                d.NewNumberofRangeStores,
+                d.SupplierExisting, // Mandatory
+                d.SupplierSiteExisting, //optional
+                d.SupplierNew, // Mandatory
+                d.SupplierSiteNew, //optional
               ])
+            } else if (
+              d.ActionType &&
+              d.ActionType === 'Product Distribution Decrease' &&
+              actionType.value === 'Product Distribution Decrease (MIN)' &&
+              d.NewNumberofStoresRestrictions !== undefined
+            ) {
+              getAndCheckItemNumber([
+                d.MIN ? d.MIN : d.MINPIN, // Mandatory
+                'Product Distribution Decrease',
+                index + 1,
+                d.Comments, //optional
+                // d.NewNumberofRangeStores, // Mandatory
+                d.NewNumberofStoresRestrictions, // Mandatory // remove when deploy
+                d.StoreCode, //optional
+                'NA',
+                'NA',
+                'NA',
+                '',
+                '',
+                '',
+                '',
+              ])
+            } else if (
+              d.ActionType &&
+              d.ActionType === 'Product Distribution Increase' &&
+              actionType.value === 'Product Distribution Increase (MIN)'
+            ) {
+              getAndCheckItemNumber([
+                d.MIN ? d.MIN : d.MINPIN, //Mandatory
+                'Product Distribution Increase',
+                index + 1,
+                d.Comments, //optional
+                d.NewNumberofRangeStores, //optional
+                d.StoreCode, //optional
+                'NA',
+                'NA',
+                'NA',
+                '',
+                '',
+                '',
+                '',
+              ])
+            } else {
+              console.log(d.MINPIN + 'Error')
+              // setExceelErrors((prevState: any) => {
+              //   return [...prevState, ...d]
+              // })
+              setExceelErrors((prevState: any) => {
+                return [
+                  ...prevState,
+                  {
+                    ...d,
+                  },
+                ]
+              })
             }
           })
 
@@ -2268,6 +2330,36 @@ function DelistsAddedToRange() {
       setUploadedFile(null)
     }
   }
+
+  useEffect(() => {
+    console.log('exceelErrors', exceelErrors)
+  }, [exceelErrors])
+
+  const showExceelErrors = () => {
+    return exceelErrors.map((err: any) => {
+      if (err.MINPIN) {
+        return (
+          <span style={{ color: 'red' }}>
+            For "{err.ActionType}" & "{err.MINPIN}" all mandatory fields are
+            required***{' '}
+          </span>
+        )
+      } else {
+        return (
+          <span style={{ color: 'red' }}>
+            For "{err.ActionType}" & "{err.MIN}" all mandatory fields are
+            required***{' '}
+          </span>
+        )
+      }
+    })
+  }
+  // const exceelErrors = (data: any) =>
+  //   data ? (
+  //     <span>{data.MINPIN} Please fill the required fields and upload </span>
+  //   ) : (
+  //     ''
+  //   )
 
   const uploadDialog = (
     <Dialog open={openUploadDialog} onClose={handleUploadDialogClose}>
@@ -2652,7 +2744,12 @@ function DelistsAddedToRange() {
         }
       }
     }
-    if (type === 'New MIN' || type === 'New Product (MIN)') {
+    if (
+      type === 'New MIN' ||
+      type === 'New Product (MIN)' ||
+      type === 'Product Distribution Decrease' ||
+      type === 'Product Distribution Increase'
+    ) {
       // formData.storeCode = storecodeNewMin ? storecodeNewMin.join(',') : ''
       formData.storeCode =
         typeof storecodeNewMin === 'string'
@@ -4652,6 +4749,7 @@ function DelistsAddedToRange() {
             })}
           </DataTable>
         </MuiPickersUtilsProvider>
+        {exceelErrors && showExceelErrors()}
       </Grid>
       {/* <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
         <button
