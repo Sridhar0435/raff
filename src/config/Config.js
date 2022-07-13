@@ -60,6 +60,8 @@ const envDetails = {
       "range/v1/locations/{locationId}/items/{itemNumber}",
     GET_RANGE_SUMMARY_BY_ID_MIN:
       "rangereset/v2/rangeresets/{rangeResetId}/items/{MIN}/summary",
+    GET_STORE_DEPOT_FROM_RANGE_SUMMARY_BY_ID_MIN:
+      "rangereset/v2/rangeresetevents/{rangeResetId}/items/{MIN}/summary",
     GET_SUPPLIER_BY_SUPPLIER_AND_SITE: "supplier/v1/search",
     //
     GOOGLE_CLIENT_ID:
@@ -127,6 +129,8 @@ const envDetails = {
       "range/v1/locations/{locationId}/items/{itemNumber}",
     GET_RANGE_SUMMARY_BY_ID_MIN:
       "rangereset/v2/rangeresets/{rangeResetId}/items/{MIN}/summary",
+    GET_STORE_DEPOT_FROM_RANGE_SUMMARY_BY_ID_MIN:
+      "rangereset/v2/rangeresetevents/{rangeResetId}/items/{MIN}/summary",
     GET_SUPPLIER_BY_SUPPLIER_AND_SITE: "supplier/v1/search",
     //
     GOOGLE_CLIENT_ID:
@@ -194,6 +198,8 @@ const envDetails = {
       "range/v1/locations/{locationId}/items/{itemNumber}",
     GET_RANGE_SUMMARY_BY_ID_MIN:
       "rangereset/v2/rangeresets/{rangeResetId}/items/{MIN}/summary",
+    GET_STORE_DEPOT_FROM_RANGE_SUMMARY_BY_ID_MIN:
+      "rangereset/v2/rangeresetevents/{rangeResetId}/items/{MIN}/summary",
     GET_SUPPLIER_BY_SUPPLIER_AND_SITE: "supplier/v1/search",
     //
     GOOGLE_CLIENT_ID:
@@ -261,6 +267,8 @@ const envDetails = {
       "range/v1/locations/{locationId}/items/{itemNumber}",
     GET_RANGE_SUMMARY_BY_ID_MIN:
       "rangereset/v2/rangeresets/{rangeResetId}/items/{MIN}/summary",
+    GET_STORE_DEPOT_FROM_RANGE_SUMMARY_BY_ID_MIN:
+      "rangereset/v2/rangeresetevents/{rangeResetId}/items/{MIN}/summary",
     GET_SUPPLIER_BY_SUPPLIER_AND_SITE: "supplier/v1/search",
     //
     GOOGLE_CLIENT_ID:
@@ -328,6 +336,8 @@ const envDetails = {
       "range/v1/locations/{locationId}/items/{itemNumber}",
     GET_RANGE_SUMMARY_BY_ID_MIN:
       "rangereset/v2/rangeresets/{rangeResetId}/items/{MIN}/summary",
+    GET_STORE_DEPOT_FROM_RANGE_SUMMARY_BY_ID_MIN:
+      "rangereset/v2/rangeresetevents/{rangeResetId}/items/{MIN}/summary",
     GET_SUPPLIER_BY_SUPPLIER_AND_SITE: "supplier/v1/search",
     //
     GOOGLE_CLIENT_ID:

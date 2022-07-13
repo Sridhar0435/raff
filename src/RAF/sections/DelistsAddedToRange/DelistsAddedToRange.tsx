@@ -70,6 +70,7 @@ import {
   pinTableDummyData,
   depotViewResDummy,
   storeViewDummyRes,
+  regionsButtonsDummy,
   // supplierCodes
 } from './DataConstants'
 // import TextFieldWithSearch from './sections/TextFieldWithSearch/TextFieldWithSearch'
@@ -90,12 +91,14 @@ import {
   getRangeByIdAndMinNumber,
   getSupplierSearchByIdNameSupplierAndSite,
   getLocationsStoreCodeAPI, //location/v2
+  getRangeResetEventsStoreDepot,
 } from '../../../api/Fetch'
 import { life } from '../../../util/Constants'
 import { allMessages } from '../../../util/Messages'
 import LoadingComponent from '../../../components/LoadingComponent/LoadingComponent'
 import { Toast } from 'primereact/toast'
 import SearchSelect from '../../components/SearchSelect/SearchSelect'
+import DepotviewButtons from './DepotviewButtons'
 import './styles.css'
 
 const ITEM_HEIGHT = 48
@@ -353,7 +356,7 @@ function DelistsAddedToRange() {
   useEffect(() => {
     // getRangeByIdAndMinNumber('3400', '@all')
     // getRangeByIdAndMinNumber('1304', '@all')
-    getRangeByIdAndMinNumber('1304', '@all')
+    getRangeByIdAndMinNumber('3901', '@all')
       .then((res: any) => {
         console.log('1304', res.data)
         console.log('1304', JSON.stringify(res.data))
@@ -366,85 +369,146 @@ function DelistsAddedToRange() {
             return {
               _idCheck: rand,
               actionType: item.type,
-              lineStatus: 'Draft',
+              lineStatus: item.eventLineStatus,
               // itemNumber: item.itemNumber, //userinput
               min: item.itemNumber, //userinput
-              pin: item.pin,
+              pin: item.pin ? item.pin : null,
               pinArray: null,
-              ingredientMin: item.ingredientMin,
+              ingredientMin: item.ingredientMin ? item.ingredientMin : null,
               legacyItemNumbers: item.hasOwnProperty('legacyItemNumbers')
                 ? item.legacyItemNumbers
                 : null,
-              man: item.man,
-              description: item.description,
-              replaceMin: item.replaceMin,
-              replaceMinDescription: item.replaceMinDescription,
+              man: item.man ? item.man : null,
+              description: item.description ? item.description : null,
+              replaceMin: item.replaceMin ? item.replaceMin : null,
+              replaceMinDescription: item.replaceMinDescription
+                ? item.replaceMinDescription
+                : null,
               unitretailInc: 'NA', //drop2
               unitcost: item.unitCost, //drop2
-              unitretail: 'NA', //drop2
-              casecost: item.caseCost, //drop2
-              packquantity: item.caseSize, //drop2
-              supplierId: item.newSupplier,
-              supplierSiteNameCode: item.newSupplierSite,
-              local: item.local,
+              unitretailEx: 'NA', //drop2
+              casecost: item.caseCost ? item.caseCost : null, //drop2
+              packquantity: item.caseSize ? item.caseSize : null, //drop2
+              supplierId: item.newSupplier ? item.newSupplier : null,
+              supplierSiteNameCode: item.newSupplierSite
+                ? item.newSupplierSite
+                : null,
+              local: item.local ? item.local : null,
               perStorepPerWeek: item.hasOwnProperty('perStorepPerWeek')
                 ? item.perStorepPerWeek
                 : null,
-              onlineCFC: item.rangestatus.online[0],
-              onlineStorePick: item.rangestatus.retail.join(','),
-              wholesale: item.rangestatus.wholesale,
+              onlineCFC: item.rangestatus.online[0]
+                ? item.rangestatus.online[0] === 'Online'
+                  ? 'Y'
+                  : 'N'
+                : null,
+              onlineStorePick: item.rangestatus.retail
+                ? item.rangestatus.retail.join(',')
+                : null,
+              wholesale: item.rangestatus.wholesale
+                ? item.rangestatus.wholesale
+                : null,
               // currentnoofrangedstores: item.rangedStoresCurrent,
               currentnoofrangedstores: 100,
-              newnoofrangestores: item.rangedStoresNew,
-              currentVersusNewStores: item.currentVsNewStores,
-              storesRangedCurrentVsProposed: null,
-              currentShelfFill: item.shelfFillCurrent,
-              newShelfFill: item.shelfFillNew,
-              currentshelffill_vs_newfill_percant: item.currentVsNewShelfFill,
-              ownBrand: item.ownBrand,
-              includeInClearancePricing: item.clearancePricing,
-              includeInStoreWastage: item.wastage,
-              clearDepotBy: item.depotClearWeek,
-              supplierCommitment: item.suppCommFixedBuysSeasonal,
-              finalStopOrderDate: null ? '' : null,
-              systemSuggestedStopOrderDate: null ? '' : null,
-              lastPoDate: item.lastPODate,
-              depotShelfLifeMinimum: item.depotShelfLife,
-              productShelfLifeInstore: item.productShelfLife,
-              shelfLifeatManufacture: item.mfgShelfLife,
-              numberOfRangeStores: null,
-              totalstock: item.totalStoreStock,
-              store_stock_unit: null,
-              // depotStockUnit: item.totalDepotStock,
-              depotStockUnit: 100,
-              openPos: item.totalOpenPurchaseOrders,
-              forward_forecast_to_launch: item.frwdForecastToLaunch,
-              averageWeeklyVolume: null,
-              weeksCoveronTotalStockonHandtoResetDate: item.weeksCover,
-              forcastedWeeksCovertoResetDate: item.forecastWeekCover,
-              excessstock: item.excessStock,
-              safewaybrandedequivalent: item.safewayBrandedEq,
-              effectiveDateFrom: item.effectiveFromDate,
-              effectiveDateTo: item.effectiveToDate,
-              existingSupplier: item.existingSupplier,
-              existingSupplierSite: item.existingSupplierSite,
-              noofrecipeMin: null,
+              newnoofrangestores: item.rangedStoresNew
+                ? item.rangedStoresNew
+                : null,
+              currentVersusNewStores: item.currentVsNewStores
+                ? item.currentVsNewStores
+                : null,
+              storesRangedCurrentVsProposed: item.rangedStoresPercent
+                ? item.rangedStoresPercent
+                : null,
+              currentShelfFill: item.shelfFillCurrent
+                ? item.shelfFillCurrent
+                : null,
+              newShelfFill: item.shelfFillNew ? item.shelfFillNew : null,
+              currentshelffill_vs_newfill_percant: item.currentVsNewShelfFill
+                ? item.currentVsNewShelfFill
+                : null,
+              ownBrand: item.ownBrand ? item.ownBrand : null,
+              includeInClearancePricing: item.clearancePricing
+                ? item.clearancePricing
+                : null,
+              includeInStoreWastage: item.wastage ? item.wastage : null,
+              clearDepotBy: item.depotClearWeek ? item.depotClearWeek : null,
+              supplierCommitment: item.suppCommFixedBuysSeasonal
+                ? item.suppCommFixedBuysSeasonal
+                : null,
+              finalStopOrderDate: item.gscopdate ? item.gscopdate.date : null,
+              systemSuggestedStopOrderDate: item.stopPODates
+                ? item.stopPODates
+                : null,
+              lastPoDate: item.lastPODate ? item.lastPODate : null,
+              depotShelfLifeMinimum: item.depotShelfLife
+                ? item.depotShelfLife
+                : null,
+              productShelfLifeInstore: item.productShelfLife
+                ? item.productShelfLife
+                : null,
+              shelfLifeatManufacture: item.mfgShelfLife
+                ? item.mfgShelfLife
+                : null,
+              // newnoofrangestores: item.rangedStoresNew
+              //   ? item.rangedStoresNew
+              //   : null,
+              totalstock: null, //nokey
+              storeStockUnit: item.totalStoreStock
+                ? item.totalStoreStock
+                : null,
+              depotStockUnit: item.totalDepotStock
+                ? item.totalDepotStock
+                : null,
+              // depotStockUnit: 100,
+              openPos: item.totalOpenPurchaseOrders
+                ? item.totalOpenPurchaseOrders
+                : null,
+              forward_forecast_to_launch: item.frwdForecastToLaunch
+                ? item.frwdForecastToLaunch
+                : null,
+              averageWeeklyVolume: item.total3MonthsPOHistory
+                ? item.total3MonthsPOHistory
+                : null,
+              weeksCoveronTotalStockonHandtoResetDate: item.weeksCover
+                ? item.weeksCover
+                : null,
+              forcastedWeeksCovertoResetDate: item.forecastWeekCover
+                ? item.forecastWeekCover
+                : null,
+              excessstock: item.excessStock ? item.excessStock : null,
+              safewaybrandedequivalent: item.safewayBrandedEq
+                ? item.safewayBrandedEq
+                : null,
+              effectiveDateFrom: item.effectiveFromDate
+                ? item.effectiveFromDate
+                : null,
+              effectiveDateTo: item.effectiveToDate
+                ? item.effectiveToDate
+                : null,
+              existingSupplier: item.existingSupplier
+                ? item.existingSupplier
+                : null,
+              existingSupplierSite: item.existingSupplierSite
+                ? item.existingSupplierSite
+                : null,
+              // noOfRecipeMin: null,
+              noOfRecipeMin: 100,
               depotClearbyReservedQtyRetail: null,
               depotClearbyReservedQtyWholesale: null,
               depotClearbyReservedQtyOnline: null,
               depotClearbyReservedQtyTotal: null,
-              comments: comments,
+              // comments: item.comments ? item.comments : null, //uncomment when deploying
               // min: '500000033',
 
               //Depot stock Unit View Model data
-              aggregatedStoreStockUnit: item.aggregatedstorestock,
-              totalPurchaseOrdersForecast: item.totalPurchaseOrdersForecast,
-              total3MonthsPOHistory: item.total3MonthsPOHistory,
-              depotClearDate: item.depotClearDate,
-              salesForcastToTargetDate: 'NA',
-              systemAdvisedStopOrderDate: 'NA',
-              derangedLocations: item.derangedLocations,
-              rangedStoresCurrent: item.rangedStoresCurrent,
+              // aggregatedStoreStockUnit: item.aggregatedstorestock ? item.aggregatedstorestock : null,
+              // totalPurchaseOrdersForecast: item.totalPurchaseOrdersForecast ?item.totalPurchaseOrdersForecast:null,
+              // total3MonthsPOHistory: item.total3MonthsPOHistory ? item.total3MonthsPOHistory :null,
+              // depotClearDate: item.depotClearDate ?  item.depotClearDate :null,
+              // salesForcastToTargetDate: 'NA',
+              // systemAdvisedStopOrderDate: 'NA',
+              // derangedLocations: item.derangedLocations,
+              // rangedStoresCurrent: item.rangedStoresCurrent,
             }
           })
 
@@ -834,7 +898,7 @@ function DelistsAddedToRange() {
         input={<OutlinedInput margin="dense" className={classes.muiSelect} />}
       >
         <MenuItem
-          value={'week-4'}
+          value={'Week-4'}
           // key={type.name}
           className={classes.muiSelect}
         >
@@ -842,7 +906,7 @@ function DelistsAddedToRange() {
         </MenuItem>
 
         <MenuItem
-          value={'week-5'}
+          value={'Week-5'}
           // key={type.name}
           className={classes.muiSelect}
         >
@@ -1154,7 +1218,10 @@ function DelistsAddedToRange() {
   const pinProductListTemplate = (rowData: any) => {
     if (
       rowData &&
-      (rowData.actionType === 'Delist MIN' || rowData.actionType === 'Derange')
+      (rowData.actionType === 'Delist MIN' ||
+        rowData.actionType === 'Derange' ||
+        rowData.actionType === 'Delist Product (MIN)' ||
+        rowData.actionType === 'Delist')
     ) {
       return (
         <>
@@ -1264,22 +1331,67 @@ function DelistsAddedToRange() {
     </Dialog>
   )
   const [storeViewApi, setStoreViewApi] = useState<any>()
+  const [storePopupHeader, setStorePopupHeader] = useState<any>('')
+  const [depotRegions, setDepotRegions] = useState<any>([])
+
+  useEffect(() => {
+    console.log('depotRegions', depotRegions)
+  }, [depotRegions])
+
+  const getStoreDepot = (store: any) => {
+    setIsProgressLoader(true)
+    return (
+      getRangeResetEventsStoreDepot('3901', '100105854', store)
+        // return getRangeResetEventsStoreDepot('1304', '100122267', store)
+        .then((res: any) => {
+          console.log('success view')
+
+          if (res.data.hasOwnProperty('storeView') && store === 'store') {
+            setStoreViewApi(res.data.storeView)
+            setStorePopupHeader(res.data)
+          } else {
+            setStoreViewApi([])
+            setStorePopupHeader('')
+          }
+          if (res.data.hasOwnProperty('depotView') && store === 'depot') {
+            setDepotStockData(res.data.depotView)
+            setDepotRegions(res.data.regions)
+          } else {
+            setDepotStockData([])
+            setDepotRegions([])
+          }
+          setIsProgressLoader(false)
+        })
+        .catch((err: any) => {
+          setIsProgressLoader(false)
+          console.log('error store view')
+        })
+    )
+  }
+
   const handleRangeStoresDialogOpen = (rowData: any) => {
     setRangedStoresDialogOpen(true)
     // setRangedStoresData(rowData)
-    setRangedStoresData(storeViewDummyRes.storeView)
+    getStoreDepot('store')
+    // setRangedStoresData(storeViewDummyRes.storeView)
     // getRangeByIdAndMinNumber("rangerestId", "Minnumber")
-    // .then((res:any) => {
-    //   console.log("success view")
-    //   if(res.hasOwnProperty("storeView")){
-    //     setStoreViewApi(res.storeView)
-    //   } else {
-    //     setStoreViewApi([])
-    //   }
-    // }).catch((err:any) => {
-    //   console.log("error store view")
-    // })
+    // getRangeResetEventsStoreDepot('1304', '100122267', 'store')
+    //   .then((res: any) => {
+    //     console.log('success view')
+    //     if (res.data.hasOwnProperty('storeView')) {
+    //       setStoreViewApi(res.data.storeView)
+    //     } else {
+    //       setStoreViewApi([])
+    //     }
+    //   })
+    //   .catch((err: any) => {
+    //     console.log('error store view')
+    //   })
   }
+
+  useEffect(() => {
+    console.log('storeViewApi', storeViewApi)
+  }, [storeViewApi])
 
   const handleRangeStoresDialogClose = () => {
     setRangedStoresDialogOpen(false)
@@ -1291,6 +1403,13 @@ function DelistsAddedToRange() {
       open={rangedStoresDialogOpen}
       onClose={handleRangeStoresDialogClose}
       fullWidth
+      classes={{
+        paperFullWidth:
+          // depotStockData && depotStockData.length > 0
+          storeViewApi
+            ? classes.rangeStoreDialogBox
+            : classes.placeholderDialog,
+      }}
     >
       <Box
         sx={{
@@ -1304,9 +1423,33 @@ function DelistsAddedToRange() {
         }}
       >
         <DialogHeader
-          title={`Store View`}
+          title={`Current No. of Ranged Stores`}
           onClose={handleRangeStoresDialogClose}
         />
+        <Box
+          sx={{
+            p: 2,
+          }}
+        >
+          <table className={classes.tableMain}>
+            <tr className={classes.table_th}>
+              <th className={classes.table_tr_th}>Action/Type</th>
+              <th className={classes.table_tr_th}>MIN</th>
+              <th className={classes.table_tr_th}>Description</th>
+            </tr>
+            <tr>
+              <td className={classes.table_tr_th}>
+                {storePopupHeader && storePopupHeader.type}
+              </td>
+              <td className={classes.table_tr_th}>
+                {storePopupHeader && storePopupHeader.itemNumber}
+              </td>
+              <td className={classes.table_tr_th}>
+                {storePopupHeader && storePopupHeader.description}
+              </td>
+            </tr>
+          </table>
+        </Box>
         <Box
           sx={{
             p: 2,
@@ -1319,13 +1462,18 @@ function DelistsAddedToRange() {
               justifyContent: 'space-between',
             }}
           >
-            <strong>Store View</strong>
+            <span className="">
+              <Button disabled className={classes.planview}>
+                Plan View
+              </Button>
+              <Button className={classes.storeview}>Store View</Button>
+            </span>
             <Button style={{ color: '#004e37' }}>Download</Button>
           </Box>
           <DataTable
             // value={rangedStoresTableData}
-            value={rangedStoresData}
-            // value={storeViewApi}
+            // value={rangedStoresData}
+            value={storeViewApi}
             showGridlines
             className="p-datatable-sm"
           >
@@ -1392,6 +1540,7 @@ function DelistsAddedToRange() {
     return <span>{rowData && rowData.existingSupplier}</span>
   }
   const handleIngredientDialogOpen = (rowData: any) => {
+    // checkProductCompositionService(min) // work from here
     setIngredientDialog(true)
     setIngredientData(rowData)
     setIngredientData(rowData.ingredientDetails)
@@ -1508,7 +1657,10 @@ function DelistsAddedToRange() {
     // console.log('ingredientMinTemplate', rowData)
     if (
       rowData &&
-      (rowData.actionType === 'Delist MIN' || rowData.actionType === 'Derange')
+      (rowData.actionType === 'Delist MIN' ||
+        rowData.actionType === 'Derange' ||
+        rowData.actionType === 'Delist Product (MIN)' ||
+        rowData.actionType === 'Delist')
     ) {
       return (
         <>
@@ -1590,7 +1742,10 @@ function DelistsAddedToRange() {
     // console.log('ingredientMinTemplate', rowData)
     if (
       rowData &&
-      (rowData.actionType === 'Delist MIN' || rowData.actionType === 'Derange')
+      (rowData.actionType === 'Delist MIN' ||
+        rowData.actionType === 'Derange' ||
+        rowData.actionType === 'Delist Product (MIN)' ||
+        rowData.actionType === 'Delist')
     ) {
       return (
         <>
@@ -1616,7 +1771,8 @@ function DelistsAddedToRange() {
     setDepotStockDialogOpen(true)
     console.log('handleDepotStockDialogOpen', rowData)
     // setDepotStockData([rowData])
-    setDepotStockData(depotViewResDummy.depotView)
+    // setDepotStockData(depotViewResDummy.depotView)
+    getStoreDepot('depot')
 
     //make an api call here
   }
@@ -1627,12 +1783,15 @@ function DelistsAddedToRange() {
   }
 
   //NOrth popup
-  const [depotClick, setDepotClick] = useState<any>('')
   const [depotButtonsDialog, setDepotButtonsDialog] = useState<any>(false)
+  const [depotRegLoc, setDepotRegLoc] = useState<any>()
 
-  const depotButtons = (title: any) => {
-    setDepotClick(title)
+  const depotButtons = (props: any) => {
+    setIsProgressLoader(true)
+    console.log('depotButtons', props)
+    setDepotRegLoc(props)
     setDepotButtonsDialog(true)
+    setIsProgressLoader(false)
   }
   const handleDepotButtonDialogClose = () => {
     setDepotButtonsDialog(false)
@@ -1654,8 +1813,7 @@ function DelistsAddedToRange() {
         }}
       >
         <DialogHeader
-          title={depotClick}
-          // title={`North East`}
+          title={depotRegLoc && depotRegLoc.regionName}
           onClose={handleDepotButtonDialogClose}
         />
         <Box
@@ -1668,9 +1826,10 @@ function DelistsAddedToRange() {
             <div className="gridBorderGreen">
               <p className="headBgGreen">Ranged Stores</p>
               <ul className="childRange">
-                <li>killingworth(35)</li>
-                <li>{depotClick}(35)</li>
-                <li>{depotClick}(35)</li>
+                {depotRegLoc &&
+                  depotRegLoc.locations.map((val: any) => (
+                    <DepotviewButtons locations={val} />
+                  ))}
               </ul>
             </div>
           </Grid>
@@ -1678,9 +1837,10 @@ function DelistsAddedToRange() {
             <div className="gridBorderGreen">
               <p className="headBgGreen">Stores selected for Derange</p>
               <ul className="childRange">
-                <li>killingworth(35)</li>
-                <li>{depotClick}(35)</li>
-                <li>{depotClick}(35)</li>
+                {depotRegLoc &&
+                  depotRegLoc.locations.map((val: any) => (
+                    <DepotviewButtons locations={val} />
+                  ))}
               </ul>
             </div>
           </Grid>
@@ -1730,6 +1890,7 @@ function DelistsAddedToRange() {
             overflow: 'scroll',
           }}
         >
+          {/* {depotStockData.length === 0 && <span>Loading...</span>} */}
           <DataTable
             value={depotStockData}
             // value={depotStockTableData}
@@ -1761,9 +1922,11 @@ function DelistsAddedToRange() {
             padding: '20px',
           }}
         >
-          {depotStockButtons.map((button: any) => {
+          {/* {depotStockButtons.map((button: any) => { */}
+          {depotRegions.map((button: any, index: any) => {
             return (
               <Grid
+                key={index}
                 item
                 sm={2}
                 style={{
@@ -1777,7 +1940,7 @@ function DelistsAddedToRange() {
                   className={classes.tableLinks}
                   onClick={() => depotButtons(button)}
                 >
-                  {button}
+                  {button.regionName}
                 </button>
               </Grid>
             )
@@ -1796,6 +1959,8 @@ function DelistsAddedToRange() {
     ) {
       if (
         rowData.actionType === 'Delist MIN' ||
+        rowData.actionType === 'Delist' ||
+        rowData.actionType === 'Delist Product (MIN)' ||
         rowData.actionType === 'Delist'
       ) {
         return (
@@ -1902,9 +2067,9 @@ function DelistsAddedToRange() {
 
           result.map((d: any, index: any) => {
             if (
-              d.Action_Type &&
-              d.Action_Type === 'Delist MIN' &&
-              actionType.value === 'Delist Product (MIN)' //for multipe excel files upload remove actiontype.value in all types
+              (d.Action_Type && d.Action_Type === 'Delist MIN') ||
+              (d.Action_Type === 'Delist Product (MIN)' &&
+                actionType.value === 'Delist Product (MIN)') //for multipe excel files upload remove actiontype.value in all types
               // || actionType === undefined
             ) {
               getAndCheckItemNumber([
@@ -1923,9 +2088,9 @@ function DelistsAddedToRange() {
                 '',
               ])
             } else if (
-              d.Action_Type &&
-              d.Action_Type === 'New MIN' &&
-              actionType.value === 'New Product (MIN)'
+              (d.Action_Type && d.Action_Type === 'New MIN') ||
+              (d.Action_Type === 'New Product (MIN)' &&
+                actionType.value === 'New Product (MIN)')
             ) {
               getAndCheckItemNumber([
                 d.MIN ? d.MIN : d.MIN_PIN,
@@ -1983,9 +2148,9 @@ function DelistsAddedToRange() {
                 '',
               ])
             } else if (
-              d.Action_Type &&
-              d.Action_Type === 'Delist PIN' &&
-              actionType.value === 'Delist Outercase Code (PIN)'
+              (d.Action_Type && d.Action_Type === 'Delist PIN') ||
+              (actionType.d.Action_Type === 'Delist Outercase Code (PIN)' &&
+                actionType.value === 'Delist Outercase Code (PIN)')
             ) {
               getAndCheckItemNumber([
                 d.MIN_PIN,
@@ -2195,6 +2360,7 @@ function DelistsAddedToRange() {
     // if (actionType === 'New MIN') {
     //   onPageLoadStoreCode()
     // }
+    setSelectedStore([])
     onPageLoadStoreCode()
   }
 
@@ -2332,7 +2498,7 @@ function DelistsAddedToRange() {
       onlineStorePick: 'Y',
       wholesale: 'Y',
       currentnoofrangedstores: '',
-      numberOfRangeStores: 'NA', //current
+      newnoofrangestores: 'NA', //current
       // newnoofrangestores:"",
       currentVersusNewStores: '',
       storesRangedCurrentVsProposed: '',
@@ -2352,7 +2518,7 @@ function DelistsAddedToRange() {
       productShelfLifeInstore: '',
       shelfLifeatManufacture: '',
       totalstock: '',
-      store_stock_unit: '',
+      storeStockUnit: '',
       depotStockUnit: '',
       openPos: '',
       forward_forecast_to_launch: '',
@@ -2365,7 +2531,7 @@ function DelistsAddedToRange() {
       effectiveDateTo: '',
       existingSupplier: '',
       existingSupplierSite: '',
-      noofrecipeMin: '',
+      noOfRecipeMin: '',
       depotClearbyReservedQtyRetail: '',
       depotClearbyReservedQtyWholesale: '',
       depotClearbyReservedQtyOnline: '',
@@ -2461,7 +2627,7 @@ function DelistsAddedToRange() {
       }
     }
 
-    if (type === 'Delist MIN') {
+    if (type === 'Delist MIN' || type === 'Delist Product (MIN)') {
       formData.comments = comments === '' ? comment : comments
       if (productServieResponse1.status !== 'rejected') {
         // formData.ingredientMin = parseInt(
@@ -2486,7 +2652,7 @@ function DelistsAddedToRange() {
         }
       }
     }
-    if (type === 'New MIN') {
+    if (type === 'New MIN' || type === 'New Product (MIN)') {
       // formData.storeCode = storecodeNewMin ? storecodeNewMin.join(',') : ''
       formData.storeCode =
         typeof storecodeNewMin === 'string'
@@ -2494,7 +2660,7 @@ function DelistsAddedToRange() {
           : storecodeNewMin
           ? storecodeNewMin.join(',')
           : ''
-      formData.numberOfRangeStores = newnoofrangestoreNewMin
+      formData.newnoofrangestores = newnoofrangestoreNewMin
       formData.comments = comments === '' ? comment : comments
     }
     if (type === 'Delist Ingredient MIN') {
@@ -2699,7 +2865,7 @@ function DelistsAddedToRange() {
           'New MIN',
           '',
           '',
-          '',
+          noOfStores,
           selectedStore,
           '',
           '',
@@ -2780,6 +2946,7 @@ function DelistsAddedToRange() {
         '',
         '',
       ])
+    } else if (actionType.value === 'Product Distribution Increase (MIN)') {
     } else if (actionType.value === 'Product Shelf Space Increase') {
       getRangeByIdAndMinNumber('1304', min)
         .then((res: any) => {
@@ -4538,7 +4705,7 @@ function DelistsAddedToRange() {
           replaceMinDescription: 'NA',
           existingSupplier: '',
           existingSupplierSite: '',
-          numberOfRangeStores: '',
+          newnoofrangestores: '',
           storeCode: '',
           ownBrand: 'Y',
           barcode: i === 0 ? '5010228012933' : '501022801293' + i,
@@ -4964,7 +5131,7 @@ function DelistsAddedToRange() {
               replaceMinDescription: 'NA',
               existingSupplier: d[cols[3]] ? d[cols[3]] : '',
               existingSupplierSite: d[cols[4]] ? d[cols[4]] : '',
-              numberOfRangeStores: d[cols[6]] ? d[cols[6]] : '',
+              newnoofrangestores: d[cols[6]] ? d[cols[6]] : '',
               storeCode: d[cols[7]] ? d[cols[7]] : '',
               ownBrand: d[cols[1]] ? d[cols[1]] : '',
               barcode: d[cols[2]] ? d[cols[2]] : '',
@@ -5465,13 +5632,13 @@ function DelistsAddedToRange() {
       <OutlinedInput
         margin="dense"
         className={classes.muiSelect}
-        value={rowData && rowData.numberOfRangeStores}
+        value={rowData && rowData.newnoofrangestores}
         onChange={(e) => {
           if (e.target.value !== null) {
             setPlaceholderProducts((prevState: any) => {
               return onChangeProductTableFields(
                 prevState,
-                'numberOfRangeStores',
+                'newnoofrangestores',
                 rowData,
                 e.target.value
               )
@@ -5838,7 +6005,7 @@ function DelistsAddedToRange() {
                             supplierCodePlaceholderTemplate) ||
                           (col.field === 'packquantity' &&
                             casePackPlaceholderTemplate) ||
-                          (col.field === 'numberOfRangeStores' &&
+                          (col.field === 'newnoofrangestores' &&
                             newNoOfRangeStorePlaceholderTemplate) ||
                           (col.field === 'local' && localPlaceholderTemplate) ||
                           (col.field === 'onlineCFC' &&

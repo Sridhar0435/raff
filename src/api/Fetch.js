@@ -52,6 +52,7 @@ const {
   GET_RANGE_SUMMARY_BY_ID_MIN,
   GET_SUPPLIER_BY_SUPPLIER_AND_SITE,
   GET_LOCATIONS,
+  GET_STORE_DEPOT_FROM_RANGE_SUMMARY_BY_ID_MIN,
 } = config;
 
 export const userV2Login = (idToken) => {
@@ -479,6 +480,17 @@ export const getLocationsStoreCodeAPI = () => {
   const url = `${BASE_URL}${GET_LOCATIONS}`;
   // const params = "limit=1000";
   return serviceRequest(url, "GET", undefined);
+};
+export const getRangeResetEventsStoreDepot = (
+  rangeResetId,
+  minNumber,
+  storeOrDepot
+) => {
+  let url = `${BASE_URL}${GET_STORE_DEPOT_FROM_RANGE_SUMMARY_BY_ID_MIN}`;
+  url = url.replace("{rangeResetId}", rangeResetId);
+  url = url.replace("{MIN}", minNumber);
+  const params = `view=${storeOrDepot}`;
+  return serviceRequest(url, "GET", undefined, params);
 };
 // export const getItemWeekStoreViewForecastAPI = ( GET_PRODUCT_SUPPLIER_SERVICE
 //   rangeResetId,

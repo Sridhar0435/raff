@@ -399,16 +399,16 @@ export const productListCols = [
     header: "Current No. of Ranged Stores",
     width: "200px",
   },
-  // {
-  //   field: "newnoofrangestores",
-  //   header: "New No. of Range Stores",
-  //   width: "200px",
-  // },
   {
-    field: "numberOfRangeStores",
-    header: "New Number of Range Stores",
-    width: "150px",
+    field: "newnoofrangestores",
+    header: "New No. of Range Stores",
+    width: "200px",
   },
+  // {
+  //   field: "numberOfRangeStores",
+  //   header: "New Number of Range Stores",
+  //   width: "150px",
+  // },
 
   {
     field: "currentVersusNewStores",
@@ -504,7 +504,7 @@ export const productListCols = [
     width: "200px",
   },
   {
-    field: "store_stock_unit",
+    field: "storeStockUnit",
     header: "Store Stock Unit",
     width: "200px",
   },
@@ -579,7 +579,7 @@ export const productListCols = [
     width: "150px",
   },
   {
-    field: "noofrecipeMin",
+    field: "noOfRecipeMin",
     header: "No. of Recipe MIN",
     width: "200px",
   },
@@ -736,7 +736,7 @@ export const placeholderCols = [
     width: "200px",
   },
   {
-    field: "numberOfRangeStores",
+    field: "newnoofrangestores",
     header: "New No.of Range Stores",
     width: "150px",
   },
@@ -1336,95 +1336,1770 @@ export const depotViewResDummy = {
       weeksCover: null,
       forecastWeeksCover: null,
     },
-    // {
-    //     "locationId": "983",
-    //     "aggDptQty": "0.0",
-    //     "qty": "11754.0",
-    //     "openPOqty": "1260.0",
-    //     "forecastPOqty": "0.0",
-    //     "historyPOqty": "71136.0",
-    //     "salesForecastQuantity": "0.0",
-    //     "sysSODate": "2022-06-20",
-    //     "depotClearDate": "2023-01-07",
-    //     "retailReserveQuantity": "0.0",
-    //     "onlineReserveQuantity": "0.0",
-    //     "wholesaleReserveQuantity": "0.0",
-    //     "totalReserverQuantity": "0.0",
-    //     "lastPODate": "2023-01-04",
-    //     "weeksCover": null,
-    //     "forecastWeeksCover": null
-    // },
-    // {
-    //     "locationId": "720",
-    //     "aggDptQty": "0.0",
-    //     "qty": "8802.0",
-    //     "openPOqty": "630.0",
-    //     "forecastPOqty": "0.0",
-    //     "historyPOqty": "64890.0",
-    //     "salesForecastQuantity": "0.0",
-    //     "sysSODate": "2022-06-20",
-    //     "depotClearDate": "2023-01-07",
-    //     "retailReserveQuantity": "0.0",
-    //     "onlineReserveQuantity": "0.0",
-    //     "wholesaleReserveQuantity": "0.0",
-    //     "totalReserverQuantity": "0.0",
-    //     "lastPODate": "2023-01-04",
-    //     "weeksCover": null,
-    //     "forecastWeeksCover": null
-    // },
-    // {
-    //     "locationId": "953",
-    //     "aggDptQty": "0.0",
-    //     "qty": "9828.0",
-    //     "openPOqty": "684.0",
-    //     "forecastPOqty": "0.0",
-    //     "historyPOqty": "104580.0",
-    //     "salesForecastQuantity": "0.0",
-    //     "sysSODate": "2022-06-20",
-    //     "depotClearDate": "2023-01-07",
-    //     "retailReserveQuantity": "0.0",
-    //     "onlineReserveQuantity": "0.0",
-    //     "wholesaleReserveQuantity": "0.0",
-    //     "totalReserverQuantity": "0.0",
-    //     "lastPODate": "2023-01-04",
-    //     "weeksCover": null,
-    //     "forecastWeeksCover": null
-    // },
-    // {
-    //     "locationId": "989",
-    //     "aggDptQty": "0.0",
-    //     "qty": "10980.0",
-    //     "openPOqty": "1260.0",
-    //     "forecastPOqty": "0.0",
-    //     "historyPOqty": "83160.0",
-    //     "salesForecastQuantity": "0.0",
-    //     "sysSODate": "2022-06-20",
-    //     "depotClearDate": "2023-01-07",
-    //     "retailReserveQuantity": "0.0",
-    //     "onlineReserveQuantity": "0.0",
-    //     "wholesaleReserveQuantity": "0.0",
-    //     "totalReserverQuantity": "0.0",
-    //     "lastPODate": "2023-01-04",
-    //     "weeksCover": null,
-    //     "forecastWeeksCover": null
-    // },
-    // {
-    //     "locationId": "806",
-    //     "aggDptQty": "0.0",
-    //     "qty": "3852.0",
-    //     "openPOqty": "1260.0",
-    //     "forecastPOqty": "0.0",
-    //     "historyPOqty": "44100.0",
-    //     "salesForecastQuantity": "0.0",
-    //     "sysSODate": "2022-06-20",
-    //     "depotClearDate": "2023-01-07",
-    //     "retailReserveQuantity": "0.0",
-    //     "onlineReserveQuantity": "0.0",
-    //     "wholesaleReserveQuantity": "0.0",
-    //     "totalReserverQuantity": "0.0",
-    //     "lastPODate": "2023-01-03",
-    //     "weeksCover": null,
-    //     "forecastWeeksCover": null
-    // }
+  ],
+};
+
+export const regionsButtonsDummy = {
+  regions: [
+    {
+      regionName: "Greater London",
+      locations: [
+        {
+          locationId: "1",
+          locationName: "Chingford",
+        },
+        {
+          locationId: "92",
+          locationName: "Enfield",
+        },
+        {
+          locationId: "113",
+          locationName: "Erith",
+        },
+        {
+          locationId: "191",
+          locationName: "Canning Town",
+        },
+        {
+          locationId: "205",
+          locationName: "Ealing",
+        },
+        {
+          locationId: "309",
+          locationName: "Stratford",
+        },
+        {
+          locationId: "318",
+          locationName: "Sutton",
+        },
+        {
+          locationId: "316",
+          locationName: "Sidcup",
+        },
+        {
+          locationId: "313",
+          locationName: "Wood Green",
+        },
+        {
+          locationId: "311",
+          locationName: "Thamesmead",
+        },
+        {
+          locationId: "299",
+          locationName: "Hatch End",
+        },
+        {
+          locationId: "296",
+          locationName: "Becontree Heath",
+        },
+        {
+          locationId: "306",
+          locationName: "Peckham",
+        },
+        {
+          locationId: "307",
+          locationName: "Queensbury",
+        },
+        {
+          locationId: "304",
+          locationName: "Holloway",
+        },
+        {
+          locationId: "305",
+          locationName: "Palmers Green",
+        },
+        {
+          locationId: "302",
+          locationName: "Acton",
+        },
+        {
+          locationId: "373",
+          locationName: "Colindale",
+        },
+        {
+          locationId: "388",
+          locationName: "Borehamwood",
+        },
+        {
+          locationId: "527",
+          locationName: "Mitcham",
+        },
+        {
+          locationId: "447",
+          locationName: "Welling",
+        },
+        {
+          locationId: "410",
+          locationName: "Stamford Hill",
+        },
+        {
+          locationId: "549",
+          locationName: "Harrow",
+        },
+        {
+          locationId: "576",
+          locationName: "Croydon",
+        },
+      ],
+    },
+    {
+      regionName: "Gibraltar",
+      locations: [
+        {
+          locationId: "452",
+          locationName: "Gibraltar",
+        },
+      ],
+    },
+    {
+      regionName: "South East",
+      locations: [
+        {
+          locationId: "106",
+          locationName: "Banbury",
+        },
+        {
+          locationId: "154",
+          locationName: "Milton Keynes - Leisure Plaza",
+        },
+        {
+          locationId: "158",
+          locationName: "Crowborough",
+        },
+        {
+          locationId: "140",
+          locationName: "Strood",
+        },
+        {
+          locationId: "315",
+          locationName: "Maidstone",
+        },
+        {
+          locationId: "298",
+          locationName: "Gravesend",
+        },
+        {
+          locationId: "297",
+          locationName: "Folkestone",
+        },
+        {
+          locationId: "294",
+          locationName: "Caterham",
+        },
+        {
+          locationId: "295",
+          locationName: "Walderslade",
+        },
+        {
+          locationId: "293",
+          locationName: "Canterbury",
+        },
+        {
+          locationId: "353",
+          locationName: "Hastings",
+        },
+        {
+          locationId: "354",
+          locationName: "Horndean",
+        },
+        {
+          locationId: "359",
+          locationName: "Reading",
+        },
+        {
+          locationId: "355",
+          locationName: "Isle of Wight - Newport",
+        },
+        {
+          locationId: "356",
+          locationName: "Oxted",
+        },
+        {
+          locationId: "364",
+          locationName: "Totton",
+        },
+        {
+          locationId: "362",
+          locationName: "Seaford",
+        },
+        {
+          locationId: "360",
+          locationName: "Reigate",
+        },
+        {
+          locationId: "361",
+          locationName: "Isle of Wight - Lake",
+        },
+        {
+          locationId: "404",
+          locationName: "Weybridge",
+        },
+        {
+          locationId: "402",
+          locationName: "Herne Bay",
+        },
+        {
+          locationId: "367",
+          locationName: "Woking",
+        },
+        {
+          locationId: "346",
+          locationName: "Bracknell",
+        },
+        {
+          locationId: "345",
+          locationName: "Basingstoke",
+        },
+        {
+          locationId: "429",
+          locationName: "Fleet",
+        },
+        {
+          locationId: "558",
+          locationName: "Sittingbourne",
+        },
+        {
+          locationId: "553",
+          locationName: "Aldershot",
+        },
+        {
+          locationId: "441",
+          locationName: "Dover",
+        },
+        {
+          locationId: "522",
+          locationName: "Portsmouth - Victory Retail Park",
+        },
+        {
+          locationId: "572",
+          locationName: "Isle of Sheppey",
+        },
+        {
+          locationId: "546",
+          locationName: "Eastbourne",
+        },
+        {
+          locationId: "672",
+          locationName: "Carterton",
+        },
+        {
+          locationId: "630",
+          locationName: "Littlehampton",
+        },
+        {
+          locationId: "641",
+          locationName: "Worthing",
+        },
+      ],
+    },
+    {
+      regionName: "North West",
+      locations: [
+        {
+          locationId: "37",
+          locationName: "Dukinfield",
+        },
+        {
+          locationId: "32",
+          locationName: "Heywood",
+        },
+        {
+          locationId: "28",
+          locationName: "Eccles",
+        },
+        {
+          locationId: "22",
+          locationName: "Manchester - Failsworth",
+        },
+        {
+          locationId: "21",
+          locationName: "St Helens - Baxters Lane",
+        },
+        {
+          locationId: "19",
+          locationName: "Widnes",
+        },
+        {
+          locationId: "57",
+          locationName: "Oldham",
+        },
+        {
+          locationId: "59",
+          locationName: "Bolton - Atlas Mills",
+        },
+        {
+          locationId: "53",
+          locationName: "Rochdale",
+        },
+        {
+          locationId: "55",
+          locationName: "Kendal",
+        },
+        {
+          locationId: "45",
+          locationName: "Bolton",
+        },
+        {
+          locationId: "41",
+          locationName: "Preston Riversway",
+        },
+        {
+          locationId: "44",
+          locationName: "Carlisle",
+        },
+        {
+          locationId: "38",
+          locationName: "Blackburn",
+        },
+        {
+          locationId: "71",
+          locationName: "Warrington",
+        },
+        {
+          locationId: "74",
+          locationName: "Morecambe",
+        },
+        {
+          locationId: "77",
+          locationName: "Winsford",
+        },
+        {
+          locationId: "60",
+          locationName: "Chorley",
+        },
+        {
+          locationId: "66",
+          locationName: "Blackpool",
+        },
+        {
+          locationId: "93",
+          locationName: "Denton",
+        },
+        {
+          locationId: "94",
+          locationName: "Barrow-in-Furness",
+        },
+        {
+          locationId: "97",
+          locationName: "Liverpool - Belle Vale",
+        },
+        {
+          locationId: "104",
+          locationName: "Nelson",
+        },
+        {
+          locationId: "105",
+          locationName: "St Helens - Boundary Road",
+        },
+        {
+          locationId: "151",
+          locationName: "Leyland",
+        },
+        {
+          locationId: "119",
+          locationName: "Hyde",
+        },
+        {
+          locationId: "122",
+          locationName: "Cheadle Heath",
+        },
+        {
+          locationId: "120",
+          locationName: "Crewe",
+        },
+        {
+          locationId: "134",
+          locationName: "Southport",
+        },
+        {
+          locationId: "131",
+          locationName: "Chester - Liverpool Road",
+        },
+        {
+          locationId: "138",
+          locationName: "Liverpool - Speke",
+        },
+        {
+          locationId: "149",
+          locationName: "Whitefield",
+        },
+        {
+          locationId: "210",
+          locationName: "Ellesmere Port",
+        },
+        {
+          locationId: "216",
+          locationName: "Reddish",
+        },
+        {
+          locationId: "217",
+          locationName: "Swinton",
+        },
+        {
+          locationId: "214",
+          locationName: "Penrith",
+        },
+        {
+          locationId: "215",
+          locationName: "Bredbury",
+        },
+        {
+          locationId: "212",
+          locationName: "Harwood",
+        },
+        {
+          locationId: "213",
+          locationName: "Ormskirk",
+        },
+        {
+          locationId: "255",
+          locationName: "Nantwich",
+        },
+        {
+          locationId: "218",
+          locationName: "Thornton-Cleveleys",
+        },
+        {
+          locationId: "221",
+          locationName: "Whitehaven",
+        },
+        {
+          locationId: "220",
+          locationName: "West Kirby",
+        },
+        {
+          locationId: "223",
+          locationName: "Workington",
+        },
+        {
+          locationId: "398",
+          locationName: "Great Harwood",
+        },
+        {
+          locationId: "391",
+          locationName: "Manchester - Openshaw",
+        },
+        {
+          locationId: "508",
+          locationName: "Leigh",
+        },
+        {
+          locationId: "509",
+          locationName: "New Brighton",
+        },
+        {
+          locationId: "551",
+          locationName: "Middlewich",
+        },
+        {
+          locationId: "557",
+          locationName: "Preston - Blackpool Road",
+        },
+        {
+          locationId: "484",
+          locationName: "Cheadle",
+        },
+        {
+          locationId: "651",
+          locationName: "Maghull",
+        },
+        {
+          locationId: "683",
+          locationName: "Kirkby",
+        },
+      ],
+    },
+    {
+      regionName: "East England",
+      locations: [
+        {
+          locationId: "99",
+          locationName: "Milton Keynes - Westcroft",
+        },
+        {
+          locationId: "81",
+          locationName: "Ipswich",
+        },
+        {
+          locationId: "86",
+          locationName: "East Dereham",
+        },
+        {
+          locationId: "85",
+          locationName: "Grays",
+        },
+        {
+          locationId: "103",
+          locationName: "Kings Lynn",
+        },
+        {
+          locationId: "118",
+          locationName: "Cambourne",
+        },
+        {
+          locationId: "115",
+          locationName: "Norwich",
+        },
+        {
+          locationId: "126",
+          locationName: "Letchworth",
+        },
+        {
+          locationId: "276",
+          locationName: "Canvey Island",
+        },
+        {
+          locationId: "277",
+          locationName: "Clacton - Little Clacton",
+        },
+        {
+          locationId: "275",
+          locationName: "Beccles",
+        },
+        {
+          locationId: "317",
+          locationName: "St Albans",
+        },
+        {
+          locationId: "314",
+          locationName: "Loughton",
+        },
+        {
+          locationId: "278",
+          locationName: "Clacton - Waterglade",
+        },
+        {
+          locationId: "279",
+          locationName: "Cromer",
+        },
+        {
+          locationId: "319",
+          locationName: "Welwyn Garden City",
+        },
+        {
+          locationId: "280",
+          locationName: "Diss",
+        },
+        {
+          locationId: "287",
+          locationName: "Maldon",
+        },
+        {
+          locationId: "288",
+          locationName: "Peterborough",
+        },
+        {
+          locationId: "286",
+          locationName: "Lowestoft",
+        },
+        {
+          locationId: "283",
+          locationName: "Felixstowe",
+        },
+        {
+          locationId: "284",
+          locationName: "Benfleet",
+        },
+        {
+          locationId: "282",
+          locationName: "Fakenham",
+        },
+        {
+          locationId: "290",
+          locationName: "Witham",
+        },
+        {
+          locationId: "291",
+          locationName: "Aylesbury",
+        },
+        {
+          locationId: "300",
+          locationName: "High Wycombe",
+        },
+        {
+          locationId: "301",
+          locationName: "Leighton Buzzard",
+        },
+        {
+          locationId: "385",
+          locationName: "Catton",
+        },
+        {
+          locationId: "511",
+          locationName: "Wisbech",
+        },
+        {
+          locationId: "556",
+          locationName: "Lowestoft - North Quay Retail Park",
+        },
+        {
+          locationId: "485",
+          locationName: "Chelmsford",
+        },
+        {
+          locationId: "571",
+          locationName: "Hoddesdon",
+        },
+        {
+          locationId: "414",
+          locationName: "Stanground",
+        },
+        {
+          locationId: "628",
+          locationName: "Bedford",
+        },
+        {
+          locationId: "644",
+          locationName: "Saint Ives",
+        },
+        {
+          locationId: "586",
+          locationName: "Watford",
+        },
+      ],
+    },
+    {
+      regionName: "Wales",
+      locations: [
+        {
+          locationId: "95",
+          locationName: "Ebbw Vale",
+        },
+        {
+          locationId: "96",
+          locationName: "Port Talbot - Baglan",
+        },
+        {
+          locationId: "82",
+          locationName: "Barry",
+        },
+        {
+          locationId: "87",
+          locationName: "Newport - Rogerstone",
+        },
+        {
+          locationId: "157",
+          locationName: "Cardiff - Cardiff Bay",
+        },
+        {
+          locationId: "129",
+          locationName: "Rhyl",
+        },
+        {
+          locationId: "130",
+          locationName: "Swansea",
+        },
+        {
+          locationId: "166",
+          locationName: "Cwmbran",
+        },
+        {
+          locationId: "274",
+          locationName: "Neath",
+        },
+        {
+          locationId: "273",
+          locationName: "Haverfordwest",
+        },
+        {
+          locationId: "270",
+          locationName: "Carmarthen",
+        },
+        {
+          locationId: "240",
+          locationName: "Aberystwyth",
+        },
+        {
+          locationId: "265",
+          locationName: "Bangor",
+        },
+        {
+          locationId: "266",
+          locationName: "Brecon",
+        },
+        {
+          locationId: "269",
+          locationName: "Cardiff - Ty Glas",
+        },
+        {
+          locationId: "267",
+          locationName: "Caernarfon",
+        },
+        {
+          locationId: "268",
+          locationName: "Caerphilly",
+        },
+        {
+          locationId: "397",
+          locationName: "Newtown",
+        },
+        {
+          locationId: "407",
+          locationName: "Newport",
+        },
+        {
+          locationId: "440",
+          locationName: "Connahs Quay",
+        },
+        {
+          locationId: "573",
+          locationName: "Bargoed",
+        },
+        {
+          locationId: "417",
+          locationName: "Wrexham",
+        },
+        {
+          locationId: "425",
+          locationName: "Holyhead",
+        },
+        {
+          locationId: "469",
+          locationName: "Cardiff - Newport Road",
+        },
+        {
+          locationId: "468",
+          locationName: "Abergavenny",
+        },
+        {
+          locationId: "692",
+          locationName: "Llanelli",
+        },
+        {
+          locationId: "677",
+          locationName: "Saltney",
+        },
+      ],
+    },
+    {
+      regionName: "Yorkshire",
+      locations: [
+        {
+          locationId: "34",
+          locationName: "Wakefield - Ridings Centre",
+        },
+        {
+          locationId: "36",
+          locationName: "Leeds - Guiseley",
+        },
+        {
+          locationId: "33",
+          locationName: "Wakefield - Dewsbury Road",
+        },
+        {
+          locationId: "29",
+          locationName: "Catcliffe",
+        },
+        {
+          locationId: "2",
+          locationName: "Bradford - Mayo Avenue",
+        },
+        {
+          locationId: "17",
+          locationName: "Leeds - Horsforth",
+        },
+        {
+          locationId: "5",
+          locationName: "Keighley",
+        },
+        {
+          locationId: "4",
+          locationName: "Bradford - Victoria",
+        },
+        {
+          locationId: "3",
+          locationName: "Bradford - Enterprise 5",
+        },
+        {
+          locationId: "8",
+          locationName: "Bradford - Thornbury",
+        },
+        {
+          locationId: "7",
+          locationName: "Leeds - Yeadon",
+        },
+        {
+          locationId: "51",
+          locationName: "Pontefract",
+        },
+        {
+          locationId: "56",
+          locationName: "Skipton",
+        },
+        {
+          locationId: "15",
+          locationName: "Leeds - Hunslet",
+        },
+        {
+          locationId: "14",
+          locationName: "Beverley",
+        },
+        {
+          locationId: "52",
+          locationName: "Sheffield - Hillsborough",
+        },
+        {
+          locationId: "11",
+          locationName: "Leeds - Morley",
+        },
+        {
+          locationId: "10",
+          locationName: "Leeds - Merrion Centre",
+        },
+        {
+          locationId: "42",
+          locationName: "Heckmondwike",
+        },
+        {
+          locationId: "39",
+          locationName: "Rotherham - Bramley",
+        },
+        {
+          locationId: "70",
+          locationName: "Scunthorpe",
+        },
+        {
+          locationId: "72",
+          locationName: "Sheffield - Ecclesfield",
+        },
+        {
+          locationId: "79",
+          locationName: "Huddersfield",
+        },
+        {
+          locationId: "76",
+          locationName: "Scarborough",
+        },
+        {
+          locationId: "61",
+          locationName: "Rotherham - Parkgate",
+        },
+        {
+          locationId: "65",
+          locationName: "Harrogate - Starbeck",
+        },
+        {
+          locationId: "98",
+          locationName: "Barnsley",
+        },
+        {
+          locationId: "89",
+          locationName: "Leeds - Kirkstall",
+        },
+        {
+          locationId: "101",
+          locationName: "Sheffield - Halfway",
+        },
+        {
+          locationId: "108",
+          locationName: "Boroughbridge",
+        },
+        {
+          locationId: "109",
+          locationName: "Hull",
+        },
+        {
+          locationId: "107",
+          locationName: "Anlaby",
+        },
+        {
+          locationId: "155",
+          locationName: "York - Foss Islands Road",
+        },
+        {
+          locationId: "112",
+          locationName: "Brampton",
+        },
+        {
+          locationId: "110",
+          locationName: "Wetherby",
+        },
+        {
+          locationId: "123",
+          locationName: "Doncaster",
+        },
+        {
+          locationId: "133",
+          locationName: "Ripon",
+        },
+        {
+          locationId: "137",
+          locationName: "Leeds - Bramley Swinnow Road",
+        },
+        {
+          locationId: "144",
+          locationName: "Knottingley",
+        },
+        {
+          locationId: "230",
+          locationName: "Acomb",
+        },
+        {
+          locationId: "229",
+          locationName: "Sheffield - Meadowhead",
+        },
+        {
+          locationId: "228",
+          locationName: "Selby",
+        },
+        {
+          locationId: "226",
+          locationName: "Malton",
+        },
+        {
+          locationId: "224",
+          locationName: "Bridlington",
+        },
+        {
+          locationId: "350",
+          locationName: "Goole",
+        },
+        {
+          locationId: "475",
+          locationName: "Halifax",
+        },
+        {
+          locationId: "563",
+          locationName: "Doncaster - Balby",
+        },
+        {
+          locationId: "533",
+          locationName: "Elland",
+        },
+        {
+          locationId: "419",
+          locationName: "Leeds - Rothwell",
+        },
+        {
+          locationId: "694",
+          locationName: "Leeds - Harehills",
+        },
+      ],
+    },
+    {
+      regionName: "Scotland",
+      locations: [
+        {
+          locationId: "156",
+          locationName: "Johnstone",
+        },
+        {
+          locationId: "152",
+          locationName: "Glasgow - Auchinlea",
+        },
+        {
+          locationId: "150",
+          locationName: "Livingston",
+        },
+        {
+          locationId: "117",
+          locationName: "Kilmarnock",
+        },
+        {
+          locationId: "160",
+          locationName: "Aberdeen - King Street",
+        },
+        {
+          locationId: "139",
+          locationName: "Paisley - Anchor Mills",
+        },
+        {
+          locationId: "135",
+          locationName: "Falkirk",
+        },
+        {
+          locationId: "136",
+          locationName: "Glasgow - Cardonald",
+        },
+        {
+          locationId: "145",
+          locationName: "Dundee",
+        },
+        {
+          locationId: "148",
+          locationName: "Hamilton",
+        },
+        {
+          locationId: "147",
+          locationName: "Edinburgh - Granton",
+        },
+        {
+          locationId: "192",
+          locationName: "Paisley - Falside Road",
+        },
+        {
+          locationId: "199",
+          locationName: "Troon",
+        },
+        {
+          locationId: "197",
+          locationName: "Stirling",
+        },
+        {
+          locationId: "198",
+          locationName: "Stranraer",
+        },
+        {
+          locationId: "195",
+          locationName: "St Andrews",
+        },
+        {
+          locationId: "196",
+          locationName: "Stevenston",
+        },
+        {
+          locationId: "193",
+          locationName: "Perth",
+        },
+        {
+          locationId: "194",
+          locationName: "Peterhead",
+        },
+        {
+          locationId: "167",
+          locationName: "Bellshill",
+        },
+        {
+          locationId: "164",
+          locationName: "Arbroath",
+        },
+        {
+          locationId: "165",
+          locationName: "Ayr",
+        },
+        {
+          locationId: "162",
+          locationName: "Alloa",
+        },
+        {
+          locationId: "163",
+          locationName: "Alness",
+        },
+        {
+          locationId: "161",
+          locationName: "Airdrie",
+        },
+        {
+          locationId: "169",
+          locationName: "Dumbarton",
+        },
+        {
+          locationId: "170",
+          locationName: "Dumfries",
+        },
+        {
+          locationId: "177",
+          locationName: "Edinburgh - Gyle",
+        },
+        {
+          locationId: "178",
+          locationName: "Fort William",
+        },
+        {
+          locationId: "175",
+          locationName: "Edinburgh - Moredun",
+        },
+        {
+          locationId: "176",
+          locationName: "Edinburgh - Portobello Road",
+        },
+        {
+          locationId: "173",
+          locationName: "Edinburgh - Ferry Road",
+        },
+        {
+          locationId: "174",
+          locationName: "Edinburgh - Hunters Tryst",
+        },
+        {
+          locationId: "171",
+          locationName: "East Kilbride - Lindsayfield",
+        },
+        {
+          locationId: "172",
+          locationName: "East Kilbride - Stewartfield",
+        },
+        {
+          locationId: "179",
+          locationName: "Glasgow - Anniesland",
+        },
+        {
+          locationId: "180",
+          locationName: "Glasgow - Baillieston",
+        },
+        {
+          locationId: "181",
+          locationName: "Glasgow - Bishopbriggs",
+        },
+        {
+          locationId: "188",
+          locationName: "Inverness",
+        },
+        {
+          locationId: "189",
+          locationName: "Inverurie",
+        },
+        {
+          locationId: "187",
+          locationName: "Hawick",
+        },
+        {
+          locationId: "184",
+          locationName: "Glenrothes",
+        },
+        {
+          locationId: "185",
+          locationName: "Greenock",
+        },
+        {
+          locationId: "182",
+          locationName: "Glasgow - Cambuslang",
+        },
+        {
+          locationId: "183",
+          locationName: "Glasgow - Newlands",
+        },
+        {
+          locationId: "409",
+          locationName: "Bathgate",
+        },
+        {
+          locationId: "375",
+          locationName: "Glasgow - Partick",
+        },
+        {
+          locationId: "379",
+          locationName: "Livingston Carmondean",
+        },
+        {
+          locationId: "438",
+          locationName: "Erskine",
+        },
+        {
+          locationId: "516",
+          locationName: "Glasgow - Gallowgate",
+        },
+        {
+          locationId: "510",
+          locationName: "Dalkeith",
+        },
+        {
+          locationId: "693",
+          locationName: "Glasgow - Giffnock",
+        },
+        {
+          locationId: "582",
+          locationName: "Kirkcaldy",
+        },
+        {
+          locationId: "648",
+          locationName: "Amble",
+        },
+        {
+          locationId: "664",
+          locationName: "Helensburgh",
+        },
+      ],
+    },
+    {
+      regionName: "North East",
+      locations: [
+        {
+          locationId: "35",
+          locationName: "Killingworth",
+        },
+        {
+          locationId: "26",
+          locationName: "Darlington - North Road",
+        },
+        {
+          locationId: "58",
+          locationName: "Stockton-on-Tees",
+        },
+        {
+          locationId: "40",
+          locationName: "Bishop Auckland",
+        },
+        {
+          locationId: "47",
+          locationName: "Seaburn",
+        },
+        {
+          locationId: "64",
+          locationName: "Tynemouth",
+        },
+        {
+          locationId: "91",
+          locationName: "Newcastle upon Tyne - Byker",
+        },
+        {
+          locationId: "80",
+          locationName: "Redcar",
+        },
+        {
+          locationId: "88",
+          locationName: "Jarrow",
+        },
+        {
+          locationId: "102",
+          locationName: "Sunderland - Doxford Park",
+        },
+        {
+          locationId: "128",
+          locationName: "Middlesbrough",
+        },
+        {
+          locationId: "124",
+          locationName: "Darlington - Morton Park",
+        },
+        {
+          locationId: "132",
+          locationName: "Hartlepool",
+        },
+        {
+          locationId: "146",
+          locationName: "Newcastle upon Tyne - West Denton",
+        },
+        {
+          locationId: "207",
+          locationName: "Whitley Bay",
+        },
+        {
+          locationId: "206",
+          locationName: "Newcastle upon Tyne - Cowgate",
+        },
+        {
+          locationId: "203",
+          locationName: "Blyth",
+        },
+        {
+          locationId: "204",
+          locationName: "Consett",
+        },
+        {
+          locationId: "168",
+          locationName: "Berwick-upon-Tweed",
+        },
+        {
+          locationId: "381",
+          locationName: "Morpeth",
+        },
+        {
+          locationId: "389",
+          locationName: "South Shields",
+        },
+        {
+          locationId: "474",
+          locationName: "Chester-le-Street",
+        },
+        {
+          locationId: "567",
+          locationName: "Blaydon",
+        },
+        {
+          locationId: "635",
+          locationName: "Guisborough",
+        },
+        {
+          locationId: "668",
+          locationName: "Dalton Park",
+        },
+      ],
+    },
+    {
+      regionName: "West Midlands",
+      locations: [
+        {
+          locationId: "24",
+          locationName: "Bilston",
+        },
+        {
+          locationId: "50",
+          locationName: "Stoke-on-Trent",
+        },
+        {
+          locationId: "49",
+          locationName: "Wellington",
+        },
+        {
+          locationId: "73",
+          locationName: "Tamworth",
+        },
+        {
+          locationId: "68",
+          locationName: "Shrewsbury",
+        },
+        {
+          locationId: "69",
+          locationName: "Coventry - Binley",
+        },
+        {
+          locationId: "63",
+          locationName: "Walsall - Wallows Lane",
+        },
+        {
+          locationId: "90",
+          locationName: "Birmingham - Small Heath",
+        },
+        {
+          locationId: "153",
+          locationName: "Wednesbury",
+        },
+        {
+          locationId: "127",
+          locationName: "Newcastle-under-Lyme - Milehouse Lane",
+        },
+        {
+          locationId: "125",
+          locationName: "Burton upon Trent",
+        },
+        {
+          locationId: "243",
+          locationName: "Burntwood",
+        },
+        {
+          locationId: "244",
+          locationName: "Cannock",
+        },
+        {
+          locationId: "241",
+          locationName: "Aldridge",
+        },
+        {
+          locationId: "242",
+          locationName: "Bromsgrove",
+        },
+        {
+          locationId: "247",
+          locationName: "Evesham",
+        },
+        {
+          locationId: "248",
+          locationName: "Hereford",
+        },
+        {
+          locationId: "245",
+          locationName: "Birmingham - Castle Bromwich",
+        },
+        {
+          locationId: "246",
+          locationName: "Coventry - Holyhead Road",
+        },
+        {
+          locationId: "254",
+          locationName: "Malvern",
+        },
+        {
+          locationId: "252",
+          locationName: "Leominster",
+        },
+        {
+          locationId: "253",
+          locationName: "Lichfield",
+        },
+        {
+          locationId: "250",
+          locationName: "Kingswinford",
+        },
+        {
+          locationId: "251",
+          locationName: "Leek",
+        },
+        {
+          locationId: "258",
+          locationName: "Ross-on-Wye",
+        },
+        {
+          locationId: "259",
+          locationName: "Birmingham - Rubery",
+        },
+        {
+          locationId: "256",
+          locationName: "Newcastle-under-Lyme - Goose Street",
+        },
+        {
+          locationId: "257",
+          locationName: "Redditch",
+        },
+        {
+          locationId: "263",
+          locationName: "Stratford-upon-Avon",
+        },
+        {
+          locationId: "264",
+          locationName: "Walsall - Lichfield Street",
+        },
+        {
+          locationId: "261",
+          locationName: "Solihull",
+        },
+        {
+          locationId: "262",
+          locationName: "Stone",
+        },
+        {
+          locationId: "395",
+          locationName: "Market Drayton",
+        },
+        {
+          locationId: "393",
+          locationName: "Droitwich",
+        },
+        {
+          locationId: "401",
+          locationName: "Pendeford",
+        },
+        {
+          locationId: "554",
+          locationName: "Sheldon",
+        },
+        {
+          locationId: "442",
+          locationName: "Willenhall",
+        },
+        {
+          locationId: "561",
+          locationName: "Telford - Lawley",
+        },
+        {
+          locationId: "416",
+          locationName: "Oswestry",
+        },
+        {
+          locationId: "547",
+          locationName: "Leamington Spa",
+        },
+        {
+          locationId: "545",
+          locationName: "Edgbaston",
+        },
+        {
+          locationId: "691",
+          locationName: "Kidderminster",
+        },
+        {
+          locationId: "658",
+          locationName: "Stirchley",
+        },
+      ],
+    },
+    {
+      regionName: "East Midlands",
+      locations: [
+        {
+          locationId: "31",
+          locationName: "Gainsborough",
+        },
+        {
+          locationId: "30",
+          locationName: "Grantham",
+        },
+        {
+          locationId: "27",
+          locationName: "Staveley",
+        },
+        {
+          locationId: "23",
+          locationName: "Mansfield",
+        },
+        {
+          locationId: "54",
+          locationName: "Coalville",
+        },
+        {
+          locationId: "46",
+          locationName: "Stamford",
+        },
+        {
+          locationId: "48",
+          locationName: "Newark",
+        },
+        {
+          locationId: "78",
+          locationName: "Derby",
+        },
+        {
+          locationId: "75",
+          locationName: "Cleethorpes - Laceby",
+        },
+        {
+          locationId: "62",
+          locationName: "Lincoln",
+        },
+        {
+          locationId: "67",
+          locationName: "Netherfield",
+        },
+        {
+          locationId: "83",
+          locationName: "Spalding - Pinchbeck",
+        },
+        {
+          locationId: "100",
+          locationName: "Northampton - Victoria Promenade",
+        },
+        {
+          locationId: "111",
+          locationName: "Kettering",
+        },
+        {
+          locationId: "159",
+          locationName: "Swadlincote",
+        },
+        {
+          locationId: "116",
+          locationName: "Wellingborough",
+        },
+        {
+          locationId: "114",
+          locationName: "Retford",
+        },
+        {
+          locationId: "121",
+          locationName: "Bulwell",
+        },
+        {
+          locationId: "232",
+          locationName: "Corby",
+        },
+        {
+          locationId: "233",
+          locationName: "Hinckley",
+        },
+        {
+          locationId: "231",
+          locationName: "Belper",
+        },
+        {
+          locationId: "238",
+          locationName: "Gamston",
+        },
+        {
+          locationId: "239",
+          locationName: "Eastwood",
+        },
+        {
+          locationId: "236",
+          locationName: "Melton Mowbray",
+        },
+        {
+          locationId: "237",
+          locationName: "Northampton - Kettering Road",
+        },
+        {
+          locationId: "234",
+          locationName: "Leicester",
+        },
+        {
+          locationId: "235",
+          locationName: "Loughborough",
+        },
+        {
+          locationId: "225",
+          locationName: "Chesterfield",
+        },
+        {
+          locationId: "289",
+          locationName: "Skegness",
+        },
+        {
+          locationId: "387",
+          locationName: "Lutterworth",
+        },
+        {
+          locationId: "472",
+          locationName: "Mansfield Woodhouse",
+        },
+        {
+          locationId: "512",
+          locationName: "Kirkby-in-Ashfield",
+        },
+        {
+          locationId: "448",
+          locationName: "Clifton",
+        },
+        {
+          locationId: "649",
+          locationName: "Bolsover",
+        },
+        {
+          locationId: "656",
+          locationName: "Glenfield",
+        },
+        {
+          locationId: "674",
+          locationName: "Ilkeston",
+        },
+        {
+          locationId: "580",
+          locationName: "Worksop",
+        },
+      ],
+    },
+    {
+      regionName: "South West",
+      locations: [
+        {
+          locationId: "84",
+          locationName: "Bristol - Cribbs Causeway",
+        },
+        {
+          locationId: "142",
+          locationName: "Gloucester - Abbeydale",
+        },
+        {
+          locationId: "143",
+          locationName: "Bristol - Hartcliffe",
+        },
+        {
+          locationId: "320",
+          locationName: "Bath",
+        },
+        {
+          locationId: "321",
+          locationName: "Bideford",
+        },
+        {
+          locationId: "328",
+          locationName: "Liskeard",
+        },
+        {
+          locationId: "329",
+          locationName: "Newquay",
+        },
+        {
+          locationId: "326",
+          locationName: "Up Hatherley",
+        },
+        {
+          locationId: "327",
+          locationName: "Glastonbury",
+        },
+        {
+          locationId: "324",
+          locationName: "Bristol - Fishponds",
+        },
+        {
+          locationId: "325",
+          locationName: "Bude",
+        },
+        {
+          locationId: "322",
+          locationName: "Bodmin",
+        },
+        {
+          locationId: "323",
+          locationName: "Bridgwater",
+        },
+        {
+          locationId: "331",
+          locationName: "Penzance",
+        },
+        {
+          locationId: "330",
+          locationName: "Paignton",
+        },
+        {
+          locationId: "363",
+          locationName: "Swindon - Thames Avenue",
+        },
+        {
+          locationId: "366",
+          locationName: "Weymouth",
+        },
+        {
+          locationId: "332",
+          locationName: "Plymouth",
+        },
+        {
+          locationId: "372",
+          locationName: "Minehead",
+        },
+        {
+          locationId: "339",
+          locationName: "Totnes",
+        },
+        {
+          locationId: "337",
+          locationName: "Tewkesbury",
+        },
+        {
+          locationId: "338",
+          locationName: "Tiverton",
+        },
+        {
+          locationId: "335",
+          locationName: "Taunton",
+        },
+        {
+          locationId: "336",
+          locationName: "Tavistock",
+        },
+        {
+          locationId: "333",
+          locationName: "Plymstock",
+        },
+        {
+          locationId: "334",
+          locationName: "Redruth",
+        },
+        {
+          locationId: "342",
+          locationName: "Wincanton",
+        },
+        {
+          locationId: "343",
+          locationName: "Yate",
+        },
+        {
+          locationId: "340",
+          locationName: "Warminster",
+        },
+        {
+          locationId: "341",
+          locationName: "Weston-super-Mare",
+        },
+        {
+          locationId: "348",
+          locationName: "Chippenham",
+        },
+        {
+          locationId: "349",
+          locationName: "Devizes",
+        },
+        {
+          locationId: "347",
+          locationName: "Bridport",
+        },
+        {
+          locationId: "344",
+          locationName: "Yeovil",
+        },
+        {
+          locationId: "559",
+          locationName: "Wells",
+        },
+        {
+          locationId: "560",
+          locationName: "Teignmouth",
+        },
+        {
+          locationId: "496",
+          locationName: "Exeter",
+        },
+        {
+          locationId: "575",
+          locationName: "Gloucester - Metz Way",
+        },
+        {
+          locationId: "634",
+          locationName: "Swindon - Dorcan Way",
+        },
+        {
+          locationId: "640",
+          locationName: "Verwood",
+        },
+      ],
+    },
   ],
 };

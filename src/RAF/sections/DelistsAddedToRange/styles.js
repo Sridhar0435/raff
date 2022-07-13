@@ -7,6 +7,37 @@ export const useStyles = makeStyles((theme) => {
       padding: "15px",
       width: "100%",
     },
+    storeview: {
+      background: "#004e37",
+      color: "#fff",
+      borderBottomLeftRadius: "0",
+      borderBottomRightRadius: "0",
+      marginLeft: "5px",
+      padding: "6px 15px",
+      "&:hover": {
+        background: "#004e37",
+      },
+    },
+    planview: {
+      background: "#e9ecef",
+      borderBottomLeftRadius: "0",
+      borderBottomRightRadius: "0",
+      marginRight: "5px",
+      padding: "6px 15px",
+    },
+    tableMain: {
+      border: "1px solid #a6a9ad",
+    },
+    table_th: {
+      textAlign: "left",
+      background: "#004e37",
+      color: "#ffffff",
+      fontSize: "14px",
+    },
+    table_tr_th: {
+      paddingRight: "20px",
+      // fontWeight: 500,
+    },
     blueText: {
       color: "blue",
       fontWeight: "bold",
@@ -106,6 +137,9 @@ export const useStyles = makeStyles((theme) => {
     },
     placeholderDialogFull: {
       "max-width": "85%",
+    },
+    rangeStoreDialogBox: {
+      "max-width": "50%",
     },
     searchDialog: {
       [theme.breakpoints.up("md")]: {
