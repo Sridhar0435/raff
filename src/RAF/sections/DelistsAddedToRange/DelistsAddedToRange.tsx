@@ -71,6 +71,7 @@ import {
   depotViewResDummy,
   storeViewDummyRes,
   regionsButtonsDummy,
+  productCompoServiceDummpy,
   // supplierCodes
 } from './DataConstants'
 // import TextFieldWithSearch from './sections/TextFieldWithSearch/TextFieldWithSearch'
@@ -99,7 +100,9 @@ import LoadingComponent from '../../../components/LoadingComponent/LoadingCompon
 import { Toast } from 'primereact/toast'
 import SearchSelect from '../../components/SearchSelect/SearchSelect'
 import DepotviewButtons from './DepotviewButtons'
+import DelistInputEdit from './DelistInputEdit'
 import './styles.css'
+import { createTrue } from 'typescript'
 
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
@@ -408,7 +411,7 @@ function DelistsAddedToRange() {
               wholesale: item.rangestatus.wholesale
                 ? item.rangestatus.wholesale
                 : null,
-              // currentnoofrangedstores: item.rangedStoresCurrent,
+              // currentnoofrangedstores: item.rangedStoresCurrent ? item.rangedStoresCurrent : null,
               currentnoofrangedstores: 100,
               newnoofrangestores: item.rangedStoresNew
                 ? item.rangedStoresNew
@@ -423,8 +426,8 @@ function DelistsAddedToRange() {
                 ? item.shelfFillCurrent
                 : null,
               newShelfFill: item.shelfFillNew ? item.shelfFillNew : null,
-              currentshelffill_vs_newfill_percant: item.currentVsNewShelfFill
-                ? item.currentVsNewShelfFill
+              currentshelffill_vs_newfill_percant: item.shelfFillPercent
+                ? item.shelfFillPercent
                 : null,
               ownBrand: item.ownBrand ? item.ownBrand : null,
               includeInClearancePricing: item.clearancePricing
@@ -838,42 +841,134 @@ function DelistsAddedToRange() {
     )
   }
 
+  const descriptionImportedTemplate = (rowData: any) => {
+    // if (actionType.value === 'CT18') {
+    // }
+
+    const check = supplierSelected.filter((val: any) => rowData.min === val.min)
+
+    if (editClick && check.length > 0 && check[0].min === rowData.min) {
+      return (
+        // <OutlinedInput
+        //   value={rowData && rowData.description}
+        //   onChange={(e: any) => {
+        //     setImportedData((prevState: any) => {
+        //       return onChangeProductTableFields(
+        //         prevState,
+        //         'description',
+        //         rowData,
+        //         e.target.value
+        //       )
+        //     })
+        //   }}
+        //   className={classes.tableTextField}
+        // />
+        <DelistInputEdit
+          rowData={rowData}
+          setImportedData={setImportedData}
+          onChangeProductTableFields={onChangeProductTableFields}
+          field={'description'}
+        />
+      )
+    } else {
+      return <>{rowData && rowData.description}</>
+    }
+  }
+
+  const legacyItemNumbersImportedTemplate = (rowData: any) => {
+    const check = supplierSelected.filter((val: any) => rowData.min === val.min)
+    if (editClick && check.length > 0 && check[0].min === rowData.min) {
+      return (
+        // <OutlinedInput
+        //   value={rowData && rowData.legacyItemNumbers}
+        //   onChange={(e: any) => {
+        //     setImportedData((prevState: any) => {
+        //       return onChangeProductTableFields(
+        //         prevState,
+        //         'legacyItemNumbers',
+        //         rowData,
+        //         e.target.value
+        //       )
+        //     })
+        //   }}
+        //   className={classes.tableTextField}
+        // />
+        <DelistInputEdit
+          rowData={rowData}
+          setImportedData={setImportedData}
+          onChangeProductTableFields={onChangeProductTableFields}
+          field={'legacyItemNumbers'}
+        />
+      )
+    } else {
+      return <>{rowData && rowData.legacyItemNumbers}</>
+    }
+  }
+  const manImportedTemplate = (rowData: any) => {
+    const check = supplierSelected.filter((val: any) => rowData.min === val.min)
+    if (editClick && check.length > 0 && check[0].min === rowData.min) {
+      return (
+        <DelistInputEdit
+          rowData={rowData}
+          setImportedData={setImportedData}
+          onChangeProductTableFields={onChangeProductTableFields}
+          field={'man'}
+        />
+      )
+    } else {
+      return <>{rowData && rowData.man}</>
+    }
+  }
+  const replaceMinDescriptionImportedTemplate = (rowData: any) => {
+    const check = supplierSelected.filter((val: any) => rowData.min === val.min)
+    if (editClick && check.length > 0 && check[0].min === rowData.min) {
+      return (
+        <DelistInputEdit
+          rowData={rowData}
+          setImportedData={setImportedData}
+          onChangeProductTableFields={onChangeProductTableFields}
+          field={'replaceMinDescription'}
+        />
+      )
+    } else {
+      return <>{rowData && rowData.replaceMinDescription}</>
+    }
+  }
+
   const includeInClearancePricingTemplate = (rowData: any) => {
     if (
       rowData &&
       rowData.hasOwnProperty('includeInClearancePricing') &&
       rowData.includeInClearancePricing
     ) {
-      if (rowData.actionType === 'Delist MIN') {
-        return (
-          <Select
-            value={rowData.includeInClearancePricing}
-            onChange={(e: any) =>
-              setImportedData((prevState: any) =>
-                onChangeProductTableFields(
-                  prevState,
-                  'includeInClearancePricing',
-                  rowData,
-                  e.target.value
-                )
+      // if (rowData.actionType === 'Delist MIN' || rowData.actionType === "Delist Product (MIN)") {
+      return (
+        <Select
+          value={rowData.includeInClearancePricing}
+          onChange={(e: any) =>
+            setImportedData((prevState: any) =>
+              onChangeProductTableFields(
+                prevState,
+                'includeInClearancePricing',
+                rowData,
+                e.target.value
               )
-            }
-            input={
-              <OutlinedInput margin="dense" className={classes.muiSelect} />
-            }
-          >
-            {clearancePricingOptions.map((type) => {
-              return (
-                <MenuItem value={type.value} key={type.value}>
-                  {type.label}
-                </MenuItem>
-              )
-            })}
-          </Select>
-        )
-      } else {
-        return <>{rowData.includeInClearancePricing}</>
-      }
+            )
+          }
+          input={<OutlinedInput margin="dense" className={classes.muiSelect} />}
+        >
+          {clearancePricingOptions.map((type) => {
+            return (
+              <MenuItem value={type.value} key={type.value}>
+                {type.label}
+              </MenuItem>
+            )
+          })}
+        </Select>
+      )
+      // } else {
+      //   return <>{rowData.includeInClearancePricing}</>
+      // }
     } else {
       return <>NA</>
     }
@@ -1125,27 +1220,29 @@ function DelistsAddedToRange() {
       rowData.hasOwnProperty('includeInStoreWastage') &&
       rowData.includeInStoreWastage
     ) {
-      if (rowData.actionType === 'Delist MIN') {
-        return (
-          <Checkbox
-            checked={rowData.includeInStoreWastage}
-            color="primary"
-            onChange={(e: any) => {
-              setImportedData((prevState: any) =>
-                onChangeProductTableFields(
-                  prevState,
-                  'includeInStoreWastage',
-                  rowData,
-                  e.target.checked
-                )
+      // if (rowData.actionType === 'Delist MIN') {
+      return (
+        <Checkbox
+          className={classes.disabled_color}
+          disabled
+          checked={rowData.includeInStoreWastage}
+          color="primary"
+          onChange={(e: any) => {
+            setImportedData((prevState: any) =>
+              onChangeProductTableFields(
+                prevState,
+                'includeInStoreWastage',
+                rowData,
+                e.target.checked
               )
-            }}
-            inputProps={{ 'aria-label': 'primary checkbox' }}
-          />
-        )
-      } else {
-        return <>{rowData.includeInStoreWastage}</>
-      }
+            )
+          }}
+          inputProps={{ 'aria-label': 'primary checkbox' }}
+        />
+      )
+      // } else {
+      //   return <>{rowData.includeInStoreWastage}</>
+      // }
     } else {
       return <>NA</>
     }
@@ -2034,6 +2131,7 @@ function DelistsAddedToRange() {
   const handleUpload = (e: any) => {
     // e.preventDefault();
     handleUploadDialogClose()
+    setExceelErrors([])
     if (
       uploadedFile &&
       (uploadedFile.type === 'text/csv' ||
@@ -2267,7 +2365,7 @@ function DelistsAddedToRange() {
                 index + 1,
                 d.Comments, //optional
                 // d.NewNumberofRangeStores, // Mandatory
-                d.NewNumberofStoresRestrictions, // Mandatory // remove when deploy
+                d.NewNumberofStoresRestrictions, // Mandatory // when deploy
                 d.StoreCode, //optional
                 'NA',
                 'NA',
@@ -4581,6 +4679,26 @@ function DelistsAddedToRange() {
   useEffect(() => {
     console.log('replacement list', replacementAssociationProduct)
   }, [replacementAssociationProduct])
+
+  const [supplierSelected, setSupplierSelected] = useState<any>([])
+  const [editButtonSupply, setEditButtonSupply] = useState<any>(true)
+  const [editClick, setEditClick] = useState<any>(false)
+
+  useEffect(() => {
+    // console.log('supplierSelected', supplierSelected)
+    if (supplierSelected.length > 0) {
+      setEditButtonSupply(false)
+    } else {
+      setEditButtonSupply(true)
+      setEditClick(false)
+    }
+  }, [supplierSelected])
+
+  const handleProductListEdit = () => {
+    setEditClick(true)
+    console.log('handleProductListEdit')
+  }
+
   const productListTable = (
     <Grid
       item
@@ -4673,6 +4791,7 @@ function DelistsAddedToRange() {
             onSelectionChange={(e: any) => {
               setSelectedProductListItems(e.value)
               setReplacementAssociationProduct(e.value)
+              setSupplierSelected(e.value)
             }}
             showGridlines
             scrollable
@@ -4695,6 +4814,15 @@ function DelistsAddedToRange() {
                   header={col.header}
                   body={
                     (col.field === 'lineStatus' && lineStatusTemplate) ||
+                    //edit fields
+                    (col.field === 'description' &&
+                      descriptionImportedTemplate) ||
+                    (col.field === 'legacyItemNumbers' &&
+                      legacyItemNumbersImportedTemplate) ||
+                    (col.field === 'man' && manImportedTemplate) ||
+                    (col.field === 'replaceMinDescription' &&
+                      replaceMinDescriptionImportedTemplate) ||
+                    //edit fields
                     (col.field === 'pin' && pinProductListTemplate) ||
                     (col.field === 'includeInClearancePricing' &&
                       includeInClearancePricingTemplate) ||
@@ -6928,8 +7056,8 @@ function DelistsAddedToRange() {
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={handleProductListSave}
-                  disabled
+                  onClick={handleProductListEdit}
+                  disabled={editButtonSupply}
                 >
                   Edit
                 </Button>

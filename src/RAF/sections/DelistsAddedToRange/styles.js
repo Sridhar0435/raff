@@ -18,6 +18,11 @@ export const useStyles = makeStyles((theme) => {
         background: "#004e37",
       },
     },
+    disabled_color: {
+      "& .MuiIconButton-label": {
+        color: "#004e37 !important",
+      },
+    },
     planview: {
       background: "#e9ecef",
       borderBottomLeftRadius: "0",
@@ -38,6 +43,7 @@ export const useStyles = makeStyles((theme) => {
       paddingRight: "20px",
       // fontWeight: 500,
     },
+
     blueText: {
       color: "blue",
       fontWeight: "bold",
